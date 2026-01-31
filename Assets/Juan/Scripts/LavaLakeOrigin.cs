@@ -13,12 +13,14 @@ public class LavaLakeOrigin : MonoBehaviour
     [SerializeField] private float expandSpeed = 10f;
     [SerializeField] private float contractSpeed = 15f;
     [SerializeField] private bool startAtZero = true;
+    [SerializeField] private bool useTiledSizing = true; // Use SpriteRenderer.size when drawMode is Tiled
+    [SerializeField] private bool syncColliderSize = false; // Optionally sync BoxCollider2D to rendered size
 
     private float currentLength = 0f;
 
     private void Start()
     {
-        currentLength = startAtZero ? 0f : 0f;
+        currentLength = startAtZero ? 0f : maxLength;
         if (Application.isPlaying && buildOnStart)
             BuildLake();
     }
@@ -63,18 +65,48 @@ public class LavaLakeOrigin : MonoBehaviour
         lavaLake.position = center;
 
         // Stretch along the cast axis, set perpendicular thickness
-        Vector3 scale = lavaLake.localScale;
-        if (horizontal)
+        SpriteRenderer sr = lavaLake.GetComponent<SpriteRenderer>();
+        bool canTile = useTiledSizing && sr != null && sr.drawMode == SpriteDrawMode.Tiled;
+
+        if (canTile)
         {
-            scale.x = Mathf.Max(0f, currentLength);
-            scale.y = Mathf.Max(0.001f, thickness);
+            // Avoid stretching: keep transform scale at 1 and drive size by sprite tiling
+            Vector3 ls = lavaLake.localScale;
+            lavaLake.localScale = new Vector3(1f, 1f, ls.z);
+
+            float len = Mathf.Max(0f, currentLength);
+            float thick = Mathf.Max(0.001f, thickness);
+            if (horizontal)
+                sr.size = new Vector2(len, thick);
+            else
+                sr.size = new Vector2(thick, len);
+
+            if (syncColliderSize)
+            {
+                BoxCollider2D bc = lavaLake.GetComponent<BoxCollider2D>();
+                if (bc != null)
+                {
+                    // Match collider to visual size for accurate contacts
+                    bc.size = sr.size;
+                }
+            }
         }
         else
         {
-            scale.y = Mathf.Max(0f, currentLength);
-            scale.x = Mathf.Max(0.001f, thickness);
+            // Fallback: scale the transform for non-tiled sprites
+            Vector3 scale = lavaLake.localScale;
+            if (horizontal)
+            {
+                scale.x = Mathf.Max(0f, currentLength);
+                scale.y = Mathf.Max(0.001f, thickness);
+            }
+            else
+            {
+                scale.y = Mathf.Max(0f, currentLength);
+                scale.x = Mathf.Max(0.001f, thickness);
+            }
+            lavaLake.localScale = scale;
         }
-        lavaLake.localScale = scale;
     }
 
     private Vector2 GetDirection()

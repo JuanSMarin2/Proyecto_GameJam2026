@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     private float currentMoveSpeed;
+    private Animator animator;
+
 
     public bool canMove = true;
 
@@ -26,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        animator = GetComponent<Animator>();
+
+
         boxCollider = GetComponent<BoxCollider2D>();
 
         rb.gravityScale = 0f;
@@ -91,6 +97,9 @@ public class PlayerMovement : MonoBehaviour
 
         targetPosition = nextPosition;
         isMoving = true;
+
+        if (animator != null)
+            animator.SetTrigger("move");
 
         if (direction.x > 0) spriteRenderer.flipX = true;
         else if (direction.x < 0) spriteRenderer.flipX = false;
