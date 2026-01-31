@@ -15,14 +15,12 @@ public class EventManager : MonoBehaviour
     public event Action<int> EnActivarCapa;
     public void ActivarCapa(int capa)
     {
-        Debug.Log("quiero activar capa " + capa);
         EnActivarCapa?.Invoke(capa);
     }
 
     public event Action<int> EnDesactivarCapa;
     public void DesactivarCapa(int capa)
     {
-        Debug.Log("quiero desactivar capa " + capa);
         EnDesactivarCapa?.Invoke(capa);
     }
 }
