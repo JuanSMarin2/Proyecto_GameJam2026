@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
+    private float currentMoveSpeed;
 
     public bool canMove = true;
 
@@ -27,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
         targetPosition = rb.position;
+        currentMoveSpeed = moveSpeed;
     }
 
 
@@ -67,6 +70,23 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // If there's a box at the next tile, try to push it.
+        Box box = GetBoxAtPosition(nextPosition);
+        if (box != null)
+        {
+            bool pushed = box.TryPush(direction, tileSize, moveSpeed * 0.5f);
+            if (!pushed)
+            {
+                lastRawInput = rawInput;
+                return;
+            }
+            currentMoveSpeed = moveSpeed * 0.5f;
+        }
+        else
+        {
+            currentMoveSpeed = moveSpeed;
+        }
+
         targetPosition = nextPosition;
         isMoving = true;
 
@@ -83,13 +103,14 @@ public class PlayerMovement : MonoBehaviour
         if (!isMoving)
             return;
 
-        Vector2 newPosition = Vector2.MoveTowards(rb.position, targetPosition, moveSpeed * Time.fixedDeltaTime);
+        Vector2 newPosition = Vector2.MoveTowards(rb.position, targetPosition, currentMoveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(newPosition);
 
         if ((targetPosition - newPosition).sqrMagnitude <= 0.0001f)
         {
             rb.MovePosition(targetPosition);
             isMoving = false;
+            currentMoveSpeed = moveSpeed;
         }
     }
 
@@ -114,5 +135,19 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    private Box GetBoxAtPosition(Vector2 position)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, wallCheckRadius);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i] == null) continue;
+            if (hits[i].gameObject == gameObject) continue;
+            Box b = hits[i].GetComponent<Box>();
+            if (b != null)
+                return b;
+        }
+        return null;
     }
 }
