@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2721463427738168479}
   - component: {fileID: 602244283478779642}
   - component: {fileID: 941261586269061967}
+  - component: {fileID: 4102918824238963269}
   m_Layer: 0
   m_Name: 'A _ MoveObstacle '
   m_TagString: Untagged
@@ -151,7 +152,7 @@ MonoBehaviour:
   nodes: []
   closed: 0
   speed: 0.5
-  reachDistance: 0.05
+  reachDistance: 0.01
   stopDuration: 0.5
 --- !u!114 &941261586269061967
 MonoBehaviour:
@@ -165,3 +166,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74735744300199d4b8316f175b4d4c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4102918824238963269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103402771235164012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b166649ba22fd04aa991ba35fd78d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  misCapas: 01000000
+  DesapearsOnLayer: 0
+  inactiveOpacity: 0.3
