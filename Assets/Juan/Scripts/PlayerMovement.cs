@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
+    private BoxCollider2D boxCollider;
     private float currentMoveSpeed;
 
     public bool canMove = true;
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
 
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
@@ -90,8 +92,8 @@ public class PlayerMovement : MonoBehaviour
         targetPosition = nextPosition;
         isMoving = true;
 
-        if (direction.x > 0) spriteRenderer.flipX = false;
-        else if (direction.x < 0) spriteRenderer.flipX = true;
+        if (direction.x > 0) spriteRenderer.flipX = true;
+        else if (direction.x < 0) spriteRenderer.flipX = false;
 
         lastRawInput = rawInput;
     }
@@ -127,7 +129,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsWallAtPosition(Vector2 position)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, wallCheckRadius);
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 center = position + GetColliderWorldOffset();
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
         for (int i = 0; i < hits.Length; i++)
         {
             if (hits[i] != null && hits[i].gameObject != gameObject && hits[i].CompareTag("Wall"))
@@ -139,7 +144,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Box GetBoxAtPosition(Vector2 position)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, wallCheckRadius);
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 center = position + GetColliderWorldOffset();
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
         for (int i = 0; i < hits.Length; i++)
         {
             if (hits[i] == null) continue;
@@ -149,5 +157,21 @@ public class PlayerMovement : MonoBehaviour
                 return b;
         }
         return null;
+    }
+
+    private Vector2 GetColliderWorldSize()
+    {
+        if (boxCollider == null) return new Vector2(wallCheckRadius * 2f, wallCheckRadius * 2f);
+        Vector2 s = boxCollider.size;
+        Vector3 scale = transform.lossyScale;
+        return new Vector2(s.x * Mathf.Abs(scale.x), s.y * Mathf.Abs(scale.y));
+    }
+
+    private Vector2 GetColliderWorldOffset()
+    {
+        if (boxCollider == null) return Vector2.zero;
+        Vector2 local = boxCollider.offset;
+        Vector3 world = transform.TransformVector(new Vector3(local.x, local.y, 0f));
+        return new Vector2(world.x, world.y);
     }
 }

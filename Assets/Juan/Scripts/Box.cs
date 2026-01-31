@@ -6,6 +6,7 @@ public class Box : MonoBehaviour
     [SerializeField] private float obstacleCheckRadius = 0.12f;
 
     private Rigidbody2D rb;
+    private BoxCollider2D boxCollider;
     private Vector2 targetPosition;
     private float moveSpeed;
     private bool isMoving;
@@ -13,6 +14,7 @@ public class Box : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         if (rb != null)
         {
             rb.gravityScale = 0f;
@@ -56,7 +58,10 @@ public class Box : MonoBehaviour
 
     private bool IsBlocked(Vector2 pos)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, obstacleCheckRadius);
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 center = pos + GetColliderWorldOffset();
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
         for (int i = 0; i < hits.Length; i++)
         {
             if (hits[i] != null && hits[i].gameObject != gameObject && hits[i].CompareTag("Wall"))
@@ -69,5 +74,21 @@ public class Box : MonoBehaviour
     {
         if (rb != null) return rb.position;
         return (Vector2)transform.position;
+    }
+
+    private Vector2 GetColliderWorldSize()
+    {
+        if (boxCollider == null) return new Vector2(obstacleCheckRadius * 2f, obstacleCheckRadius * 2f);
+        Vector2 s = boxCollider.size;
+        Vector3 scale = transform.lossyScale;
+        return new Vector2(s.x * Mathf.Abs(scale.x), s.y * Mathf.Abs(scale.y));
+    }
+
+    private Vector2 GetColliderWorldOffset()
+    {
+        if (boxCollider == null) return Vector2.zero;
+        Vector2 local = boxCollider.offset;
+        Vector3 world = transform.TransformVector(new Vector3(local.x, local.y, 0f));
+        return new Vector2(world.x, world.y);
     }
 }
