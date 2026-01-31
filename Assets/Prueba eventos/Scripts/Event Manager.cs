@@ -7,9 +7,9 @@ public class EventManager : MonoBehaviour
 
     private void Awake()
     {
+        //Singleton
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-        Debug.Log(Instance.gameObject);
     }
 
     public event Action<int> EnActivarCapa;
