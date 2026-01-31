@@ -38,7 +38,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _Fullscreen_DepthWrite: 0
+    - _Fullscreen_Stencil: 1
+    - _Fullscreen_StencilComparison: 6
+    - _Fullscreen_StencilDepthFail: 0
+    - _Fullscreen_StencilFail: 0
+    - _Fullscreen_StencilPass: 0
+    - _Fullscreen_StencilReadMask: 255
+    - _Fullscreen_StencilReference: 1
+    - _Fullscreen_StencilWriteMask: 255
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 0.23529412}
+    - _Color: {r: 0.26415092, g: 0.19811319, b: 0.19811319, a: 0.23529412}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
