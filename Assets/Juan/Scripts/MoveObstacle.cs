@@ -25,7 +25,9 @@ public class MoveObstacle : MonoBehaviour
             return;
         }
 
+        // Start exactly at first node center and target the next
         transform.position = nodes[0].position;
+        currentNodeIndex = 1;
     }
 
     private void Update()
@@ -51,6 +53,8 @@ public class MoveObstacle : MonoBehaviour
 
         if (Vector3.Distance(transform.position, targetNode.position) <= reachDistance)
         {
+            // Snap exactly to the node center
+            transform.position = targetNode.position;
             isStopping = true;
             stopTimer = stopDuration;
         }

@@ -356,6 +356,9 @@ MonoBehaviour:
   thickness: 0.2
   contactMargin: 0.01
   buildOnStart: 1
+  expandSpeed: 1
+  contractSpeed: 15
+  startAtZero: 1
 --- !u!212 &246479700
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -10,9 +10,15 @@ public class LavaLakeOrigin : MonoBehaviour
     [SerializeField] private float thickness = 0.2f;
     [SerializeField] private float contactMargin = 0.01f;
     [SerializeField] private bool buildOnStart = true;
+    [SerializeField] private float expandSpeed = 10f;
+    [SerializeField] private float contractSpeed = 15f;
+    [SerializeField] private bool startAtZero = true;
+
+    private float currentLength = 0f;
 
     private void Start()
     {
+        currentLength = startAtZero ? 0f : 0f;
         if (Application.isPlaying && buildOnStart)
             BuildLake();
     }
@@ -31,7 +37,7 @@ public class LavaLakeOrigin : MonoBehaviour
         Vector2 origin = transform.position;
         Vector2 dir = GetDirection();
 
-        float length = maxLength;
+        float targetLength = maxLength;
         RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, maxLength);
         float closest = float.MaxValue;
         for (int i = 0; i < hits.Length; i++)
@@ -46,10 +52,13 @@ public class LavaLakeOrigin : MonoBehaviour
         }
 
         if (closest != float.MaxValue)
-            length = Mathf.Max(0f, closest - contactMargin);
+            targetLength = Mathf.Max(0f, closest - contactMargin);
+
+        float speed = targetLength > currentLength ? expandSpeed : contractSpeed;
+        currentLength = Mathf.MoveTowards(currentLength, targetLength, speed * Time.deltaTime);
 
         // Position lava lake centered along the cast
-        Vector3 center = (Vector3)(origin + dir * (length * 0.5f));
+        Vector3 center = (Vector3)(origin + dir * (currentLength * 0.5f));
         center.z = lavaLake.position.z;
         lavaLake.position = center;
 
@@ -57,12 +66,12 @@ public class LavaLakeOrigin : MonoBehaviour
         Vector3 scale = lavaLake.localScale;
         if (horizontal)
         {
-            scale.x = Mathf.Max(0f, length);
+            scale.x = Mathf.Max(0f, currentLength);
             scale.y = Mathf.Max(0.001f, thickness);
         }
         else
         {
-            scale.y = Mathf.Max(0f, length);
+            scale.y = Mathf.Max(0f, currentLength);
             scale.x = Mathf.Max(0.001f, thickness);
         }
         lavaLake.localScale = scale;
