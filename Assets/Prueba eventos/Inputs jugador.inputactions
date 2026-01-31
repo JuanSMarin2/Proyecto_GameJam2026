@@ -1,0 +1,95 @@
+{
+    "version": 1,
+    "name": "Inputs jugador",
+    "maps": [
+        {
+            "name": "Cambio de capa",
+            "id": "cf4bc4b5-6aad-40ea-a442-ff6da44b5faf",
+            "actions": [
+                {
+                    "name": "Capa 1",
+                    "type": "Button",
+                    "id": "379b5e4a-dc43-45c5-aec9-9aed9b650042",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Capa 2",
+                    "type": "Button",
+                    "id": "71e83d5c-fa49-416e-8cd1-9594d64aaf37",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Capa 3",
+                    "type": "Button",
+                    "id": "859037ab-9025-46ba-bd4d-e037eb417014",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Capa 4",
+                    "type": "Button",
+                    "id": "fc7abda4-baed-44ad-9f83-33c4c1a37061",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b1422e08-2ee7-497f-a08d-b0b88f03a431",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Capa 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5691061d-dbfd-4ac8-a92b-cb08c8989858",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Capa 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ac267ef-59f7-4b2a-8d48-f357d13cd5a7",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Capa 3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d090a6d-fd2a-4370-8cb4-8610c81d8d51",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Capa 4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
