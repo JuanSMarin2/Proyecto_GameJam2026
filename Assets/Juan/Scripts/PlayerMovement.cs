@@ -31,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
         lastRawInput = Vector2.zero;
         targetPosition = rb != null ? rb.position : (Vector2)transform.position;
         currentMoveSpeed = moveSpeed;
+
+        SetChildrenSpriteRenderersEnabled(false);
     }
 
     public void EnableMovement()
@@ -38,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
         canMove = true;
         rawInput = Vector2.zero;
         lastRawInput = Vector2.zero;
+
+        SetChildrenSpriteRenderersEnabled(true);
     }
 
 
@@ -115,8 +119,7 @@ public class PlayerMovement : MonoBehaviour
         targetPosition = nextPosition;
         isMoving = true;
 
-        if (animator != null)
-            animator.SetTrigger("move");
+        TriggerMoveAnimation();
 
         if (direction.x > 0) ApplyFlipX(true);
         else if (direction.x < 0) ApplyFlipX(false);
@@ -212,6 +215,31 @@ public class PlayerMovement : MonoBehaviour
             SpriteRenderer sr = children[i];
             if (sr == null || sr == spriteRenderer) continue;
             sr.flipX = flip;
+        }
+    }
+
+    private void TriggerMoveAnimation()
+    {
+        if (animator != null)
+            animator.SetTrigger("move");
+
+        Animator[] childAnimators = GetComponentsInChildren<Animator>();
+        for (int i = 0; i < childAnimators.Length; i++)
+        {
+            Animator a = childAnimators[i];
+            if (a == null || a == animator) continue;
+            a.SetTrigger("move");
+        }
+    }
+
+    private void SetChildrenSpriteRenderersEnabled(bool enabled)
+    {
+        SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            SpriteRenderer sr = children[i];
+            if (sr == null || sr == spriteRenderer) continue;
+            sr.enabled = enabled;
         }
     }
 }
