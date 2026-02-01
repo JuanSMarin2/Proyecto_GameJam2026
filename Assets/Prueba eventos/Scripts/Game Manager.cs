@@ -12,9 +12,11 @@ public class GameManager : MonoBehaviour
     private bool capa1Activa = false, capa2Activa = false, capa3Activa = false, capa4Activa = false;
     public int mascarasRecogidas = 0;
 
+    public bool juegoTerminado = false;
 
 
-    
+
+
 
     private void Awake()
     {

@@ -4,47 +4,67 @@ using UnityEngine;
 public class PressurePlate : MonoBehaviour
 {
     [SerializeField] private Bow bow;
-    [SerializeField] private bool isActive;
+    [Header("Burst")]
+    [SerializeField] private int arrowsPerActivation = 5;
+    [SerializeField] private float timeBetweenShots = 1f;
+    [SerializeField] private bool shootImmediately = true;
 
+    private static PressurePlate lastActivatedPlate;
     private Coroutine shootingCoroutine;
-
-    void Start()
-    {
-        isActive = false;
-    }
+    private bool isShooting;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isActive)
+        if (isShooting)
+            return;
+
+        // Esta misma placa no vuelve a disparar hasta que se active otra diferente
+        if (lastActivatedPlate == this)
+            return;
+
+        if (bow == null)
         {
-            isActive = true;
-            bow.Shoot(); // Disparo inmediato
-
-
-
-            SoundManager.PlaySound(SoundType.PlacaPresion);
-
-            shootingCoroutine = StartCoroutine(HandleShooting());
+            Debug.LogWarning("PressurePlate: Bow no asignado.");
+            return;
         }
+
+        lastActivatedPlate = this;
+        isShooting = true;
+
+        SoundManager.PlaySound(SoundType.PlacaPresion);
+        shootingCoroutine = StartCoroutine(HandleShooting());
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        isActive = false;
-
-        if (shootingCoroutine != null)
-        {
-            StopCoroutine(shootingCoroutine);
-            shootingCoroutine = null;
-        }
+        // No hace falta mantener un estado "activo" continuo.
+        // La placa dispara una ráfaga fija al activarse.
     }
 
     private IEnumerator HandleShooting()
     {
-        while (isActive)
+        int shots = Mathf.Max(0, arrowsPerActivation);
+        if (shots == 0)
         {
-            yield return new WaitForSeconds(1f);
-            bow.Shoot();
+            isShooting = false;
+            shootingCoroutine = null;
+            yield break;
         }
+
+        if (shootImmediately)
+        {
+            bow.Shoot();
+            shots--;
+        }
+
+        while (shots > 0)
+        {
+            yield return new WaitForSeconds(Mathf.Max(0f, timeBetweenShots));
+            bow.Shoot();
+            shots--;
+        }
+
+        isShooting = false;
+        shootingCoroutine = null;
     }
 }

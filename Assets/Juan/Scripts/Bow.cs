@@ -39,7 +39,7 @@ public class Bow : MonoBehaviour
 
           
          
-            Debug.Log("Shooting Arrow" +"repdrodudciendo sonido" + SoundType.Dardos);
+          
             arrow.Launch(dir, arrowSpeed);
         }
         else
