@@ -152,7 +152,7 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: e1a3483792e1d4a4f8c5821827ac52c9, type: 3}
+    - {fileID: 8300000, guid: 329b0caafacd96940996afb2ba5d130e, type: 3}
   - name: LavaMoving
     volume: 1
     mixer: {fileID: 0}
