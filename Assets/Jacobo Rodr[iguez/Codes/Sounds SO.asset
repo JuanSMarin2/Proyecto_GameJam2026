@@ -18,7 +18,7 @@ MonoBehaviour:
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: e6326e839056f654a88c3227058b2ba5, type: 3}
-    - {fileID: 8300000, guid: acc0ba90d68d28d43ab26cd6f6942b92, type: 3}
+    - {fileID: 8300000, guid: 293e314e0f51b84459e563d85400ee0c, type: 3}
     - {fileID: 8300000, guid: 29433276147ba354e964bd2c97130919, type: 3}
   - name: FuegoFatuo
     volume: 1
