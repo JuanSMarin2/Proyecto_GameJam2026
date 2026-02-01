@@ -9,6 +9,9 @@ using UnityEngine.Audio;
         private static SoundManager instance = null;
         private AudioSource audioSource;
 
+        private static float globalVolume = 1f;
+        private static float normalGlobalVolume = 1f;
+
         private void Awake()
         {
             if(!instance)
@@ -16,6 +19,23 @@ using UnityEngine.Audio;
                 instance = this;
                 audioSource = GetComponent<AudioSource>();
             }
+        }
+
+        public static void SetGlobalVolume(float value01)
+        {
+            globalVolume = Mathf.Clamp01(value01);
+            AudioListener.volume = globalVolume;
+        }
+
+        public static void LowerGlobalVolume(float value01 = 0.25f)
+        {
+            normalGlobalVolume = globalVolume;
+            SetGlobalVolume(value01);
+        }
+
+        public static void RestoreGlobalVolume()
+        {
+            SetGlobalVolume(normalGlobalVolume);
         }
 
         public static void PlaySound(SoundType sound, AudioSource source = null, float volume = 1)
@@ -34,13 +54,13 @@ using UnityEngine.Audio;
             {
                 source.outputAudioMixerGroup = soundList.mixer;
                 source.clip = randomClip;
-                source.volume = volume * soundList.volume;
+                source.volume = volume * soundList.volume * globalVolume;
                 source.Play();
             }
             else
             {
                 instance.audioSource.outputAudioMixerGroup = soundList.mixer;
-                instance.audioSource.PlayOneShot(randomClip, volume * soundList.volume);
+                instance.audioSource.PlayOneShot(randomClip, volume * soundList.volume * globalVolume);
             }
         }
     }

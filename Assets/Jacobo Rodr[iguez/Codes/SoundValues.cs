@@ -3,6 +3,7 @@
           Pisadas,
     FuegoFatuo,
     Equipar,
+    Grunt,
     Muerte,
     Revivir,
     PlacaPresion,
