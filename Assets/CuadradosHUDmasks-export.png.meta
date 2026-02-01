@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eae6f40907c85684dbd9ca778e891eeb
+guid: 777ef033053a39c4680d78ce74646c17
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -93,39 +93,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CuadradosHUDmasks-export_0
+      name: CuadradosHUDmasks-export 1_0
       rect:
         serializedVersion: 2
-        x: 77
-        y: 272
-        width: 167
-        height: 172
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 789cbd2b3ad77ec43bfd65f6f945bc8b
-      internalID: 847148592
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CuadradosHUDmasks-export_1
-      rect:
-        serializedVersion: 2
-        x: 246
+        x: 80
         y: 274
-        width: 167
-        height: 172
+        width: 163
+        height: 168
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 099d498497ce74d43a6ef3391877ae9e
-      internalID: 1622136639
+      spriteID: f108aabb1c921de41b8c061a4547dcd2
+      internalID: 724629387
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CuadradosHUDmasks-export_2
+      name: CuadradosHUDmasks-export 1_1
       rect:
         serializedVersion: 2
-        x: 78
-        y: 98
-        width: 167
-        height: 172
+        x: 248
+        y: 274
+        width: 163
+        height: 168
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7fc38b93ea76ab54e89ba92dfea83da5
-      internalID: -496726836
+      spriteID: 100fa540099abd04b98998ce2943199f
+      internalID: -686237848
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CuadradosHUDmasks-export_3
+      name: CuadradosHUDmasks-export 1_2
       rect:
         serializedVersion: 2
-        x: 247
-        y: 100
-        width: 167
-        height: 173
+        x: 80
+        y: 101
+        width: 163
+        height: 168
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,8 +169,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 023554a86e87e5545bf7e4f3dfaeaf06
-      internalID: -1610602366
+      spriteID: fa7d704a702644c49b45aac7caa31847
+      internalID: 1711758821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuadradosHUDmasks-export 1_3
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 101
+        width: 163
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbbd40c48d1bbf74caf21d59c8c6a3c4
+      internalID: -162756284
       vertices: []
       indices: 
       edges: []
@@ -188,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bbf799ef1a0fc6546b9b2d3edac602b6
+    spriteID: 55dae2f12d64c6640bd1561cbc8c2bde
     internalID: 0
     vertices: []
     indices: 
@@ -198,10 +211,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CuadradosHUDmasks-export_0: 847148592
-      CuadradosHUDmasks-export_1: 1622136639
-      CuadradosHUDmasks-export_2: -496726836
-      CuadradosHUDmasks-export_3: -1610602366
+      CuadradosHUDmasks-export 1_0: 724629387
+      CuadradosHUDmasks-export 1_1: -686237848
+      CuadradosHUDmasks-export 1_2: 1711758821
+      CuadradosHUDmasks-export 1_3: -162756284
+      CuadradosHUDmasks-export 1_4: -443570220
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

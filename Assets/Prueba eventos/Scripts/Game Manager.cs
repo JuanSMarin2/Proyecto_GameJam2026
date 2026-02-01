@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
 
     public void MascaraRecogida(int mask)
     {
-        mascarasRecogidas = mask ;
+        mascarasRecogidas = Mathf.Clamp(mask, 0, 4);
         switch (mascarasRecogidas)
         {
             case 1:
@@ -123,6 +123,18 @@ public class GameManager : MonoBehaviour
             case 4:
                 SoundManager.PlaySound(SoundType.RecoleccionLatina);
                 break;
+        }
+    }
+
+    public bool IsCapaActiva(int capa)
+    {
+        switch (capa)
+        {
+            case 1: return capa1Activa;
+            case 2: return capa2Activa;
+            case 3: return capa3Activa;
+            case 4: return capa4Activa;
+            default: return false;
         }
     }
 }
