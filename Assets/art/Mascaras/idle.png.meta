@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 99ec5fda3b1c4634480fdb24b8e35e72
+guid: bd7220f027060a04a8e19e729c713358
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: aparicion-Sheet_0
+      name: idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,21 +118,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8847ed15ef945014cbba5744abf5db1e
-      internalID: -632455552
+      spriteID: 31f55df5a285a03449126458f6fd132a
+      internalID: 87567910
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: aparicion-Sheet_1
+      name: idle_1
       rect:
         serializedVersion: 2
         x: 64
@@ -140,21 +140,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5f215981602ffb4ca8fd7b7e25fa9a7
-      internalID: -1831527060
+      spriteID: f803a98c849cfaf499300fdb7abf7805
+      internalID: 1791619513
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: aparicion-Sheet_2
+      name: idle_2
       rect:
         serializedVersion: 2
         x: 128
@@ -162,21 +162,21 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5addb83108dc6b34a8fda30bfe81dc3b
-      internalID: -1546565932
+      spriteID: cca891ffbbe9b0e47ad977b64eabbc0f
+      internalID: -2077595128
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: aparicion-Sheet_3
+      name: idle_3
       rect:
         serializedVersion: 2
         x: 192
@@ -184,81 +184,15 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27db6107dc5b514479b62d7ec5d3092b
-      internalID: 673919872
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: aparicion-Sheet_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 125718aa44b77ce468cb774b2d95fa31
-      internalID: 1847290981
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: aparicion-Sheet_5
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8697b4e0aa2f94c4aa703c2386bcdb52
-      internalID: -957265672
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: aparicion-Sheet_6
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 89469609c720086408e4706ad63964b6
-      internalID: -861973879
+      spriteID: c4b47e90f1bdd63468b252f95ba480d0
+      internalID: -185338792
       vertices: []
       indices: 
       edges: []
@@ -267,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e7a22c4de917ff14f94871d5c9999314
+    spriteID: 0d3980c964df650488dd810a12ea4ab9
     internalID: 0
     vertices: []
     indices: 
@@ -277,13 +211,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      aparicion-Sheet_0: -632455552
-      aparicion-Sheet_1: -1831527060
-      aparicion-Sheet_2: -1546565932
-      aparicion-Sheet_3: 673919872
-      aparicion-Sheet_4: 1847290981
-      aparicion-Sheet_5: -957265672
-      aparicion-Sheet_6: -861973879
+      idle_0: 87567910
+      idle_1: 1791619513
+      idle_2: -2077595128
+      idle_3: -185338792
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

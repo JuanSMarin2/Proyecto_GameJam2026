@@ -23,6 +23,23 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canMove = true;
 
+    public void DisableMovementForDeath()
+    {
+        canMove = false;
+        isMoving = false;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
+        currentMoveSpeed = moveSpeed;
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+    }
+
 
     private void Awake()
     {
@@ -101,8 +118,8 @@ public class PlayerMovement : MonoBehaviour
         if (animator != null)
             animator.SetTrigger("move");
 
-        if (direction.x > 0) spriteRenderer.flipX = true;
-        else if (direction.x < 0) spriteRenderer.flipX = false;
+        if (direction.x > 0) ApplyFlipX(true);
+        else if (direction.x < 0) ApplyFlipX(false);
 
         lastRawInput = rawInput;
     }
@@ -182,5 +199,19 @@ public class PlayerMovement : MonoBehaviour
         Vector2 local = boxCollider.offset;
         Vector3 world = transform.TransformVector(new Vector3(local.x, local.y, 0f));
         return new Vector2(world.x, world.y);
+    }
+
+    private void ApplyFlipX(bool flip)
+    {
+        if (spriteRenderer != null)
+            spriteRenderer.flipX = flip;
+
+        SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>();
+        for (int i = 0; i < children.Length; i++)
+        {
+            SpriteRenderer sr = children[i];
+            if (sr == null || sr == spriteRenderer) continue;
+            sr.flipX = flip;
+        }
     }
 }
