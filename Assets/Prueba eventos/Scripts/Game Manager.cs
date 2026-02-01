@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
 
         if (capa3Activa)
         {
+            Debug.Log("Quiero desactivar la capa 3");
             EventManager.Instance.DesactivarCapa(3);
             capa3Activa = false;
         }
