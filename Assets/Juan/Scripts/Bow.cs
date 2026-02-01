@@ -30,11 +30,16 @@ public class Bow : MonoBehaviour
         // right=90, up=180, left=270, down=0
         float zRot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90f;
         Quaternion rot = Quaternion.Euler(0f, 0f, zRot);
+           SoundManager.PlaySound(SoundType.Dardos);
         GameObject arrowGO = Instantiate(arrowPrefab, spawnPos, rot);
 
         Arrow arrow = arrowGO.GetComponent<Arrow>();
         if (arrow != null)
         {
+
+          
+         
+            Debug.Log("Shooting Arrow" +"repdrodudciendo sonido" + SoundType.Dardos);
             arrow.Launch(dir, arrowSpeed);
         }
         else

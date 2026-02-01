@@ -26,5 +26,6 @@
     CapaEuropea,
     CapaAsiatica,
     CapaLatina,
-    VictorySound
+    VictorySound,
+    LavaMoving
     }

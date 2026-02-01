@@ -20,6 +20,10 @@ public class PressurePlate : MonoBehaviour
             isActive = true;
             bow.Shoot(); // Disparo inmediato
 
+
+
+            SoundManager.PlaySound(SoundType.PlacaPresion);
+
             shootingCoroutine = StartCoroutine(HandleShooting());
         }
     }

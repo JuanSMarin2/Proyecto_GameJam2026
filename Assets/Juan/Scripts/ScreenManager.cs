@@ -73,6 +73,10 @@ public class ScreenManager : MonoBehaviour
 
     private void MoveCamera(Vector2 direction)
     {
+
+
+        SoundManager.PlaySound(SoundType.CambioDePantalla);
+
         targetCameraPos += new Vector3(
             direction.x * screenWidth,
             direction.y * screenHeight,

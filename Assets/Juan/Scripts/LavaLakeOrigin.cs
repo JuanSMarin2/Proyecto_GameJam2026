@@ -15,23 +15,34 @@ public class LavaLakeOrigin : MonoBehaviour
     [SerializeField] private bool startAtZero = true;
     [SerializeField] private bool useTiledSizing = true; // Use SpriteRenderer.size when drawMode is Tiled
     [SerializeField] private bool syncColliderSize = false; // Optionally sync BoxCollider2D to rendered size
+
     [Header("Sprites")]
     [SerializeField] private Sprite growingSprite; // Sprite used while lava length is changing
     [SerializeField] private Sprite idleSprite;    // Sprite used when lava is static
     [SerializeField] private float stateEpsilon = 0.001f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip blockedByBoxClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float blockedByBoxVolume = 1f;
+
     private float currentLength = 0f;
+    private bool wasBlockedByBox = false;
 
     private void Start()
     {
         currentLength = startAtZero ? 0f : maxLength;
+
+        // Fallback opcional
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
         if (Application.isPlaying && buildOnStart)
             BuildLake();
     }
 
     private void Update()
     {
-        // Live updates only during play so Box/Wall changes affect lava instantly
         if (Application.isPlaying)
             BuildLake();
     }
@@ -45,20 +56,45 @@ public class LavaLakeOrigin : MonoBehaviour
 
         float targetLength = maxLength;
         RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, maxLength);
+
         float closest = float.MaxValue;
+        Collider2D closestCol = null;
+
         for (int i = 0; i < hits.Length; i++)
         {
-            if (hits[i].collider == null) continue;
-            if (IsBlocking(hits[i].collider))
+            var col = hits[i].collider;
+            if (col == null) continue;
+
+            if (IsBlocking(col))
             {
                 float d = hits[i].distance;
                 if (d < closest)
+                {
                     closest = d;
+                    closestCol = col;
+                }
             }
         }
 
         if (closest != float.MaxValue)
             targetLength = Mathf.Max(0f, closest - contactMargin);
+
+        // ===== SONIDO: cuando se bloquea por Box y comprime (solo 1 vez por bloqueo) =====
+        bool blockedByBox = (closestCol != null && closestCol.CompareTag("Box"));
+        bool isCompressing = targetLength < (currentLength - stateEpsilon);
+
+        if (blockedByBox && isCompressing && !wasBlockedByBox)
+        {
+           
+
+            // Si prefieres tu sistema:
+            SoundManager.PlaySound(SoundType.LavaMoving);
+            Debug.Log("Lava Lake: blocked by Box, playing sound."+ SoundType.LavaMoving);
+        }
+
+        // Importante: solo consideramos "bloqueado por box" mientras el bloqueo actual sea por box.
+        wasBlockedByBox = blockedByBox;
+        // ==============================================================================
 
         float speed = targetLength > currentLength ? expandSpeed : contractSpeed;
         currentLength = Mathf.MoveTowards(currentLength, targetLength, speed * Time.deltaTime);
@@ -77,13 +113,11 @@ public class LavaLakeOrigin : MonoBehaviour
             if (desired != null && sr.sprite != desired)
                 sr.sprite = desired;
         }
+
         bool canTile = useTiledSizing && sr != null && sr.drawMode == SpriteDrawMode.Tiled;
 
         if (canTile)
         {
-            // Respeta el tamaño actual del objeto: NO tocamos el localScale.
-            // `SpriteRenderer.size` está en unidades locales (antes de aplicar escala),
-            // así que convertimos largo/grosor (mundo) a tamaño local dividiendo por la escala.
             Vector3 ls = lavaLake.localScale;
             float sx = Mathf.Max(0.0001f, Mathf.Abs(ls.x));
             float sy = Mathf.Max(0.0001f, Mathf.Abs(ls.y));
@@ -102,16 +136,11 @@ public class LavaLakeOrigin : MonoBehaviour
             {
                 BoxCollider2D bc = lavaLake.GetComponent<BoxCollider2D>();
                 if (bc != null)
-                {
-                    // Igualamos el collider al tamaño visual (en local). No tocamos offset.
                     bc.size = sr.size;
-                }
             }
         }
-
         else
         {
-            // Fallback: scale the transform for non-tiled sprites
             Vector3 scale = lavaLake.localScale;
             if (horizontal)
             {
