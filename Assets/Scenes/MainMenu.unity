@@ -1040,6 +1040,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 588733809376730188, guid: 7ca269521f57144ea89548d242628960, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1744246680637078489, guid: 7ca269521f57144ea89548d242628960, type: 3}
       propertyPath: m_fontStyle
       value: 1

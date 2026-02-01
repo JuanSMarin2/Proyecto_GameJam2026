@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
+
         //singleton
         if (Instance == null)
         {

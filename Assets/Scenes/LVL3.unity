@@ -12302,6 +12302,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: RespawnPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 3423271116543537582, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1682987029}
+    - target: {fileID: 3423271116543537582, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RespawnPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3423271116543537582, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RespawnManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3736430982002581728, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
       propertyPath: m_Name
       value: Pausa
