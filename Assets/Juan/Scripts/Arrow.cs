@@ -24,7 +24,8 @@ public class Arrow : MonoBehaviour
         rb.linearVelocity = direction.normalized * speed;
 
         // Orient arrow to face movement direction
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        // Offset by +90 so: right=90, up=180, left=270, down=0
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90f;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 

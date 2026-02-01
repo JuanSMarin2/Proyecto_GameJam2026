@@ -34,6 +34,7 @@ public class Box : MonoBehaviour
         moveSpeed = Mathf.Max(0.01f, speed);
         SoundManager.PlaySound(SoundType.Pisadas);
         isMoving = true;
+        Debug.Log("Box is Moving");
         return true;
     }
 
@@ -65,7 +66,11 @@ public class Box : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
         for (int i = 0; i < hits.Length; i++)
         {
-            if (hits[i] != null && hits[i].gameObject != gameObject && hits[i].CompareTag("Wall"))
+          if (
+    hits[i] != null &&
+    hits[i].gameObject != gameObject &&
+    (hits[i].CompareTag("Wall") || hits[i].CompareTag("Box"))
+)
                 return true;
         }
         return false;
