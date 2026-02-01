@@ -17,8 +17,9 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 53479fcde6b287a418a8c40a15acebb7, type: 3}
+    - {fileID: 8300000, guid: e6326e839056f654a88c3227058b2ba5, type: 3}
     - {fileID: 8300000, guid: e7209f0840bc1264ba2ab756b8515799, type: 3}
+    - {fileID: 8300000, guid: 29433276147ba354e964bd2c97130919, type: 3}
   - name: FuegoFatuo
     volume: 1
     mixer: {fileID: 0}
@@ -55,9 +56,7 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 34d13456861e6b84282db052c89c12ab, type: 3}
-    - {fileID: 8300000, guid: 892368da44818c94eb471662eb5059b3, type: 3}
-    - {fileID: 8300000, guid: 0104781105b70df4bbda97643962b8a9, type: 3}
+    - {fileID: 8300000, guid: 53479fcde6b287a418a8c40a15acebb7, type: 3}
   - name: Leitmotif1
     volume: 1
     mixer: {fileID: 0}
@@ -72,12 +71,12 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: d021fd16fd450234f95e3d4b60e6696f, type: 3}
+    - {fileID: 8300000, guid: d85b66f417e7d674d9bcf68ff7e894fe, type: 3}
   - name: CambioDePantalla
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: d021fd16fd450234f95e3d4b60e6696f, type: 3}
+    - {fileID: 8300000, guid: a5942cfdf1d3ef44591d043bd05b6799, type: 3}
   - name: Dardos
     volume: 1
     mixer: {fileID: 0}
@@ -124,7 +123,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 9c6183371e12ff245b9a62a4da148dd1, type: 3}
   - name: CapaBase
-    volume: 1
+    volume: 0.19
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 017ad1dc22f0b544c8da676cfc5cf5ad, type: 3}
