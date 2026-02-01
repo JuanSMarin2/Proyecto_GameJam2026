@@ -3,6 +3,7 @@
           Pisadas,
     FuegoFatuo,
     Equipar,
+    Grunt,
     Muerte,
     Revivir,
     PlacaPresion,
@@ -25,4 +26,5 @@
     CapaEuropea,
     CapaAsiatica,
     CapaLatina,
+    VictorySound
     }

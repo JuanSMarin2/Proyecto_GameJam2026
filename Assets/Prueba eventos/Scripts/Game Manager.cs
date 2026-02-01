@@ -35,13 +35,13 @@ public class GameManager : MonoBehaviour
 
         if (capa1Activa)
         {
-            Debug.Log("Desactivé la capa 1");
+            Debug.Log("Desactivï¿½ la capa 1");
             EventManager.Instance.DesactivarCapa(1);
             capa1Activa = false;
         }
         else
         {
-            Debug.Log("Activé la capa 1");
+            Debug.Log("Activï¿½ la capa 1");
             EventManager.Instance.ActivarCapa(1);
             capa1Activa = true;
         }
@@ -109,5 +109,20 @@ public class GameManager : MonoBehaviour
     public void MascaraRecogida(int mask)
     {
         mascarasRecogidas = mask ;
+        switch (mascarasRecogidas)
+        {
+            case 1:
+                SoundManager.PlaySound(SoundType.RecoleccionAfricana);
+                break;
+            case 2:
+                SoundManager.PlaySound(SoundType.RecoleccionEuropea);
+                break;
+            case 3:
+                SoundManager.PlaySound(SoundType.RecoleccionJaponesa);
+                break;
+            case 4:
+                SoundManager.PlaySound(SoundType.RecoleccionLatina);
+                break;
+        }
     }
 }

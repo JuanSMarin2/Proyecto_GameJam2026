@@ -17,9 +17,9 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 01def58d29588dd4085264fe3e2a5062, type: 3}
-    - {fileID: 8300000, guid: 62009770c20b9514880d27c566f7d731, type: 3}
-    - {fileID: 8300000, guid: 8c9e775650d72cd4dafef8df3e41ca3a, type: 3}
+    - {fileID: 8300000, guid: e6326e839056f654a88c3227058b2ba5, type: 3}
+    - {fileID: 8300000, guid: e7209f0840bc1264ba2ab756b8515799, type: 3}
+    - {fileID: 8300000, guid: 29433276147ba354e964bd2c97130919, type: 3}
   - name: FuegoFatuo
     volume: 1
     mixer: {fileID: 0}
@@ -30,6 +30,11 @@ MonoBehaviour:
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: db402643359ed404591cea96b87a9ff5, type: 3}
+  - name: Grunt
+    volume: 1
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 309f3cc0ca5447e4197ea48a9eb99160, type: 3}
   - name: Muerte
     volume: 1
     mixer: {fileID: 0}
@@ -51,9 +56,7 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 34d13456861e6b84282db052c89c12ab, type: 3}
-    - {fileID: 8300000, guid: 892368da44818c94eb471662eb5059b3, type: 3}
-    - {fileID: 8300000, guid: 0104781105b70df4bbda97643962b8a9, type: 3}
+    - {fileID: 8300000, guid: 53479fcde6b287a418a8c40a15acebb7, type: 3}
   - name: Leitmotif1
     volume: 1
     mixer: {fileID: 0}
@@ -68,12 +71,12 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: d021fd16fd450234f95e3d4b60e6696f, type: 3}
+    - {fileID: 8300000, guid: d85b66f417e7d674d9bcf68ff7e894fe, type: 3}
   - name: CambioDePantalla
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: d021fd16fd450234f95e3d4b60e6696f, type: 3}
+    - {fileID: 8300000, guid: a5942cfdf1d3ef44591d043bd05b6799, type: 3}
   - name: Dardos
     volume: 1
     mixer: {fileID: 0}
@@ -110,7 +113,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 130354e263fcf5049a39c76840beb5a4, type: 3}
   - name: RecoleccionAfricana
-    volume: 1
+    volume: 0.9
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: fb72836136018c24182364565408030e, type: 3}
@@ -120,26 +123,32 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 9c6183371e12ff245b9a62a4da148dd1, type: 3}
   - name: CapaBase
-    volume: 1
+    volume: 0.19
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 21ca8c0f0ec9dd94ab5dba8f1fdc88da, type: 3}
+    - {fileID: 8300000, guid: 017ad1dc22f0b544c8da676cfc5cf5ad, type: 3}
   - name: CapaAFricana
     volume: 1
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 99451ff854241974fb944262c64d58cb, type: 3}
   - name: CapaEuropea
-    volume: 1
+    volume: 0.87
     mixer: {fileID: 0}
-    sounds: []
+    sounds:
+    - {fileID: 8300000, guid: 4f32e081a3266ef4599eb143d85568aa, type: 3}
   - name: CapaAsiatica
-    volume: 1
+    volume: 0.71
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 5e4d2b147011cc047bf3c10a7d46833e, type: 3}
   - name: CapaLatina
-    volume: 1
+    volume: 0.78
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 94a5aa2a9caaa3542ba194adc441f5ab, type: 3}
+  - name: VictorySound
+    volume: 1
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 54fef7eba52cb33479fe3cf1e29e0db9, type: 3}

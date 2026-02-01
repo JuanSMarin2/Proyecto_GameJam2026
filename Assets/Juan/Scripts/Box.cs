@@ -32,6 +32,7 @@ public class Box : MonoBehaviour
 
         targetPosition = dest;
         moveSpeed = Mathf.Max(0.01f, speed);
+        SoundManager.PlaySound(SoundType.BloqueMoviendose);
         isMoving = true;
         Debug.Log("Box is Moving");
         return true;
