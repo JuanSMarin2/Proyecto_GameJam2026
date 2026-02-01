@@ -64,9 +64,6 @@ Packages/packages-lock.json     linguist-generated
 # ===============================
 # EXPLICITAMENTE FUERA DE LFS
 # ===============================
-*.png           -filter -diff -merge text
 *.jpg           -filter -diff -merge text
 *.jpeg          -filter -diff -merge text
-*.wav           -filter -diff -merge text
 *.ogg           -filter -diff -merge text
-*.mp3           -filter -diff -merge text
