@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject capa2;
     [SerializeField] private GameObject capa3;
     [SerializeField] private GameObject capa4;
+
+    [Header("Layer Mask Animation")]
+    [SerializeField] private bool playMaskAnimationOnLayerChange = true;
+    [SerializeField] private string maskTriggerName = "mask";
+    [Tooltip("Tiempo a esperar antes de mostrar/ocultar la máscara. 0 = espera 1 frame.")]
+    [SerializeField] private float maskVisualDelay = 0f;
 
     private Vector2 rawInput;
     private Vector2 lastRawInput;
@@ -38,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool subscribedToLayers;
 
+    private Coroutine layerVisualsRoutine;
+
 
     public bool canMove = true;
 
@@ -51,6 +60,16 @@ public class PlayerMovement : MonoBehaviour
         currentMoveSpeed = moveSpeed;
 
         SetChildrenSpriteRenderersEnabled(false);
+    }
+
+    public void DisableMovementForWin()
+    {
+        canMove = false;
+        isMoving = false;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
+        currentMoveSpeed = moveSpeed;
     }
 
     public void EnableMovement()
@@ -315,7 +334,7 @@ public class PlayerMovement : MonoBehaviour
             case 3: capa3Activa = true; break;
             case 4: capa4Activa = true; break;
         }
-        ApplyLayerVisuals();
+        QueueLayerVisualsUpdate();
     }
 
     private void OnLayerDeactivated(int capa)
@@ -327,7 +346,43 @@ public class PlayerMovement : MonoBehaviour
             case 3: capa3Activa = false; break;
             case 4: capa4Activa = false; break;
         }
+        QueueLayerVisualsUpdate();
+    }
+
+    private void QueueLayerVisualsUpdate()
+    {
+        if (layerVisualsRoutine != null)
+        {
+            StopCoroutine(layerVisualsRoutine);
+            layerVisualsRoutine = null;
+        }
+
+        if (!playMaskAnimationOnLayerChange || string.IsNullOrWhiteSpace(maskTriggerName))
+        {
+            ApplyLayerVisuals();
+            return;
+        }
+
+        bool hasAnyAnimator = animator != null || GetComponentsInChildren<Animator>(true).Any(a => a != null);
+        if (!hasAnyAnimator)
+        {
+            ApplyLayerVisuals();
+            return;
+        }
+
+        TriggerMaskAnimation();
+        layerVisualsRoutine = StartCoroutine(ApplyLayerVisualsAfterMask());
+    }
+
+    private IEnumerator ApplyLayerVisualsAfterMask()
+    {
+        if (maskVisualDelay <= 0f)
+            yield return null;
+        else
+            yield return new WaitForSeconds(maskVisualDelay);
+
         ApplyLayerVisuals();
+        layerVisualsRoutine = null;
     }
 
     private void TriggerMoveAnimation()
@@ -342,6 +397,12 @@ public class PlayerMovement : MonoBehaviour
             if (a == null || a == animator) continue;
             a.SetTrigger("move");
         }
+    }
+
+    private void TriggerMaskAnimation()
+    {
+        if (animator != null)
+            animator.SetTrigger(maskTriggerName);
     }
 
     private void SetChildrenSpriteRenderersEnabled(bool enabled)

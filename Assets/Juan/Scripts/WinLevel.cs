@@ -8,6 +8,8 @@ public class WinLevel : MonoBehaviour
     [SerializeField] private float winDelay = 2f;
     [SerializeField] private string winTriggerName = "win";
 
+   public GameObject[] gameObjectArray;
+
     private bool isWinning;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -21,6 +23,15 @@ public class WinLevel : MonoBehaviour
 
     private IEnumerator WinAndLoad(GameObject player)
     {
+        PlayerMovement pm = player != null ? player.GetComponent<PlayerMovement>() : null;
+foreach (GameObject go in gameObjectArray)
+        {
+            go.SetActive(false);
+        }
+
+        if (pm != null)
+            pm.DisableMovementForWin();
+
         Animator a = player != null ? player.GetComponent<Animator>() : null;
         if (a != null)
             a.SetTrigger(winTriggerName);
