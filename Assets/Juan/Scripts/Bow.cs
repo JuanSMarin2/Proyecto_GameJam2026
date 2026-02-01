@@ -39,7 +39,7 @@ public class Bow : MonoBehaviour
 
           
          
-          
+            Debug.Log("Shooting Arrow" +"repdrodudciendo sonido" + SoundType.Dardos);
             arrow.Launch(dir, arrowSpeed);
         }
         else
@@ -49,7 +49,7 @@ public class Bow : MonoBehaviour
             if (rb != null)
                 rb.linearVelocity = dir.normalized * arrowSpeed;
             arrowGO.transform.rotation = rot;
-            Destroy(arrowGO, 10f);
+            Destroy(arrowGO, 3f);
         }
     }
 }

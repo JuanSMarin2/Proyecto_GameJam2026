@@ -658,7 +658,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1615029423, guid: d0d3075e302e83b4185242042277363f, type: 3}
+  m_Sprite: {fileID: 1791620502, guid: 06f1e98566ba999438345749987795ef, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10855,7 +10855,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -12606,7 +12606,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -352011652, guid: d0d3075e302e83b4185242042277363f, type: 3}
+  m_Sprite: {fileID: -103725912, guid: 06f1e98566ba999438345749987795ef, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23809,7 +23809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontal: 0
   positive: 0
-  arrowPrefab: {fileID: 7737544630369690005, guid: c616406688bff7b458a9285b3fe93e8a, type: 3}
+  arrowPrefab: {fileID: 7737544630369690005, guid: 68b7ecb1bc7ba0642a173f5057876c93, type: 3}
   arrowSpeed: 20
   shootPoint: {fileID: 910941283}
 --- !u!212 &910941282
@@ -28982,6 +28982,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 400574792}
     m_Modifications:
+    - target: {fileID: 759284955247475877, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 824904148}
+    - target: {fileID: 759284955247475877, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResumePause
+      objectReference: {fileID: 0}
     - target: {fileID: 1072502596343867390, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -29062,9 +29070,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2474654533020598352, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 293638994}
+    - target: {fileID: 2474654533020598352, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RespawnPlayer
+      objectReference: {fileID: 0}
     - target: {fileID: 3736430982002581728, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
       propertyPath: m_Name
       value: Pausa
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736430982002581728, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476988647605623077, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 824904148}
+    - target: {fileID: 5476988647605623077, guid: e45f4b6b0537a0a4ea3143ac7463ebf6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToMainMenu
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -30651,7 +30679,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1311904823, guid: d0d3075e302e83b4185242042277363f, type: 3}
+  m_Sprite: {fileID: -758900191, guid: 06f1e98566ba999438345749987795ef, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -31968,7 +31996,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -902720358, guid: d0d3075e302e83b4185242042277363f, type: 3}
+  m_Sprite: {fileID: -1021386708, guid: 06f1e98566ba999438345749987795ef, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -33023,7 +33051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4657235895302274472, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
       propertyPath: sceneName
-      value: LVL 2
+      value: LVL3
       objectReference: {fileID: 0}
     - target: {fileID: 4657235895302274472, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
       propertyPath: 'gameObjectArray.Array.data[0]'

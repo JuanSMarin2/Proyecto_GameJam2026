@@ -30,7 +30,7 @@ public class RespawnManager : MonoBehaviour
 
 
 
-        Time.timeScale = 1f;
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 

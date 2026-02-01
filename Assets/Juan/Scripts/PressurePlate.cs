@@ -37,8 +37,7 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // No hace falta mantener un estado "activo" continuo.
-        // La placa dispara una ráfaga fija al activarse.
+        // No se usa estado activo continuo: la placa dispara una ráfaga fija al activarse.
     }
 
     private IEnumerator HandleShooting()

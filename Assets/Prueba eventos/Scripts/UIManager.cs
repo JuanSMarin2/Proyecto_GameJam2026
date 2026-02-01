@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
     {
         SoundManager.PlaySound(SoundType.Leitmotif2);
         SetPaused(!isPaused);
-        
+
     }
 
     public void ResumePause()
