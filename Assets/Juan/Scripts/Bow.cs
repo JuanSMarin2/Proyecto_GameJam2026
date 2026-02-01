@@ -27,7 +27,9 @@ public class Bow : MonoBehaviour
             dir = positive ? Vector2.up : Vector2.down;
 
         Vector3 spawnPos = shootPoint != null ? shootPoint.position : transform.position;
-        Quaternion rot = Quaternion.identity;
+        // right=90, up=180, left=270, down=0
+        float zRot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90f;
+        Quaternion rot = Quaternion.Euler(0f, 0f, zRot);
         GameObject arrowGO = Instantiate(arrowPrefab, spawnPos, rot);
 
         Arrow arrow = arrowGO.GetComponent<Arrow>();
@@ -41,6 +43,7 @@ public class Bow : MonoBehaviour
             Rigidbody2D rb = arrowGO.GetComponent<Rigidbody2D>();
             if (rb != null)
                 rb.linearVelocity = dir.normalized * arrowSpeed;
+            arrowGO.transform.rotation = rot;
             Destroy(arrowGO, 3f);
         }
     }

@@ -9,6 +9,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float wallCheckRadius = 0.1f;
 
+    [Header("Layer Visuals")]
+    [SerializeField] private GameObject capa1;
+    [SerializeField] private GameObject capa2;
+    [SerializeField] private GameObject capa3;
+    [SerializeField] private GameObject capa4;
+
     private Vector2 rawInput;
     private Vector2 lastRawInput;
     private Vector2 targetPosition;
@@ -19,6 +25,18 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D boxCollider;
     private float currentMoveSpeed;
     private Animator animator;
+
+    private bool capa1Activa;
+    private bool capa2Activa;
+    private bool capa3Activa;
+    private bool capa4Activa;
+
+    private SpriteRenderer[] capa1Renderers;
+    private SpriteRenderer[] capa2Renderers;
+    private SpriteRenderer[] capa3Renderers;
+    private SpriteRenderer[] capa4Renderers;
+
+    private bool subscribedToLayers;
 
 
     public bool canMove = true;
@@ -42,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         lastRawInput = Vector2.zero;
 
         SetChildrenSpriteRenderersEnabled(true);
+        ApplyLayerVisuals();
     }
 
 
@@ -59,6 +78,19 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         targetPosition = rb.position;
         currentMoveSpeed = moveSpeed;
+
+        CacheLayerRenderers();
+        ApplyLayerVisuals();
+    }
+
+    private void OnEnable()
+    {
+        TrySubscribeLayerEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeLayerEvents();
     }
 
 
@@ -216,6 +248,86 @@ public class PlayerMovement : MonoBehaviour
             if (sr == null || sr == spriteRenderer) continue;
             sr.flipX = flip;
         }
+    }
+
+    private void CacheLayerRenderers()
+    {
+        capa1Renderers = capa1 != null ? capa1.GetComponentsInChildren<SpriteRenderer>(true) : null;
+        capa2Renderers = capa2 != null ? capa2.GetComponentsInChildren<SpriteRenderer>(true) : null;
+        capa3Renderers = capa3 != null ? capa3.GetComponentsInChildren<SpriteRenderer>(true) : null;
+        capa4Renderers = capa4 != null ? capa4.GetComponentsInChildren<SpriteRenderer>(true) : null;
+    }
+
+    private void ApplyLayerVisuals()
+    {
+        int highest = GetHighestActiveLayer();
+        SetRenderersEnabled(capa1Renderers, highest == 1);
+        SetRenderersEnabled(capa2Renderers, highest == 2);
+        SetRenderersEnabled(capa3Renderers, highest == 3);
+        SetRenderersEnabled(capa4Renderers, highest == 4);
+    }
+
+    private int GetHighestActiveLayer()
+    {
+        if (capa4Activa) return 4;
+        if (capa3Activa) return 3;
+        if (capa2Activa) return 2;
+        if (capa1Activa) return 1;
+        return 0;
+    }
+
+    private void SetRenderersEnabled(SpriteRenderer[] renderers, bool enabled)
+    {
+        if (renderers == null) return;
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (renderers[i] == null) continue;
+            renderers[i].enabled = enabled;
+        }
+    }
+
+    private void TrySubscribeLayerEvents()
+    {
+        if (subscribedToLayers) return;
+        if (EventManager.Instance == null) return;
+
+        EventManager.Instance.EnActivarCapa += OnLayerActivated;
+        EventManager.Instance.EnDesactivarCapa += OnLayerDeactivated;
+        subscribedToLayers = true;
+    }
+
+    private void UnsubscribeLayerEvents()
+    {
+        if (!subscribedToLayers) return;
+        if (EventManager.Instance == null) return;
+
+        EventManager.Instance.EnActivarCapa -= OnLayerActivated;
+        EventManager.Instance.EnDesactivarCapa -= OnLayerDeactivated;
+        subscribedToLayers = false;
+    }
+
+    private void OnLayerActivated(int capa)
+    {
+        switch (capa)
+        {
+            case 1: capa1Activa = true; break;
+            case 2: capa2Activa = true; break;
+            case 3: capa3Activa = true; break;
+            case 4: capa4Activa = true; break;
+        }
+        ApplyLayerVisuals();
+    }
+
+    private void OnLayerDeactivated(int capa)
+    {
+        switch (capa)
+        {
+            case 1: capa1Activa = false; break;
+            case 2: capa2Activa = false; break;
+            case 3: capa3Activa = false; break;
+            case 4: capa4Activa = false; break;
+        }
+        ApplyLayerVisuals();
     }
 
     private void TriggerMoveAnimation()
