@@ -6,14 +6,14 @@
 [attr]unity-yaml merge=unityyamlmerge eol=lf linguist-language=yaml
 
 # ===============================
-# Código
+# Código (texto real)
 # ===============================
-*.cs             text diff=csharp
-*.cginc          text
-*.compute        text
-*.hlsl           text
-*.raytrace       text
-*.shader         text
+*.cs             text diff=csharp eol=lf
+*.cginc          text eol=lf
+*.compute        text eol=lf
+*.hlsl           text eol=lf
+*.raytrace       text eol=lf
+*.shader         text eol=lf
 
 # ===============================
 # Unity JSON
@@ -46,10 +46,10 @@ Assets/Plugins/**               linguist-generated
 Packages/packages-lock.json     linguist-generated
 
 # ===============================
-# Git LFS (SOLO LO PESADO DE VERDAD)
+# Git LFS (solo lo pesado de verdad)
 # ===============================
 
-# 3D models (grandes)
+# 3D
 *.fbx           lfs
 *.blend         lfs
 *.obj           lfs
@@ -58,12 +58,25 @@ Packages/packages-lock.json     linguist-generated
 *.mp4           lfs
 *.mov           lfs
 
-# Archivos realmente enormes (opcional)
+# PSD grandes
 *.psd           lfs
 
 # ===============================
-# EXPLICITAMENTE FUERA DE LFS
+# AUDIO (BINARIO PURO – CRÍTICO)
 # ===============================
-*.jpg           -filter -diff -merge text
-*.jpeg          -filter -diff -merge text
-*.ogg           -filter -diff -merge text
+*.wav           binary -text
+*.ogg           binary -text
+*.mp3           binary -text
+*.aiff          binary -text
+*.flac          binary -text
+
+# ===============================
+# IMÁGENES (BINARIO PURO)
+# ===============================
+*.png           binary -text
+*.jpg           binary -text
+*.jpeg          binary -text
+*.tga           binary -text
+*.gif           binary -text
+*.bmp           binary -text
+*.exr           binary -text
