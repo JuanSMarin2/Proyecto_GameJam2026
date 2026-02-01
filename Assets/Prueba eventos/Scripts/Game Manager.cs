@@ -10,7 +10,11 @@ public class GameManager : MonoBehaviour
     public GameObject[] objetosPersistentes;
 
     private bool capa1Activa = false, capa2Activa = false, capa3Activa = false, capa4Activa = false;
-    private int mascarasRecogidas = 0;
+    public int mascarasRecogidas = 0;
+
+
+
+    
 
     private void Awake()
     {
@@ -93,12 +97,17 @@ public class GameManager : MonoBehaviour
         else
         {
             EventManager.Instance.ActivarCapa(4);
-            capa4Activa = true;
+            capa4Activa= true;
         }
     }
 
-    public void MascaraRecogida()
+    private void Restart()
     {
-        mascarasRecogidas++;
+
+    }
+
+    public void MascaraRecogida(int mask)
+    {
+        mascarasRecogidas = mask ;
     }
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Máscara : MonoBehaviour
@@ -6,15 +7,31 @@ public class Máscara : MonoBehaviour
 
     private Collider2D miCollider;
 
+
+    [SerializeField] private int idMascara;
+
     private void Start()
     {
+
+
+        if (GameManager.Instance.mascarasRecogidas >= idMascara)
+        {
+            Destroy(this.gameObject);
+        }
+
         miCollider = GetComponent<Collider2D>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Jugador"){
-            GameManager.Instance.MascaraRecogida();
+        Debug.Log("Trigger de mask");
+        if(collision.gameObject.tag == "Player"){
+            Debug.Log("Mascara recogida");
+            GameManager.Instance.MascaraRecogida(idMascara);
+            Destroy(this.gameObject);
+
         }
     }
+
+    
 }

@@ -9,6 +9,9 @@ public class LayerController : ObjetoDeCapa
     private Collider2D miCollider;
     [SerializeField] private bool DesapearsOnLayer = false;
     [SerializeField, Range(0f, 1f)] private float inactiveOpacity = 0.3f;
+    [Header("Materials")]
+    [SerializeField] private Material activeMaterial;
+    [SerializeField] private Material inactiveMaterial;
 
     
 
@@ -17,12 +20,8 @@ public class LayerController : ObjetoDeCapa
         miMeshRenderer = GetComponent<SpriteRenderer>();
         miCollider = GetComponent<Collider2D>();
 
-        if (DesapearsOnLayer)
-        {
-            miMeshRenderer.enabled = true;
-            miCollider.enabled = true;
-            SetOpacity(1f);
-        }
+        // Estado inicial: si desaparece por capa, empieza activo; si no, empieza inactivo
+        ApplyState(DesapearsOnLayer);
     }
 
     public override void ActivarCapa(int capa)
@@ -38,9 +37,7 @@ public class LayerController : ObjetoDeCapa
                         misCapasActivas[i] = true;
                         capasActivas++;
                     }
-                    miMeshRenderer.enabled = true;
-                    miCollider.enabled = true;
-                    SetOpacity(1f);
+                    ApplyState(true);
                 }
             }
         }
@@ -59,9 +56,7 @@ public class LayerController : ObjetoDeCapa
             }
 
             bool visible = capasActivas < misCapas.Length;
-            miMeshRenderer.enabled = true;
-            miCollider.enabled = visible;
-            SetOpacity(visible ? 1f : inactiveOpacity);
+            ApplyState(visible);
         }
     }
 
@@ -82,12 +77,7 @@ public class LayerController : ObjetoDeCapa
                 }
             }
 
-            if (base.capasActivas == 0)
-            {
-                miMeshRenderer.enabled = true;
-                miCollider.enabled = false;
-                SetOpacity(inactiveOpacity);
-            }
+            ApplyState(base.capasActivas > 0);
         }
         else
         {
@@ -103,10 +93,22 @@ public class LayerController : ObjetoDeCapa
                 }
             }
             bool visible = capasActivas < misCapas.Length;
-            miMeshRenderer.enabled = true;
-            miCollider.enabled = visible;
-            SetOpacity(visible ? 1f : inactiveOpacity);
+            ApplyState(visible);
         }
+    }
+
+    private void ApplyState(bool active)
+    {
+        if (miMeshRenderer == null || miCollider == null) return;
+
+        miMeshRenderer.enabled = true;
+        miCollider.enabled = active;
+
+        SetOpacity(active ? 1f : inactiveOpacity);
+
+        Material desired = active ? activeMaterial : inactiveMaterial;
+        if (desired != null)
+            miMeshRenderer.sharedMaterial = desired;
     }
 
     private void SetOpacity(float a)
