@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: db3a7738765a70d4da8103730675be7a
+guid: d0d3075e302e83b4185242042277363f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: movible2.2_0
+      name: CuadradosHUDmasks-export_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 24
-        height: 24
+        x: 76
+        y: 272
+        width: 168
+        height: 172
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee5f2cffd213425418006c93710d0ce8
-      internalID: -1352424463
+      spriteID: 073556ad6bd02ee488def22f270fdb37
+      internalID: -352011652
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movible2.2_1
+      name: CuadradosHUDmasks-export_1
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
-        width: 24
-        height: 24
+        x: 245
+        y: 274
+        width: 168
+        height: 172
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6af187fd4c6a848439704183a61d1fcb
-      internalID: -1517176681
+      spriteID: c73e4396b6e1f5e4f9b4da703a7738f0
+      internalID: 1311904823
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movible2.2_2
+      name: CuadradosHUDmasks-export_2
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
-        width: 24
-        height: 24
+        x: 78
+        y: 98
+        width: 168
+        height: 173
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +169,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b53576ae1e4381f498dab475a0373dd0
-      internalID: 954024745
+      spriteID: f76477a8b516fd44e8fd4d74f166efd4
+      internalID: -1615029423
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movible2.2_3
+      name: CuadradosHUDmasks-export_3
       rect:
         serializedVersion: 2
-        x: 72
-        y: 0
-        width: 24
-        height: 24
+        x: 246
+        y: 100
+        width: 168
+        height: 173
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,30 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f83b2c1d6309504b94c59b5b2624913
-      internalID: -753047875
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: movible2.2_4
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7866ed10e3a646746a589ce7bf146853
-      internalID: 882004768
+      spriteID: c52afde1e347deb4fa5ac829b1496410
+      internalID: -902720358
       vertices: []
       indices: 
       edges: []
@@ -223,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7d525e400c2d1ad4fbd3c27f9bc6a52c
+    spriteID: 267b2e8da4e878844ad3e44f636b1a24
     internalID: 0
     vertices: []
     indices: 
@@ -233,11 +211,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      movible2.2_0: -1352424463
-      movible2.2_1: -1517176681
-      movible2.2_2: 954024745
-      movible2.2_3: -753047875
-      movible2.2_4: 882004768
+      CuadradosHUDmasks-export_0: -352011652
+      CuadradosHUDmasks-export_1: 1311904823
+      CuadradosHUDmasks-export_2: -1615029423
+      CuadradosHUDmasks-export_3: -902720358
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -61,8 +61,8 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 5d13ff45091fdc044a0905fce4478a5e, type: 3}
-    - {fileID: 8300000, guid: 9b4943c3c2b7d1441af3b7ce69ff7074, type: 3}
+    - {fileID: 8300000, guid: 19e2ea85c64de864b8429dbb52572527, type: 3}
+    - {fileID: 8300000, guid: 5c3ee7b2939edb049b2d561019e9afda, type: 3}
   - name: Leitmotif2
     volume: 1
     mixer: {fileID: 0}
@@ -126,7 +126,7 @@ MonoBehaviour:
     volume: 0.639
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: df538c41a0e7d6d4aaa4665ce3c2fc66, type: 3}
+    - {fileID: 8300000, guid: b3de923bbaf0ca240b439bb5e1a75018, type: 3}
   - name: CapaAFricana
     volume: 1
     mixer: {fileID: 0}
