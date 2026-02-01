@@ -74,7 +74,9 @@ public class UIManager : MonoBehaviour
 
     public void TogglePause()
     {
+        SoundManager.PlaySound(SoundType.Leitmotif2);
         SetPaused(!isPaused);
+        
     }
 
     public void ResumePause()

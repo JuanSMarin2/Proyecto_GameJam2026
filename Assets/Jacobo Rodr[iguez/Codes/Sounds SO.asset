@@ -66,7 +66,8 @@ MonoBehaviour:
   - name: Leitmotif2
     volume: 1
     mixer: {fileID: 0}
-    sounds: []
+    sounds:
+    - {fileID: 8300000, guid: 099a731154b921a40a00ae2761f729b8, type: 3}
   - name: CambioDeCapa
     volume: 1
     mixer: {fileID: 0}
@@ -131,12 +132,12 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 99451ff854241974fb944262c64d58cb, type: 3}
+    - {fileID: 8300000, guid: f785bbcb404105a41adf956fbab5fb02, type: 3}
   - name: CapaEuropea
     volume: 0.75
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 4f32e081a3266ef4599eb143d85568aa, type: 3}
+    - {fileID: 8300000, guid: 7f32773636d1f9f44bacc1d18d14d462, type: 3}
   - name: CapaAsiatica
     volume: 0.71
     mixer: {fileID: 0}
