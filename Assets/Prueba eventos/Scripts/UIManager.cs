@@ -1,9 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Pause Menu")]
+    [SerializeField] private GameObject pauseMenuRoot;
+
     [Header("Mask Images (1..4)")]
     [SerializeField] private Image[] maskImages = new Image[4];
 
@@ -15,6 +20,8 @@ public class UIManager : MonoBehaviour
     private readonly bool[] layerActive = new bool[4];
 
     private int lastMaskCount = -1;
+
+    private bool isPaused;
 
     private void OnEnable()
     {
@@ -34,6 +41,9 @@ public class UIManager : MonoBehaviour
         }
         lastMaskCount = -1;
         RefreshFromMaskCount(masks);
+
+        if (pauseMenuRoot != null)
+            pauseMenuRoot.SetActive(isPaused);
     }
 
     private void OnDisable()
@@ -47,8 +57,53 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if (WasEscapePressedThisFrame())
+            TogglePause();
+
         if (GameManager.Instance == null) return;
         RefreshFromMaskCount(GameManager.Instance.mascarasRecogidas);
+    }
+
+    private static bool WasEscapePressedThisFrame()
+    {
+        if (Keyboard.current != null)
+            return Keyboard.current.escapeKey.wasPressedThisFrame;
+
+        return Input.GetKeyDown(KeyCode.Escape);
+    }
+
+    public void TogglePause()
+    {
+        SetPaused(!isPaused);
+    }
+
+    public void ResumePause()
+    {
+        SetPaused(false);
+    }
+
+    public void GoToMainMenu()
+    {
+        SetPaused(false);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    private void SetPaused(bool paused)
+    {
+        if (isPaused == paused)
+            return;
+
+        isPaused = paused;
+
+        if (pauseMenuRoot != null)
+            pauseMenuRoot.SetActive(isPaused);
+
+        Time.timeScale = isPaused ? 0f : 1f;
+
+        if (isPaused)
+            SoundManager.LowerGlobalVolume();
+        else
+            SoundManager.RestoreGlobalVolume();
     }
 
     private void RefreshFromMaskCount(int maskCount)
