@@ -15,6 +15,10 @@ public class LavaLakeOrigin : MonoBehaviour
     [SerializeField] private bool startAtZero = true;
     [SerializeField] private bool useTiledSizing = true; // Use SpriteRenderer.size when drawMode is Tiled
     [SerializeField] private bool syncColliderSize = false; // Optionally sync BoxCollider2D to rendered size
+    [Header("Sprites")]
+    [SerializeField] private Sprite growingSprite; // Sprite used while lava length is changing
+    [SerializeField] private Sprite idleSprite;    // Sprite used when lava is static
+    [SerializeField] private float stateEpsilon = 0.001f;
 
     private float currentLength = 0f;
 
@@ -66,31 +70,45 @@ public class LavaLakeOrigin : MonoBehaviour
 
         // Stretch along the cast axis, set perpendicular thickness
         SpriteRenderer sr = lavaLake.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            bool isGrowing = Mathf.Abs(targetLength - currentLength) > stateEpsilon;
+            Sprite desired = isGrowing ? growingSprite : idleSprite;
+            if (desired != null && sr.sprite != desired)
+                sr.sprite = desired;
+        }
         bool canTile = useTiledSizing && sr != null && sr.drawMode == SpriteDrawMode.Tiled;
 
         if (canTile)
         {
-            // Avoid stretching: keep transform scale at 1 and drive size by sprite tiling
+            // Respeta el tamaño actual del objeto: NO tocamos el localScale.
+            // `SpriteRenderer.size` está en unidades locales (antes de aplicar escala),
+            // así que convertimos largo/grosor (mundo) a tamaño local dividiendo por la escala.
             Vector3 ls = lavaLake.localScale;
-            lavaLake.localScale = new Vector3(1f, 1f, ls.z);
+            float sx = Mathf.Max(0.0001f, Mathf.Abs(ls.x));
+            float sy = Mathf.Max(0.0001f, Mathf.Abs(ls.y));
 
-            float len = Mathf.Max(0f, currentLength);
+            float len = Mathf.Max(0.001f, currentLength);
             float thick = Mathf.Max(0.001f, thickness);
+
             if (horizontal)
-                sr.size = new Vector2(len, thick);
+                sr.size = new Vector2(len / sx, thick / sy);
             else
-                sr.size = new Vector2(thick, len);
+                sr.size = new Vector2(thick / sx, len / sy);
+
+            sr.tileMode = SpriteTileMode.Continuous;
 
             if (syncColliderSize)
             {
                 BoxCollider2D bc = lavaLake.GetComponent<BoxCollider2D>();
                 if (bc != null)
                 {
-                    // Match collider to visual size for accurate contacts
+                    // Igualamos el collider al tamaño visual (en local). No tocamos offset.
                     bc.size = sr.size;
                 }
             }
         }
+
         else
         {
             // Fallback: scale the transform for non-tiled sprites
