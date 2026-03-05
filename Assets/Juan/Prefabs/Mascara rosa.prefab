@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -311559847420403135}
   - component: {fileID: 7056822986352194822}
   m_Layer: 0
-  m_Name: Arrow
+  m_Name: Mascara rosa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,11 +159,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0000016838312, y: 0.0017536357}
+  m_Offset: {x: -0.017781317, y: 0.028428935}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -173,5 +173,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.14235938, y: 0.124829605}
+  m_Size: {x: 0.46246207, y: 0.3826903}
   m_EdgeRadius: 0

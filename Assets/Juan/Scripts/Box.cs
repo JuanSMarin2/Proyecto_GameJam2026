@@ -30,12 +30,34 @@ public class Box : MonoBehaviour
         Vector2 dest = GetCurrentPosition2D() + direction * tileSize;
         if (IsBlocked(dest)) return false;
 
+        // Regla: la caja no puede terminar en una casilla que esté justo arriba
+        // o justo abajo de una pared (adyacente verticalmente a 1 tile).
+        if (HasWallAtPosition(dest + Vector2.up * tileSize) || HasWallAtPosition(dest + Vector2.down * tileSize))
+            return false;
+
         targetPosition = dest;
         moveSpeed = Mathf.Max(0.01f, speed);
         SoundManager.PlaySound(SoundType.BloqueMoviendose);
         isMoving = true;
         Debug.Log("Box is Moving");
         return true;
+    }
+
+    private bool HasWallAtPosition(Vector2 pos)
+    {
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 center = pos + GetColliderWorldOffset();
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i] == null) continue;
+            if (hits[i].gameObject == gameObject) continue;
+            if (hits[i].CompareTag("Wall"))
+                return true;
+        }
+        return false;
     }
 
     private void FixedUpdate()

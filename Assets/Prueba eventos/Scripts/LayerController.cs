@@ -15,6 +15,7 @@ public class LayerController : ObjetoDeCapa
     [SerializeField] private Material inactiveMaterial;
     [Header("Movement")]
     [SerializeField] private MonoBehaviour[] movementScripts;
+    [SerializeField] private bool CanMoveWhileDisabled = false;
     [SerializeField] private bool lockTransformWhenInactive = true;
     [SerializeField] private bool lockRotationWhenInactive = false;
     [SerializeField] private bool disableAllScriptsWhenInactive = false;
@@ -24,6 +25,7 @@ public class LayerController : ObjetoDeCapa
     private RigidbodyConstraints2D rbConstraintsDefault;
 
     private MonoBehaviour[] cachedBehaviours;
+    private System.Collections.Generic.HashSet<MonoBehaviour> movementScriptSet;
     private bool isActiveState;
     private Vector3 lockedPosition;
     private Quaternion lockedRotation;
@@ -37,6 +39,15 @@ public class LayerController : ObjetoDeCapa
         miRigidbody = GetComponent<Rigidbody2D>();
 
         cachedBehaviours = GetComponents<MonoBehaviour>();
+        movementScriptSet = new System.Collections.Generic.HashSet<MonoBehaviour>();
+        if (movementScripts != null)
+        {
+            for (int i = 0; i < movementScripts.Length; i++)
+            {
+                if (movementScripts[i] == null) continue;
+                movementScriptSet.Add(movementScripts[i]);
+            }
+        }
 
         if (miRigidbody != null)
         {
@@ -53,6 +64,7 @@ public class LayerController : ObjetoDeCapa
     {
         if (!lockTransformWhenInactive) return;
         if (isActiveState) return;
+        if (CanMoveWhileDisabled) return;
 
         // Lock transform even if some script tries to move it in Update
         transform.position = lockedPosition;
@@ -153,10 +165,11 @@ public class LayerController : ObjetoDeCapa
         if (desired != null)
             miMeshRenderer.sharedMaterial = desired;
 
-        SetMovementEnabled(active);
+        bool movementEnabled = active || CanMoveWhileDisabled;
+        SetMovementEnabled(movementEnabled, active);
     }
 
-    private void SetMovementEnabled(bool enabled)
+    private void SetMovementEnabled(bool movementEnabled, bool otherScriptsEnabled)
     {
         // Disable movement scripts (configured in Inspector)
         if (movementScripts != null)
@@ -164,7 +177,7 @@ public class LayerController : ObjetoDeCapa
             for (int i = 0; i < movementScripts.Length; i++)
             {
                 if (movementScripts[i] == null) continue;
-                movementScripts[i].enabled = enabled;
+                movementScripts[i].enabled = movementEnabled;
             }
         }
 
@@ -178,14 +191,15 @@ public class LayerController : ObjetoDeCapa
                 if (b == this) continue;
                 // Keep base ObjetoDeCapa logic alive (event subscription)
                 if (b is ObjetoDeCapa) continue;
-                b.enabled = enabled;
+                if (movementScriptSet != null && movementScriptSet.Contains(b)) continue;
+                b.enabled = otherScriptsEnabled;
             }
         }
 
         // Freeze physics-based movement
         if (miRigidbody != null)
         {
-            if (enabled)
+            if (movementEnabled)
             {
                 miRigidbody.simulated = rbSimulatedDefault;
                 miRigidbody.bodyType = rbBodyTypeDefault;
