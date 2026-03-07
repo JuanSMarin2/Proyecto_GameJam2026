@@ -55,6 +55,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
+    private void Start()
+    {
+   SoundManager.RestoreGlobalVolume();
+    }
+
     private void Update()
     {
         if (WasEscapePressedThisFrame())

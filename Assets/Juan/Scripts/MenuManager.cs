@@ -37,7 +37,7 @@ public class MenuManager : MonoBehaviour
 
     public void Jugar(){
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene("Intro");
     }
 
     public void AbreCreditos(){

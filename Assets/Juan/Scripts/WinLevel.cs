@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class WinLevel : MonoBehaviour
 {
@@ -10,7 +11,15 @@ public class WinLevel : MonoBehaviour
 
    public GameObject[] gameObjectArray;
 
-    private bool isWinning;
+   private bool isWinning;
+
+    private void Start()
+    {
+        if (sceneName == "MainMenu")
+        {
+            GameManager.Instance.juegoTerminado = true;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -37,6 +46,19 @@ foreach (GameObject go in gameObjectArray)
             a.SetTrigger(winTriggerName);
 
         yield return new WaitForSeconds(winDelay);
+
+     
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.DesactivarTodasLasCapas();
+        }
+        else if (EventManager.Instance != null)
+        {
+            EventManager.Instance.DesactivarCapa(1);
+            EventManager.Instance.DesactivarCapa(2);
+            EventManager.Instance.DesactivarCapa(3);
+            EventManager.Instance.DesactivarCapa(4);
+        }
 
         if (!string.IsNullOrWhiteSpace(sceneName))
             SceneManager.LoadScene(sceneName);

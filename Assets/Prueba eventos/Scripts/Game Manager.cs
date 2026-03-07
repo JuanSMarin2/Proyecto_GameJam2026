@@ -139,4 +139,22 @@ public class GameManager : MonoBehaviour
             default: return false;
         }
     }
+
+    public void DesactivarTodasLasCapas()
+    {
+        // Resetear estado local (persistente)
+        capa1Activa = false;
+        capa2Activa = false;
+        capa3Activa = false;
+        capa4Activa = false;
+
+        // Notificar al resto del juego (si el EventManager existe en esta escena)
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.DesactivarCapa(1);
+            EventManager.Instance.DesactivarCapa(2);
+            EventManager.Instance.DesactivarCapa(3);
+            EventManager.Instance.DesactivarCapa(4);
+        }
+    }
 }

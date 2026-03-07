@@ -49,7 +49,7 @@ public class Bow : MonoBehaviour
             if (rb != null)
                 rb.linearVelocity = dir.normalized * arrowSpeed;
             arrowGO.transform.rotation = rot;
-            Destroy(arrowGO, 3f);
+            Destroy(arrowGO, 10f);
         }
     }
 }

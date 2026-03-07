@@ -6,6 +6,12 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Camera cam;
 
+    [Header("Tile Camera View (Projection)")]
+    [SerializeField] private bool enforceTileView = true;
+    [SerializeField] private float tileSize = 1f;
+    [SerializeField] private int visibleTilesX = 18;
+    [SerializeField] private int visibleTilesY = 10;
+
     [Header("Camera Movement")]
     [SerializeField] private float cameraMoveSpeed = 8f;
 
@@ -15,22 +21,77 @@ public class ScreenManager : MonoBehaviour
     private float screenWidth;
     private float screenHeight;
 
+    private int lastScreenWidth;
+    private int lastScreenHeight;
+
     private void Start()
     {
+        if (cam == null) cam = GetComponent<Camera>();
+        if (cam == null) cam = Camera.main;
+
+        ApplyTileProjectionIfNeeded();
         CalculateScreenSize();
         targetCameraPos = cam.transform.position;
+
+        lastScreenWidth = Screen.width;
+        lastScreenHeight = Screen.height;
     }
 
     private void CalculateScreenSize()
     {
-        // Tamaño REAL visible de la cámara
+        if (cam == null) return;
+
+        // Tamaño REAL visible de la cámara (en unidades de mundo)
+        // Usamos pixelRect para que el cálculo sea correcto si hay letterbox/pillarbox.
+        Rect pr = cam.pixelRect;
+        float aspect = (pr.height > 0f) ? (pr.width / pr.height) : cam.aspect;
+
         screenHeight = cam.orthographicSize * 2f;
-        screenWidth = screenHeight * cam.aspect;
+        screenWidth = screenHeight * aspect;
+    }
+
+    private void ApplyTileProjectionIfNeeded()
+    {
+        if (!enforceTileView || cam == null) return;
+        if (visibleTilesX <= 0 || visibleTilesY <= 0 || tileSize <= 0f) return;
+
+        // Forzamos cámara ortográfica y tamaño vertical exacto.
+        cam.orthographic = true;
+        cam.orthographicSize = (visibleTilesY * tileSize) * 0.5f;
+
+        // Para que sea EXACTAMENTE visibleTilesX x visibleTilesY sin deformar,
+        // necesitamos mantener el aspect ratio del viewport en visibleTilesX/visibleTilesY.
+        float targetAspect = visibleTilesX / (float)visibleTilesY;
+        float windowAspect = (Screen.height > 0) ? (Screen.width / (float)Screen.height) : targetAspect;
+
+        if (windowAspect < targetAspect)
+        {
+            // Pantalla más "estrecha" que el target: letterbox (barras arriba/abajo)
+            float rectHeight = windowAspect / targetAspect;
+            float rectY = (1f - rectHeight) * 0.5f;
+            cam.rect = new Rect(0f, rectY, 1f, rectHeight);
+        }
+        else
+        {
+            // Pantalla más "ancha" que el target: pillarbox (barras izquierda/derecha)
+            float rectWidth = targetAspect / windowAspect;
+            float rectX = (1f - rectWidth) * 0.5f;
+            cam.rect = new Rect(rectX, 0f, rectWidth, 1f);
+        }
     }
 
     private void Update()
     {
+        if (cam == null) return;
+
         // Por si cambia resolución / aspecto
+        if (Screen.width != lastScreenWidth || Screen.height != lastScreenHeight)
+        {
+            lastScreenWidth = Screen.width;
+            lastScreenHeight = Screen.height;
+            ApplyTileProjectionIfNeeded();
+        }
+
         CalculateScreenSize();
 
         if (isMovingCamera)
@@ -84,5 +145,17 @@ public class ScreenManager : MonoBehaviour
         );
 
         isMovingCamera = true;
+    }
+
+    private void OnValidate()
+    {
+        if (cam == null) cam = GetComponent<Camera>();
+        if (cam == null) return;
+
+        if (!Application.isPlaying)
+        {
+            ApplyTileProjectionIfNeeded();
+            CalculateScreenSize();
+        }
     }
 }

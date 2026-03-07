@@ -1,7 +1,10 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Linq;
 using System.Collections;
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -49,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
 
 
     public bool canMove = true;
+
+    [Header("Legacy Input")]
+    [Tooltip("Si está activo, el movimiento se lee desde el sistema viejo (Input.GetAxisRaw / teclado).")]
+    [SerializeField] private bool useLegacyInput = true;
 
     public void DisableMovementForDeath()
     {
@@ -114,15 +121,21 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    #if ENABLE_INPUT_SYSTEM
+  
     public void OnMove(InputAction.CallbackContext context)
     {
         rawInput = context.ReadValue<Vector2>();
     }
+    #endif
 
    
 
     private void Update()
     {
+        if (useLegacyInput)
+            rawInput = ReadLegacyInput();
+
         if (!canMove || isMoving)
         {
             lastRawInput = rawInput;
@@ -150,7 +163,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // If there's a box at the next tile, try to push it.
         Box box = GetBoxAtPosition(nextPosition);
         if (box != null)
         {
@@ -176,6 +188,21 @@ public class PlayerMovement : MonoBehaviour
         else if (direction.x < 0) ApplyFlipX(false);
 
         lastRawInput = rawInput;
+    }
+
+    private Vector2 ReadLegacyInput()
+    {
+        float x = 0f;
+        float y = 0f;
+
+     
+        if (Input.GetKey(KeyCode.A)) x = -1f;
+        else if (Input.GetKey(KeyCode.D)) x = 1f;
+
+        if (Input.GetKey(KeyCode.S)) y = -1f;
+        else if (Input.GetKey(KeyCode.W)) y = 1f;
+
+        return new Vector2(x, y);
     }
 
 
@@ -279,11 +306,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyLayerVisuals()
     {
-        int highest = GetHighestActiveLayer();
-        SetRenderersEnabled(capa1Renderers, highest == 1);
-        SetRenderersEnabled(capa2Renderers, highest == 2);
-        SetRenderersEnabled(capa3Renderers, highest == 3);
-        SetRenderersEnabled(capa4Renderers, highest == 4);
+        // Sin prioridad: si hay varias capas activas, se renderizan todas.
+        SetRenderersEnabled(capa1Renderers, capa1Activa);
+        SetRenderersEnabled(capa2Renderers, capa2Activa);
+        SetRenderersEnabled(capa3Renderers, capa3Activa);
+        SetRenderersEnabled(capa4Renderers, capa4Activa);
     }
 
     private int GetHighestActiveLayer()
