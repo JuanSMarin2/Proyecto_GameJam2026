@@ -24,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private string maskTriggerName = "mask";
     [Tooltip("Tiempo a esperar antes de mostrar/ocultar la máscara. 0 = espera 1 frame.")]
     [SerializeField] private float maskVisualDelay = 0f;
+    
+    [Header("Postprocess Config")]
+    [SerializeField] private postprocessConfig postprocessConfig;
 
     private Vector2 rawInput;
     private Vector2 lastRawInput;
@@ -356,10 +359,26 @@ public class PlayerMovement : MonoBehaviour
     {
         switch (capa)
         {
-            case 1: capa1Activa = true; break;
-            case 2: capa2Activa = true; break;
-            case 3: capa3Activa = true; break;
-            case 4: capa4Activa = true; break;
+            case 1:
+                capa1Activa = true;
+                if (postprocessConfig != null)
+                    postprocessConfig.ActivaMaskMagenta();
+                break;
+            case 2:
+                capa2Activa = true;
+                if (postprocessConfig != null)
+                    postprocessConfig.ActivaMaskCyan();
+                break;
+            case 3:
+                capa3Activa = true;
+                if (postprocessConfig != null)
+                    postprocessConfig.ActivaMaskYellow();
+                break;
+            case 4:
+                capa4Activa = true;
+                if (postprocessConfig != null)
+                    postprocessConfig.ActivaMaskGreen();
+                break;
         }
         QueueLayerVisualsUpdate();
     }
@@ -373,6 +392,14 @@ public class PlayerMovement : MonoBehaviour
             case 3: capa3Activa = false; break;
             case 4: capa4Activa = false; break;
         }
+        
+        // Si todas las capas están desactivadas, desactiva la máscara
+        if (!capa1Activa && !capa2Activa && !capa3Activa && !capa4Activa)
+        {
+            if (postprocessConfig != null)
+                postprocessConfig.DesactivaMask();
+        }
+        
         QueueLayerVisualsUpdate();
     }
 
