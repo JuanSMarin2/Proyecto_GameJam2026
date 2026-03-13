@@ -2169,6 +2169,13 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
+  movementScripts: []
+  CanMoveWhileDisabled: 0
+  lockTransformWhenInactive: 1
+  lockRotationWhenInactive: 0
+  disableAllScriptsWhenInactive: 0
 --- !u!61 &185167227
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7480,6 +7487,13 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 2100000, guid: acdb6170155604651bbc7a47d81c9c2a, type: 2}
   inactiveMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
+  movementScripts: []
+  CanMoveWhileDisabled: 0
+  lockTransformWhenInactive: 1
+  lockRotationWhenInactive: 0
+  disableAllScriptsWhenInactive: 0
 --- !u!61 &420370986
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7627,6 +7641,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 566956552}
   cam: {fileID: 1606934316}
+  enforceTileView: 1
+  tileSize: 1
+  visibleTilesX: 18
+  visibleTilesY: 10
   cameraMoveSpeed: 8
 --- !u!4 &561176761
 Transform:
@@ -7789,7 +7807,15 @@ MonoBehaviour:
   tileSize: 1
   moveSpeed: 50
   wallCheckRadius: 1
+  capa1: {fileID: 0}
+  capa2: {fileID: 0}
+  capa3: {fileID: 0}
+  capa4: {fileID: 0}
+  playMaskAnimationOnLayerChange: 1
+  maskTriggerName: mask
+  maskVisualDelay: 0
   canMove: 1
+  useLegacyInput: 1
 --- !u!50 &566956555
 Rigidbody2D:
   serializedVersion: 5
@@ -7978,6 +8004,13 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 2100000, guid: acdb6170155604651bbc7a47d81c9c2a, type: 2}
   inactiveMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
+  movementScripts: []
+  CanMoveWhileDisabled: 0
+  lockTransformWhenInactive: 1
+  lockRotationWhenInactive: 0
+  disableAllScriptsWhenInactive: 0
 --- !u!114 &627851584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13796,6 +13829,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SO: {fileID: 11400000, guid: 2058cafd66d95e64eb8e499ae75d8e07, type: 2}
+  initialPoolSize: 10
+  expandPoolIfNeeded: 1
+  maxPoolSize: 32
+  allowVoiceStealing: 1
 --- !u!4 &1244982024
 Transform:
   m_ObjectHideFlags: 0
@@ -14460,14 +14497,14 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
+    y: 0.18762013
     width: 1
-    height: 1
+    height: 0.62475973
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.32
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -14643,6 +14680,9 @@ MonoBehaviour:
   growingSprite: {fileID: 0}
   idleSprite: {fileID: 0}
   stateEpsilon: 0.001
+  audioSource: {fileID: 0}
+  blockedByBoxClip: {fileID: 0}
+  blockedByBoxVolume: 1
 --- !u!212 &1691055899
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14758,6 +14798,9 @@ MonoBehaviour:
   growingSprite: {fileID: 21300000, guid: e14e0f135ba775a4ea10ef2fe2031568, type: 3}
   idleSprite: {fileID: 21300000, guid: 1203f58fea1b467428c8cf9af27f8492, type: 3}
   stateEpsilon: 0.001
+  audioSource: {fileID: 0}
+  blockedByBoxClip: {fileID: 0}
+  blockedByBoxVolume: 1
 --- !u!212 &1735189038
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14954,6 +14997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objetosPersistentes: []
   mascarasRecogidas: 0
+  juegoTerminado: 0
 --- !u!4 &1763343053
 Transform:
   m_ObjectHideFlags: 0
@@ -15107,6 +15151,13 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 2100000, guid: acdb6170155604651bbc7a47d81c9c2a, type: 2}
   inactiveMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
+  movementScripts: []
+  CanMoveWhileDisabled: 0
+  lockTransformWhenInactive: 1
+  lockRotationWhenInactive: 0
+  disableAllScriptsWhenInactive: 0
 --- !u!114 &1781636366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15695,6 +15746,13 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
+  movementScripts: []
+  CanMoveWhileDisabled: 0
+  lockTransformWhenInactive: 1
+  lockRotationWhenInactive: 0
+  disableAllScriptsWhenInactive: 0
 --- !u!1 &2129979607
 GameObject:
   m_ObjectHideFlags: 0
