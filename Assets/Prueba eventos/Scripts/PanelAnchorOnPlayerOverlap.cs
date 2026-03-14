@@ -11,16 +11,14 @@ public class PanelAnchorOnPlayerOverlap : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
 
     [Header("Cameras / Canvas")]
-    [Tooltip("Camera usada para convertir el Player (mundo) a ScreenPoint. Si está vacío, usa Camera.main")]
     [SerializeField] private Camera worldCamera;
-    [Tooltip("Canvas donde vive el panelDetector. Si está vacío, se intenta inferir desde el panelDetector")]
     [SerializeField] private Canvas canvas;
 
-    [Header("Offsets (optional)")]
-    [SerializeField] private Vector2 offsetArribaDerecha = Vector2.zero;
-    [SerializeField] private Vector2 offsetAbajoDerecha = Vector2.zero;
+    [Header("Y Offset When Overlapping")]
+    [SerializeField] private float overlapY;
 
     private bool isOverlapping;
+    private Vector2 originalPosition;
 
     private void Awake()
     {
@@ -35,13 +33,17 @@ public class PanelAnchorOnPlayerOverlap : MonoBehaviour
             GameObject found = GameObject.FindGameObjectWithTag(playerTag);
             if (found != null) player = found.transform;
         }
+
+        if (panelObjetivo != null)
+            originalPosition = panelObjetivo.anchoredPosition;
     }
 
     private void OnEnable()
     {
-        // Estado por defecto
-        SetAbajoDerecha();
         isOverlapping = false;
+
+        if (panelObjetivo != null)
+            panelObjetivo.anchoredPosition = originalPosition;
     }
 
     private void Update()
@@ -51,49 +53,49 @@ public class PanelAnchorOnPlayerOverlap : MonoBehaviour
         if (worldCamera == null) return;
 
         Vector3 screenPos = worldCamera.WorldToScreenPoint(player.position);
+
         if (screenPos.z < 0f)
         {
-            // Player behind camera
             if (isOverlapping)
             {
                 isOverlapping = false;
-                SetAbajoDerecha();
+                ResetPosition();
             }
             return;
         }
 
         Camera uiCamera = GetUICamera();
-        bool nowOverlapping = RectTransformUtility.RectangleContainsScreenPoint(panelDetector, screenPos, uiCamera);
+
+        bool nowOverlapping = RectTransformUtility.RectangleContainsScreenPoint(
+            panelDetector,
+            screenPos,
+            uiCamera
+        );
+
         if (nowOverlapping == isOverlapping) return;
 
         isOverlapping = nowOverlapping;
-        if (isOverlapping) SetArribaDerecha();
-        else SetAbajoDerecha();
+
+        if (isOverlapping)
+            MoveUp();
+        else
+            ResetPosition();
     }
 
-    private void SetArribaDerecha()
+    private void MoveUp()
     {
-        if (panelObjetivo == null) return;
-
-        panelObjetivo.anchorMin = new Vector2(1f, 1f);
-        panelObjetivo.anchorMax = new Vector2(1f, 1f);
-        panelObjetivo.pivot = new Vector2(1f, 1f);
-        panelObjetivo.anchoredPosition = offsetArribaDerecha;
+        Vector2 pos = panelObjetivo.anchoredPosition;
+        pos.y = overlapY;
+        panelObjetivo.anchoredPosition = pos;
     }
 
-    private void SetAbajoDerecha()
+    private void ResetPosition()
     {
-        if (panelObjetivo == null) return;
-
-        panelObjetivo.anchorMin = new Vector2(1f, 0f);
-        panelObjetivo.anchorMax = new Vector2(1f, 0f);
-        panelObjetivo.pivot = new Vector2(1f, 0f);
-        panelObjetivo.anchoredPosition = offsetAbajoDerecha;
+        panelObjetivo.anchoredPosition = originalPosition;
     }
 
     private Camera GetUICamera()
     {
-        // Para Screen Space Overlay, RectTransformUtility espera camera = null
         if (canvas == null) return null;
 
         switch (canvas.renderMode)
