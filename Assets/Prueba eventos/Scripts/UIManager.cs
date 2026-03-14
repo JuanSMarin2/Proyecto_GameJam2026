@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenuRoot;
 
+    [Header("Audio")]
+    [SerializeField, Range(0f, 1f)] private float pauseDuckingVolume = 0.25f;
+
     [Header("Mask Images (1..4)")]
     [SerializeField] private Image[] maskImages = new Image[4];
 
@@ -59,7 +62,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-   SoundManager.RestoreGlobalVolume();
+        SoundManager.RestoreGlobalVolume();
     }
 
     private void Update()
@@ -110,7 +113,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = isPaused ? 0f : 1f;
 
         if (isPaused)
-            SoundManager.LowerGlobalVolume();
+            SoundManager.LowerGlobalVolume(pauseDuckingVolume);
         else
             SoundManager.RestoreGlobalVolume();
     }
