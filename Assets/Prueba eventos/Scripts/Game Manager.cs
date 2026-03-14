@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public int mascarasRecogidas = 0;
 
     public bool juegoTerminado = false;
+    public bool hasCheckpoint = false;
 
 
 
@@ -157,4 +158,5 @@ public class GameManager : MonoBehaviour
             EventManager.Instance.DesactivarCapa(4);
         }
     }
+
 }

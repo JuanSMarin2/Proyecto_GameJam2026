@@ -22902,8 +22902,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -115.09, y: -183.63243}
-  m_SizeDelta: {x: 465.82, y: 30.7351}
+  m_AnchoredPosition: {x: -115.09, y: -189.96}
+  m_SizeDelta: {x: 465.82, y: 43.389}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &979600031
 MonoBehaviour:
@@ -22918,14 +22918,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 5b6c14e3dbe983c4080b69acc9567940, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -53102,8 +53102,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -116.19964, y: -183.26253}
-  m_SizeDelta: {x: 450.2845, y: 19.6383}
+  m_AnchoredPosition: {x: -115.09, y: -189.96}
+  m_SizeDelta: {x: 465.82, y: 43.39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1470826888
 MonoBehaviour:
@@ -53118,14 +53118,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6075471, g: 0.012609455, b: 0.012609455, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 09b43a671f82bb5429dc21c2056299a1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -59070,9 +59070,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.250499
+    y: 0.27828747
     width: 1
-    height: 0.499002
+    height: 0.4434251
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -62260,7 +62260,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019805876}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -62269,8 +62269,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -116.19964, y: -183.26253}
-  m_SizeDelta: {x: 450.2845, y: 19.6383}
+  m_AnchoredPosition: {x: -115.09, y: -191.424}
+  m_SizeDelta: {x: 462.452, y: 46.311}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2019805878
 MonoBehaviour:
@@ -62285,14 +62285,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10876796, g: 0.6603774, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 382814c802aff8b44b898d472b9a557d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 30a34b4c28a0075499527cc0a25691f0, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -63641,13 +63641,13 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7263359036468796423, guid: 08ab6d83006060c43bcfd98f59a3c93d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 979600030}
-    - targetCorrespondingSourceObject: {fileID: 7263359036468796423, guid: 08ab6d83006060c43bcfd98f59a3c93d, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1470826887}
     - targetCorrespondingSourceObject: {fileID: 7263359036468796423, guid: 08ab6d83006060c43bcfd98f59a3c93d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2019805877}
+    - targetCorrespondingSourceObject: {fileID: 7263359036468796423, guid: 08ab6d83006060c43bcfd98f59a3c93d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 979600030}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08ab6d83006060c43bcfd98f59a3c93d, type: 3}
 --- !u!224 &3874718845277714144 stripped

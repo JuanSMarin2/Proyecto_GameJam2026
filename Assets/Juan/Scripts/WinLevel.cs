@@ -51,6 +51,7 @@ foreach (GameObject go in gameObjectArray)
         if (GameManager.Instance != null)
         {
             GameManager.Instance.DesactivarTodasLasCapas();
+            GameManager.Instance.hasCheckpoint = false;
         }
         else if (EventManager.Instance != null)
         {
