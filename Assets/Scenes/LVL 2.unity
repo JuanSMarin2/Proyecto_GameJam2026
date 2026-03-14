@@ -104878,7 +104878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4657235895302274472, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
       propertyPath: sceneName
-      value: LVL3
+      value: PreBoss
       objectReference: {fileID: 0}
     - target: {fileID: 4657235895302274472, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
       propertyPath: 'gameObjectArray.Array.data[0]'
