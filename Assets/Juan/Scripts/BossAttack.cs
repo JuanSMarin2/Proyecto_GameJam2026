@@ -30,7 +30,6 @@ public class BossAttacks : MonoBehaviour
     [Header("Rock Chance")]
     [SerializeField, Range(0f, 1f)] private float rockChanceBase = 0.2f;
     [SerializeField, Range(0f, 1f)] private float rockChanceIncreaseOnMiss = 0.1f;
-    [SerializeField, Range(0f, 1f)] private float otherAttackChancePerMove = 0.9f;
 
     private GameObject currentRock;
     private float rockChanceCurrent;
@@ -38,6 +37,8 @@ public class BossAttacks : MonoBehaviour
     private float baseWallLaunchForce;
     private float baseArrowForce;
     private bool isEnraged;
+
+    private bool canAttack = true;
 
     private bool forceLowWallsNext;
 
@@ -57,6 +58,13 @@ public class BossAttacks : MonoBehaviour
         ApplyEnrageForces(isEnraged);
     }
 
+    public void SetCanAttack(bool value)
+    {
+        canAttack = value;
+        if (!canAttack)
+            StopAllCoroutines();
+    }
+
     private void ApplyEnrageForces(bool enraged)
     {
         launchForce = baseWallLaunchForce + (enraged ? enragedWallForceBonus : 0f);
@@ -66,20 +74,17 @@ public class BossAttacks : MonoBehaviour
 
     public void LaunchAttack()
     {
-        // Rock is not part of the random pool: it has its own cumulative chance per movement.
-        if (Random.value <= rockChanceCurrent)
-        {
-            if (TrySpawnRock())
-            {
-                rockChanceCurrent = rockChanceBase;
-                return;
-            }
-        }
-
-        rockChanceCurrent = Mathf.Clamp01(rockChanceCurrent + rockChanceIncreaseOnMiss);
-
-        if (Random.value > otherAttackChancePerMove)
+        if (!canAttack)
             return;
+
+        // Rock is an additional check (can happen on the same move as Wall/Arrow).
+        bool spawnedRock = false;
+        if (Random.value <= rockChanceCurrent)
+            spawnedRock = TrySpawnRock();
+
+        rockChanceCurrent = spawnedRock
+            ? rockChanceBase
+            : Mathf.Clamp01(rockChanceCurrent + rockChanceIncreaseOnMiss);
 
         int randomAttack = Random.Range(0, 3);
         switch (randomAttack)
@@ -100,6 +105,9 @@ public class BossAttacks : MonoBehaviour
 
     private IEnumerator OneWall()
     {
+        if (!canAttack)
+            yield break;
+
         bool requireLowWallsThisCall = forceLowWallsNext;
         bool launchedAnyWallThisCall = false;
 
@@ -121,6 +129,9 @@ public class BossAttacks : MonoBehaviour
         {
             yield return new WaitForSeconds(2f);
 
+            if (!canAttack)
+                yield break;
+
             int secondIndex = requireLowWallsThisCall
                 ? GetRandomAvailableWallIndexOppositeParityInRange(firstIndex, 0, 7)
                 : GetRandomAvailableWallIndexOppositeParityInRange(firstIndex, 0, damageWalls != null ? damageWalls.Count - 1 : -1);
@@ -137,6 +148,9 @@ public class BossAttacks : MonoBehaviour
 
     private void TwoWalls()
     {
+        if (!canAttack)
+            return;
+
         bool requireLowWallsThisCall = forceLowWallsNext;
         bool launchedAnyWallThisCall = false;
 
@@ -164,6 +178,7 @@ public class BossAttacks : MonoBehaviour
 
     private bool LaunchWall(int index, Transform origin, Vector2 direction)
     {
+        if (!canAttack) return false;
         if (damageWalls == null) return false;
         if (index < 0 || index >= damageWalls.Count) return false;
 
@@ -266,6 +281,9 @@ public class BossAttacks : MonoBehaviour
 
     private void Arrows()
     {
+        if (!canAttack)
+            return;
+
         int arrowCount = Mathf.Min(bows.Count, arrows.Count);
 
         for (int i = 0; i < arrowCount; i++)
@@ -285,6 +303,9 @@ public class BossAttacks : MonoBehaviour
 
     private bool TrySpawnRock()
     {
+        if (!canAttack)
+            return false;
+
         // Si ya hay una roca viva, no hacer nada
         if (currentRock != null)
             return false;

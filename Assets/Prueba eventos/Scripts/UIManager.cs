@@ -12,9 +12,10 @@ public class UIManager : MonoBehaviour
     [Header("Mask Images (1..4)")]
     [SerializeField] private Image[] maskImages = new Image[4];
 
-    [Header("Alpha States")]
-    [SerializeField, Range(0f, 1f)] private float alphaDesequipado = 0.35f;
-    [SerializeField, Range(0f, 1f)] private float alphaEquipado = 1f;
+    [Header("Mask Sprites")]
+    [SerializeField] private Sprite[] lockedSprites = new Sprite[4];
+    [SerializeField] private Sprite[] unlockedSprites = new Sprite[4];
+    [SerializeField] private Sprite[] equippedSprites = new Sprite[4];
 
     // Tracks layer state even if the image is currently inactive (mask not collected yet)
     private readonly bool[] layerActive = new bool[4];
@@ -120,54 +121,58 @@ public class UIManager : MonoBehaviour
         if (clamped == lastMaskCount) return;
 
         lastMaskCount = clamped;
-        RefreshMaskVisibility(clamped);
-        RefreshAllAlphas();
+        RefreshAllMaskSprites(clamped);
     }
 
     private void HandleActivarCapa(int capa)
     {
         if (!TryIndexFromCapa(capa, out int index)) return;
         layerActive[index] = true;
-        RefreshAlpha(index);
+        RefreshMaskSprite(index);
     }
 
     private void HandleDesactivarCapa(int capa)
     {
         if (!TryIndexFromCapa(capa, out int index)) return;
         layerActive[index] = false;
-        RefreshAlpha(index);
+        RefreshMaskSprite(index);
     }
 
-    private void RefreshMaskVisibility(int maskCount)
+    private void RefreshAllMaskSprites(int maskCount)
     {
         int clamped = Mathf.Clamp(maskCount, 0, 4);
         for (int i = 0; i < 4; i++)
         {
-            Image img = GetImage(i);
-            if (img == null) continue;
-
-            bool shouldBeActive = clamped >= (i + 1);
-            if (img.gameObject.activeSelf != shouldBeActive)
-                img.gameObject.SetActive(shouldBeActive);
+            RefreshMaskSprite(i, clamped);
         }
     }
 
-    private void RefreshAllAlphas()
+    private void RefreshMaskSprite(int index)
     {
-        for (int i = 0; i < 4; i++)
-            RefreshAlpha(i);
+        int maskCount = GameManager.Instance != null ? GameManager.Instance.mascarasRecogidas : 0;
+        RefreshMaskSprite(index, Mathf.Clamp(maskCount, 0, 4));
     }
 
-    private void RefreshAlpha(int index)
+    private void RefreshMaskSprite(int index, int maskCount)
     {
         Image img = GetImage(index);
         if (img == null) return;
-        if (!img.gameObject.activeInHierarchy) return; // only matters when visible
 
-        float targetAlpha = layerActive[index] ? alphaEquipado : alphaDesequipado;
-        Color c = img.color;
-        c.a = Mathf.Clamp01(targetAlpha);
-        img.color = c;
+        bool isCollected = maskCount >= (index + 1);
+        Sprite target = null;
+
+        if (!isCollected)
+            target = GetSprite(lockedSprites, index);
+        else if (layerActive[index])
+            target = GetSprite(equippedSprites, index);
+        else
+            target = GetSprite(unlockedSprites, index);
+
+        if (target != null)
+            img.sprite = target;
+
+        if (!img.gameObject.activeSelf)
+            img.gameObject.SetActive(true);
     }
 
     private Image GetImage(int index)
@@ -175,6 +180,13 @@ public class UIManager : MonoBehaviour
         if (maskImages == null || maskImages.Length < 4) return null;
         if (index < 0 || index >= maskImages.Length) return null;
         return maskImages[index];
+    }
+
+    private static Sprite GetSprite(Sprite[] sprites, int index)
+    {
+        if (sprites == null || sprites.Length < 4) return null;
+        if (index < 0 || index >= sprites.Length) return null;
+        return sprites[index];
     }
 
     private static bool TryIndexFromCapa(int capa, out int index)

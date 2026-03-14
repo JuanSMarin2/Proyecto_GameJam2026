@@ -13,6 +13,9 @@ public class LayerController : ObjetoDeCapa
     [Header("Materials")]
     [SerializeField] private Material activeMaterial;
     [SerializeField] private Material inactiveMaterial;
+    [Header("Sprites")]
+    [SerializeField] private Sprite activeSprite;
+    [SerializeField] private Sprite inactiveSprite;
     [Header("Movement")]
     [SerializeField] private MonoBehaviour[] movementScripts;
     [SerializeField] private bool CanMoveWhileDisabled = false;
@@ -164,6 +167,10 @@ public class LayerController : ObjetoDeCapa
         Material desired = active ? activeMaterial : inactiveMaterial;
         if (desired != null)
             miMeshRenderer.sharedMaterial = desired;
+
+        Sprite desiredSprite = active ? activeSprite : inactiveSprite;
+        if (desiredSprite != null)
+            miMeshRenderer.sprite = desiredSprite;
 
         bool movementEnabled = active || CanMoveWhileDisabled;
         SetMovementEnabled(movementEnabled, active);

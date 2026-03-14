@@ -26,6 +26,9 @@ public class FinalBossManager : MonoBehaviour
     [SerializeField] private BossAttacks bossAttacks;
     [SerializeField] private GameObject victoryObject;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+
     private int currentBossHealth;
     private Transform currentTarget;
     private SpriteRenderer spriteRenderer;
@@ -41,6 +44,9 @@ public class FinalBossManager : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
 
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
         UpdateHealthBar();
 
         UpdateEnrageState();
@@ -51,6 +57,14 @@ public class FinalBossManager : MonoBehaviour
         }
     }
 
+    private void TriggerAnim(string triggerName)
+    {
+        if (animator == null)
+            return;
+
+        animator.SetTrigger(triggerName);
+    }
+
     #region MOVEMENT
 
     private IEnumerator BossRoutine()
@@ -59,8 +73,17 @@ public class FinalBossManager : MonoBehaviour
         {
             SelectRandomNode();
 
+            if (!isActive)
+                yield break;
+
+            if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.position) > 0.1f)
+                TriggerAnim("Movimiento");
+
             while (Vector3.Distance(transform.position, currentTarget.position) > 0.1f)
             {
+                if (!isActive)
+                    yield break;
+
                 transform.position = Vector3.MoveTowards(
                     transform.position,
                     currentTarget.position,
@@ -71,6 +94,10 @@ public class FinalBossManager : MonoBehaviour
             }
 
             // One call per movement: BossAttacks handles Rock cumulative chance and other attack chance.
+            if (!isActive)
+                yield break;
+
+            TriggerAnim("Ataque");
             bossAttacks.LaunchAttack();
 
             float waitTime = Random.Range(3f, 5f);
@@ -107,6 +134,8 @@ public class FinalBossManager : MonoBehaviour
         currentBossHealth -= amount;
         currentBossHealth = Mathf.Clamp(currentBossHealth, 0, maxBossHealth);
 
+        TriggerAnim("Herida");
+
         UpdateHealthBar();
         UpdateEnrageState();
         StartCoroutine(DamageFlash());
@@ -134,8 +163,12 @@ public class FinalBossManager : MonoBehaviour
 
     private void BossDefeat()
     {
-       
+        TriggerAnim("Muerte");
         isActive = false;
+
+        if (bossAttacks != null)
+            bossAttacks.SetCanAttack(false);
+
         StartCoroutine(WaitForScene());
 
 
@@ -153,7 +186,7 @@ public class FinalBossManager : MonoBehaviour
     private IEnumerator WaitForScene()
     {
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         victoryObject.SetActive(true);
     }
 
