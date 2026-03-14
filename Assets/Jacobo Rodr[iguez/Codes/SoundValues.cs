@@ -29,6 +29,13 @@
     VictorySound,
     LavaMoving,
     UIButtonSound,
-    AmbienteBase
+    AmbienteBase,
+    MusicaBoss,
+    RisaBruja,
+    QuejidoBruja,
+    MovimiendoBruja,
+    AplausoBruja,
+    AmbienteTerror
+
     
     }
