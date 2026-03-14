@@ -34,20 +34,19 @@ using UnityEngine.Audio;
 
         private void Awake()
         {
-            if (instance != null && instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
             instance = this;
-            DontDestroyOnLoad(gameObject);
             audioSource = GetComponent<AudioSource>();
             if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
 
             EnsurePrefsLoaded();
 
             WarmPool();
+        }
+
+        private void OnDestroy()
+        {
+            if (instance == this)
+                instance = null;
         }
 
         private void WarmPool()
