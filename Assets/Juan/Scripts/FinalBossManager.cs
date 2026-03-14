@@ -73,11 +73,17 @@ public class FinalBossManager : MonoBehaviour
         {
             SelectRandomNode();
 
+            if (!isActive)
+                yield break;
+
             if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.position) > 0.1f)
                 TriggerAnim("Movimiento");
 
             while (Vector3.Distance(transform.position, currentTarget.position) > 0.1f)
             {
+                if (!isActive)
+                    yield break;
+
                 transform.position = Vector3.MoveTowards(
                     transform.position,
                     currentTarget.position,
@@ -88,6 +94,9 @@ public class FinalBossManager : MonoBehaviour
             }
 
             // One call per movement: BossAttacks handles Rock cumulative chance and other attack chance.
+            if (!isActive)
+                yield break;
+
             TriggerAnim("Ataque");
             bossAttacks.LaunchAttack();
 
@@ -156,6 +165,10 @@ public class FinalBossManager : MonoBehaviour
     {
         TriggerAnim("Muerte");
         isActive = false;
+
+        if (bossAttacks != null)
+            bossAttacks.SetCanAttack(false);
+
         StartCoroutine(WaitForScene());
 
 
