@@ -11526,6 +11526,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1488350162}
     m_Modifications:
+    - target: {fileID: 958628262654749260, guid: 5ffe8ab7e1533184280e1937a32e3498, type: 3}
+      propertyPath: m_SortingOrder
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2143857967305393314, guid: 5ffe8ab7e1533184280e1937a32e3498, type: 3}
       propertyPath: m_Name
       value: Bruja
@@ -11585,6 +11589,26 @@ PrefabInstance:
     - target: {fileID: 5875844410386633095, guid: 5ffe8ab7e1533184280e1937a32e3498, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545707603114259058, guid: 5ffe8ab7e1533184280e1937a32e3498, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545707603114259058, guid: 5ffe8ab7e1533184280e1937a32e3498, type: 3}
+      propertyPath: m_Intensity
+      value: 2.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545707603114259058, guid: 5ffe8ab7e1533184280e1937a32e3498, type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 0.335
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545707603114259058, guid: 5ffe8ab7e1533184280e1937a32e3498, type: 3}
+      propertyPath: m_PointLightInnerAngle
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545707603114259058, guid: 5ffe8ab7e1533184280e1937a32e3498, type: 3}
+      propertyPath: m_PointLightOuterAngle
+      value: 360
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -23358,7 +23382,7 @@ MonoBehaviour:
   - {fileID: 276148422}
   - {fileID: 353497427}
   - {fileID: 1646687242}
-  launchForce: 3
+  launchForce: 10
   bows:
   - {fileID: 242359736}
   - {fileID: 1350936760}
@@ -23377,7 +23401,7 @@ MonoBehaviour:
   - {fileID: 935013225}
   - {fileID: 1310011686}
   - {fileID: 1453062943}
-  arrowForce: 3
+  arrowForce: 10
   enragedWallForceBonus: 2
   enragedArrowForceBonus: 2
   rockPrefab: {fileID: 3646356153735281392, guid: a0fb868e9fec7fe42934eae05b7c8323, type: 3}
@@ -54136,6 +54160,7 @@ GameObject:
   - component: {fileID: 1488350160}
   - component: {fileID: 1488350164}
   - component: {fileID: 1488350163}
+  - component: {fileID: 1488350165}
   m_Layer: 0
   m_Name: FinalBoss
   m_TagString: Untagged
@@ -54222,7 +54247,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 8
   m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
-  m_Color: {r: 0.841626, g: 0.09703802, b: 0.87169814, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -54321,6 +54346,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.3011975, y: 2.1870584}
   m_EdgeRadius: 0
+--- !u!114 &1488350165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488350159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74735744300199d4b8316f175b4d4c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1490529045
 GameObject:
   m_ObjectHideFlags: 0
@@ -54805,10 +54842,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.06818575
-    y: 0
-    width: 0.8636285
-    height: 1
+    x: 0
+    y: 0.0062268674
+    width: 1
+    height: 0.98754627
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
