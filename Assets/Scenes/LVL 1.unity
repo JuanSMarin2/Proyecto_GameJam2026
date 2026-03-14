@@ -329,8 +329,21 @@ MonoBehaviour:
   - {fileID: 142876598}
   - {fileID: 10836315}
   - {fileID: 374163698}
-  alphaDesequipado: 0.35
-  alphaEquipado: 1
+  lockedSprites:
+  - {fileID: 311491024, guid: c4fd13c9ccebb1f41a4d66de8158175e, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  unlockedSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  equippedSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &64057106
 Transform:
   m_ObjectHideFlags: 0
@@ -7281,6 +7294,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -9003,6 +9018,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -9620,6 +9637,8 @@ MonoBehaviour:
   inactiveOpacity: 0.6
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -10199,6 +10218,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -16262,6 +16283,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -16656,6 +16679,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -17336,8 +17361,7 @@ MonoBehaviour:
   playerTag: Player
   worldCamera: {fileID: 1606934316}
   canvas: {fileID: 351420755}
-  offsetArribaDerecha: {x: -38.9, y: -80}
-  offsetAbajoDerecha: {x: -101, y: 38.9}
+  overlapY: 0
 --- !u!4 &1008974051
 Transform:
   m_ObjectHideFlags: 0
@@ -45210,6 +45234,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -45627,6 +45653,8 @@ MonoBehaviour:
   inactiveOpacity: 0.6
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -47029,10 +47057,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.032196462
-    y: 0
-    width: 0.9356071
-    height: 1
+    x: 0
+    y: 0.006172836
+    width: 1
+    height: 0.9876543
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -47407,6 +47435,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -47935,6 +47965,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
@@ -48437,6 +48469,8 @@ MonoBehaviour:
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
   movementScripts: []
   CanMoveWhileDisabled: 0
   lockTransformWhenInactive: 1
