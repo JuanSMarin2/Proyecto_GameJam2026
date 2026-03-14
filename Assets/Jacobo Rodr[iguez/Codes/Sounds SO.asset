@@ -203,3 +203,8 @@ MonoBehaviour:
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 5539ffdefd4e1ab45829215e12296aa4, type: 3}
+  - name: UiError
+    volume: 0.245
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 1589a6ae905cf5642a2ed45b165fdaf7, type: 3}

@@ -7272,7 +7272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919220887007432766, guid: c0dacfe3658aea648bdca9a7b70d8ec7, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 1.1718577
+      value: 1.29
       objectReference: {fileID: 0}
     - target: {fileID: 3589764350595733475, guid: c0dacfe3658aea648bdca9a7b70d8ec7, type: 3}
       propertyPath: m_Name
@@ -7576,12 +7576,20 @@ PrefabInstance:
       value: -0.059505343
       objectReference: {fileID: 0}
     - target: {fileID: 7595391231598646466, guid: b074490de29780843b270224bb6e7bd0, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595391231598646466, guid: b074490de29780843b270224bb6e7bd0, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 1.1379106
+      value: 1.29
       objectReference: {fileID: 0}
     - target: {fileID: 8409550857814459588, guid: b074490de29780843b270224bb6e7bd0, type: 3}
       propertyPath: m_Name
       value: PinchosAmarilla
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115272208212235022, guid: b074490de29780843b270224bb6e7bd0, type: 3}
+      propertyPath: inactiveOpacity
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 9115272208212235022, guid: b074490de29780843b270224bb6e7bd0, type: 3}
       propertyPath: DesapearsOnLayer
@@ -12304,6 +12312,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4540584076677681311, guid: 5fe35c8f75bc4d34cb93ea1d7765bffd, type: 3}
+      propertyPath: inactiveOpacity
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4540584076677681311, guid: 5fe35c8f75bc4d34cb93ea1d7765bffd, type: 3}
       propertyPath: DesapearsOnLayer
       value: 1
       objectReference: {fileID: 0}
@@ -13426,7 +13438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7804612453120828107, guid: 9b2227a7c4ddafe45a9f9512c4e1de42, type: 3}
       propertyPath: m_Size.y
-      value: 8.279543
+      value: 8.051317
       objectReference: {fileID: 0}
     - target: {fileID: 7804612453120828107, guid: 9b2227a7c4ddafe45a9f9512c4e1de42, type: 3}
       propertyPath: m_Offset.x
@@ -13434,7 +13446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7804612453120828107, guid: 9b2227a7c4ddafe45a9f9512c4e1de42, type: 3}
       propertyPath: m_Offset.y
-      value: 0.10289264
+      value: -0.01121974
       objectReference: {fileID: 0}
     - target: {fileID: 7804612453120828107, guid: 9b2227a7c4ddafe45a9f9512c4e1de42, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x

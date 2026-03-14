@@ -35,7 +35,8 @@
     QuejidoBruja,
     MovimiendoBruja,
     AplausoBruja,
-    AmbienteTerror
+    AmbienteTerror,
+    UiError
 
     
     }

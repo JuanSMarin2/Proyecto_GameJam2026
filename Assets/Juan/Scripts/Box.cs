@@ -33,7 +33,10 @@ public class Box : MonoBehaviour
         // Regla: la caja no puede terminar en una casilla que esté justo arriba
         // o justo abajo de una pared (adyacente verticalmente a 1 tile).
         if (HasWallAtPosition(dest + Vector2.up * tileSize) || HasWallAtPosition(dest + Vector2.down * tileSize))
+        {
+            SoundManager.PlaySound(SoundType.UiError);
             return false;
+        }
 
         targetPosition = dest;
         moveSpeed = Mathf.Max(0.01f, speed);
