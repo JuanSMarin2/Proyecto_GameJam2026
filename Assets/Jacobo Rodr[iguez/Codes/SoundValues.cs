@@ -1,6 +1,6 @@
   public enum SoundType
     {
-          Pisadas,
+    Pisadas,
     FuegoFatuo,
     Equipar,
     Grunt,
@@ -27,5 +27,15 @@
     CapaAsiatica,
     CapaLatina,
     VictorySound,
-    LavaMoving
+    LavaMoving,
+    UIButtonSound,
+    AmbienteBase,
+    MusicaBoss,
+    RisaBruja,
+    QuejidoBruja,
+    MovimiendoBruja,
+    AplausoBruja,
+    AmbienteTerror
+
+    
     }

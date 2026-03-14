@@ -10,6 +10,19 @@ using UnityEngine.Audio;
         private static SoundManager instance = null;
         private AudioSource audioSource;
 
+        private const string PrefSfxVolume = "audio.sfx.volume";
+        private const string PrefMusicVolume = "audio.music.volume";
+        private const string PrefSfxLastNonZero = "audio.sfx.lastNonZero";
+        private const string PrefMusicLastNonZero = "audio.music.lastNonZero";
+
+        private static bool prefsLoaded;
+        private static float sfxUserVolume = 1f;
+        private static float musicUserVolume = 1f;
+        private static float sfxLastNonZeroVolume = 1f;
+        private static float musicLastNonZeroVolume = 1f;
+        private static float pauseDucking = 1f;
+        private static float normalPauseDucking = 1f;
+
         [Header("SFX Pool")]
         [SerializeField] private int initialPoolSize = 10;
         [SerializeField] private bool expandPoolIfNeeded = true;
@@ -18,9 +31,6 @@ using UnityEngine.Audio;
 
         private readonly List<AudioSource> sfxPool = new List<AudioSource>();
         private int stealIndex;
-
-        private static float globalVolume = 1f;
-        private static float normalGlobalVolume = 1f;
 
         private void Awake()
         {
@@ -31,8 +41,11 @@ using UnityEngine.Audio;
             }
 
             instance = this;
+            DontDestroyOnLoad(gameObject);
             audioSource = GetComponent<AudioSource>();
             if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+
+            EnsurePrefsLoaded();
 
             WarmPool();
         }
@@ -107,21 +120,136 @@ using UnityEngine.Audio;
             return stolen;
         }
 
+        private static void EnsurePrefsLoaded()
+        {
+            if (prefsLoaded)
+                return;
+
+            sfxUserVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefSfxVolume, 1f));
+            musicUserVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefMusicVolume, 1f));
+
+            sfxLastNonZeroVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefSfxLastNonZero, Mathf.Max(0.01f, sfxUserVolume)));
+            musicLastNonZeroVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefMusicLastNonZero, Mathf.Max(0.01f, musicUserVolume)));
+
+            if (sfxLastNonZeroVolume <= 0f) sfxLastNonZeroVolume = 1f;
+            if (musicLastNonZeroVolume <= 0f) musicLastNonZeroVolume = 1f;
+
+            prefsLoaded = true;
+        }
+
+        private static void SavePrefs()
+        {
+            PlayerPrefs.SetFloat(PrefSfxVolume, sfxUserVolume);
+            PlayerPrefs.SetFloat(PrefMusicVolume, musicUserVolume);
+            PlayerPrefs.SetFloat(PrefSfxLastNonZero, sfxLastNonZeroVolume);
+            PlayerPrefs.SetFloat(PrefMusicLastNonZero, musicLastNonZeroVolume);
+            PlayerPrefs.Save();
+        }
+
+        public static float GetSfxVolume()
+        {
+            EnsurePrefsLoaded();
+            return sfxUserVolume;
+        }
+
+        public static float GetMusicVolume()
+        {
+            EnsurePrefsLoaded();
+            return musicUserVolume;
+        }
+
+        public static float GetEffectiveSfxVolume()
+        {
+            EnsurePrefsLoaded();
+            return sfxUserVolume * pauseDucking;
+        }
+
+        public static float GetEffectiveMusicVolume()
+        {
+            EnsurePrefsLoaded();
+            return musicUserVolume * pauseDucking;
+        }
+
+        public static void SetSfxVolume(float value01)
+        {
+            EnsurePrefsLoaded();
+
+            sfxUserVolume = Mathf.Clamp01(value01);
+            if (sfxUserVolume > 0.0001f)
+                sfxLastNonZeroVolume = sfxUserVolume;
+
+            SavePrefs();
+        }
+
+        public static void SetMusicVolume(float value01)
+        {
+            EnsurePrefsLoaded();
+
+            musicUserVolume = Mathf.Clamp01(value01);
+            if (musicUserVolume > 0.0001f)
+                musicLastNonZeroVolume = musicUserVolume;
+
+            SavePrefs();
+        }
+
+        public static void MuteSfx()
+        {
+            EnsurePrefsLoaded();
+
+            if (sfxUserVolume > 0.0001f)
+                sfxLastNonZeroVolume = sfxUserVolume;
+
+            sfxUserVolume = 0f;
+            SavePrefs();
+        }
+
+        public static void UnmuteSfxRestore()
+        {
+            EnsurePrefsLoaded();
+
+            if (sfxUserVolume > 0.0001f)
+                return;
+
+            sfxUserVolume = Mathf.Clamp01(Mathf.Max(0.01f, sfxLastNonZeroVolume));
+            SavePrefs();
+        }
+
+        public static void MuteMusic()
+        {
+            EnsurePrefsLoaded();
+
+            if (musicUserVolume > 0.0001f)
+                musicLastNonZeroVolume = musicUserVolume;
+
+            musicUserVolume = 0f;
+            SavePrefs();
+        }
+
+        public static void UnmuteMusicRestore()
+        {
+            EnsurePrefsLoaded();
+
+            if (musicUserVolume > 0.0001f)
+                return;
+
+            musicUserVolume = Mathf.Clamp01(Mathf.Max(0.01f, musicLastNonZeroVolume));
+            SavePrefs();
+        }
+
         public static void SetGlobalVolume(float value01)
         {
-            globalVolume = Mathf.Clamp01(value01);
-            AudioListener.volume = globalVolume;
+            pauseDucking = Mathf.Clamp01(value01);
         }
 
         public static void LowerGlobalVolume(float value01 = 0.25f)
         {
-            normalGlobalVolume = globalVolume;
+            normalPauseDucking = pauseDucking;
             SetGlobalVolume(value01);
         }
 
         public static void RestoreGlobalVolume()
         {
-            SetGlobalVolume(normalGlobalVolume);
+            SetGlobalVolume(normalPauseDucking);
         }
 
         public static void PlaySound(SoundType sound, AudioSource source = null, float volume = 1)
@@ -139,7 +267,7 @@ using UnityEngine.Audio;
             if(source)
             {
                 source.outputAudioMixerGroup = soundList.mixer;
-                source.volume = volume * soundList.volume * globalVolume;
+                source.volume = volume * soundList.volume * GetEffectiveSfxVolume();
 
                 // Permite solapar sonidos en el mismo AudioSource.
                 source.PlayOneShot(randomClip);
@@ -150,7 +278,7 @@ using UnityEngine.Audio;
                 if (sfx == null) return;
 
                 sfx.outputAudioMixerGroup = soundList.mixer;
-                sfx.volume = volume * soundList.volume * globalVolume;
+                sfx.volume = volume * soundList.volume * GetEffectiveSfxVolume();
                 sfx.clip = randomClip;
                 sfx.Play();
             }

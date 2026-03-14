@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenuRoot;
 
+    [Header("Audio")]
+    [SerializeField, Range(0f, 1f)] private float pauseDuckingVolume = 0.25f;
+
     [Header("Mask Images (1..4)")]
     [SerializeField] private Image[] maskImages = new Image[4];
 
@@ -59,16 +62,31 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-   SoundManager.RestoreGlobalVolume();
+        SoundManager.RestoreGlobalVolume();
     }
 
     private void Update()
     {
         if (WasEscapePressedThisFrame())
-            TogglePause();
+        {
+            if (!TryCloseConfigPanelInChildren())
+                TogglePause();
+        }
 
         if (GameManager.Instance == null) return;
         RefreshFromMaskCount(GameManager.Instance.mascarasRecogidas);
+    }
+
+    private bool TryCloseConfigPanelInChildren()
+    {
+        Transform searchRoot = pauseMenuRoot != null ? pauseMenuRoot.transform : transform;
+        ConfigPanel configPanel = searchRoot.GetComponentInChildren<ConfigPanel>(true);
+
+        if (configPanel == null || !configPanel.gameObject.activeSelf)
+            return false;
+
+        configPanel.gameObject.SetActive(false);
+        return true;
     }
 
     private static bool WasEscapePressedThisFrame()
@@ -110,7 +128,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = isPaused ? 0f : 1f;
 
         if (isPaused)
-            SoundManager.LowerGlobalVolume();
+            SoundManager.LowerGlobalVolume(pauseDuckingVolume);
         else
             SoundManager.RestoreGlobalVolume();
     }

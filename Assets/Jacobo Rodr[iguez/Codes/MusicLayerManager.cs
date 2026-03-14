@@ -91,13 +91,15 @@ public class MusicLayerManager : MonoBehaviour
         if (baseSource == null || baseSource.clip == null)
             return;
 
-        // Keep base steady; fade layers towards their targets.
-        baseSource.volume = baseVolume;
+        float musicMultiplier = SoundManager.GetEffectiveMusicVolume();
 
-        UpdateLayerVolume(africanSource, africanTargetActive, africanVolume);
-        UpdateLayerVolume(europeanSource, europeanTargetActive, europeanVolume);
-        UpdateLayerVolume(asianSource, asianTargetActive, asianVolume);
-        UpdateLayerVolume(latinSource, latinTargetActive, latinVolume);
+        // Keep base steady; fade layers towards their targets.
+        baseSource.volume = baseVolume * musicMultiplier;
+
+        UpdateLayerVolume(africanSource, africanTargetActive, africanVolume, musicMultiplier);
+        UpdateLayerVolume(europeanSource, europeanTargetActive, europeanVolume, musicMultiplier);
+        UpdateLayerVolume(asianSource, asianTargetActive, asianVolume, musicMultiplier);
+        UpdateLayerVolume(latinSource, latinTargetActive, latinVolume, musicMultiplier);
     }
 
     private void ActivarCapa(int capa)
@@ -138,12 +140,12 @@ public class MusicLayerManager : MonoBehaviour
         }
     }
 
-    private void UpdateLayerVolume(AudioSource source, bool targetActive, float activeVolume)
+    private void UpdateLayerVolume(AudioSource source, bool targetActive, float activeVolume, float musicMultiplier)
     {
         if (source == null)
             return;
 
-        float targetVolume = targetActive ? activeVolume : 0f;
+        float targetVolume = targetActive ? (activeVolume * musicMultiplier) : 0f;
         float seconds = targetActive ? fadeInSeconds : fadeOutSeconds;
 
         if (seconds <= 0f)

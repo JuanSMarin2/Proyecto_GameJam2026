@@ -8,31 +8,19 @@ using UnityEngine.InputSystem;
 public class ButtonSound : MonoBehaviour
 {
     [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private SoundType buttonSound = SoundType.CambioDePantalla;
+    [SerializeField, Range(0f, 1f)] private float volume = 1f;
 
     [Header("Input")]
     [SerializeField] private bool includeKeyboard = true;
     [SerializeField] private bool includeMouseButtons = true;
     [SerializeField] private bool includeGamepad = true;
 
-    private void Awake()
-    {
-        if (audioSource == null)
-        {
-            audioSource = FindFirstObjectByType<AudioSource>();
-        }
-    }
-
     private void Update()
     {
-        if (audioSource == null || audioSource.clip == null)
-        {
-            return;
-        }
-
         if (AnyButtonPressedThisFrame())
         {
-            audioSource.PlayOneShot(audioSource.clip);
+            SoundManager.PlaySound(buttonSound, null, volume);
         }
     }
 
