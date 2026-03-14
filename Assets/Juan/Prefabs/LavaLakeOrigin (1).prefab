@@ -115,3 +115,6 @@ MonoBehaviour:
   growingSprite: {fileID: 21300000, guid: e14e0f135ba775a4ea10ef2fe2031568, type: 3}
   idleSprite: {fileID: 21300000, guid: 1203f58fea1b467428c8cf9af27f8492, type: 3}
   stateEpsilon: 0.001
+  audioSource: {fileID: 0}
+  blockedByBoxClip: {fileID: 0}
+  blockedByBoxVolume: 1
