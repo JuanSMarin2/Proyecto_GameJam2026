@@ -68,10 +68,25 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         if (WasEscapePressedThisFrame())
-            TogglePause();
+        {
+            if (!TryCloseConfigPanelInChildren())
+                TogglePause();
+        }
 
         if (GameManager.Instance == null) return;
         RefreshFromMaskCount(GameManager.Instance.mascarasRecogidas);
+    }
+
+    private bool TryCloseConfigPanelInChildren()
+    {
+        Transform searchRoot = pauseMenuRoot != null ? pauseMenuRoot.transform : transform;
+        ConfigPanel configPanel = searchRoot.GetComponentInChildren<ConfigPanel>(true);
+
+        if (configPanel == null || !configPanel.gameObject.activeSelf)
+            return false;
+
+        configPanel.gameObject.SetActive(false);
+        return true;
     }
 
     private static bool WasEscapePressedThisFrame()
