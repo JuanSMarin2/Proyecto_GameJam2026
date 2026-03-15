@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class ButtonSound : MonoBehaviour
 {
     [Header("Audio")]
-    [SerializeField] private SoundType buttonSound = SoundType.CambioDePantalla;
+    [SerializeField] private SoundType buttonSound = SoundType.UIButtonSound;
     [SerializeField, Range(0f, 1f)] private float volume = 1f;
 
     [Header("Input")]
@@ -16,6 +16,10 @@ public class ButtonSound : MonoBehaviour
     [SerializeField] private bool includeMouseButtons = true;
     [SerializeField] private bool includeGamepad = true;
 
+ public void PlayButtonSound()
+    {
+        SoundManager.PlaySound(buttonSound, null, volume);
+    }
     private void Update()
     {
         if (AnyButtonPressedThisFrame())
@@ -23,7 +27,7 @@ public class ButtonSound : MonoBehaviour
             SoundManager.PlaySound(buttonSound, null, volume);
         }
     }
-
+ 
     private bool AnyButtonPressedThisFrame()
     {
 #if ENABLE_INPUT_SYSTEM
@@ -91,4 +95,5 @@ public class ButtonSound : MonoBehaviour
         return Input.anyKeyDown;
 #endif
     }
+      
 }

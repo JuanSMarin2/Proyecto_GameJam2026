@@ -342,7 +342,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -103.66, y: -50.3}
+  m_AnchoredPosition: {x: -98.9, y: -50.3}
   m_SizeDelta: {x: 73, y: 65.217}
   m_Pivot: {x: 0.5, y: 0.50000006}
 --- !u!114 &388027262
@@ -365,7 +365,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1754109772, guid: a9a8a34d89810084294c65acfc79ca30, type: 3}
+  m_Sprite: {fileID: -2092575991, guid: a9a8a34d89810084294c65acfc79ca30, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1398,6 +1398,7 @@ MonoBehaviour:
   expandPoolIfNeeded: 1
   maxPoolSize: 32
   allowVoiceStealing: 1
+  debugSceneAudioSync: 0
 --- !u!4 &1532036952
 Transform:
   m_ObjectHideFlags: 0
@@ -1821,7 +1822,7 @@ GameObject:
   - component: {fileID: 1815105181}
   - component: {fileID: 1815105180}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Continuar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1894,6 +1895,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1229137134}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: NextDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1927531019}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: PlayButtonSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2016,6 +2029,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1894622362}
   m_CullTransparentMesh: 1
+--- !u!1 &1927531018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1927531020}
+  - component: {fileID: 1927531019}
+  m_Layer: 0
+  m_Name: ButtonSoundsSonidoBoton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1927531019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927531018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad1e14d98078ea4db65a2dd01fd9ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonSound: 28
+  volume: 0.3
+  includeKeyboard: 0
+  includeMouseButtons: 0
+  includeGamepad: 0
+--- !u!4 &1927531020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927531018}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 236.5, y: 143.54251, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2074506499
 GameObject:
   m_ObjectHideFlags: 0
@@ -2109,3 +2171,4 @@ SceneRoots:
   - {fileID: 374680647}
   - {fileID: 1532036952}
   - {fileID: 1558610156}
+  - {fileID: 1927531020}

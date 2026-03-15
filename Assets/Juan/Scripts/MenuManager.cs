@@ -40,6 +40,45 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Intro");
     }
 
+    public void JugarFacil()
+    {
+        Time.timeScale = 1f;
+
+        if (DifficultySelectManager.Instance != null)
+        {
+            DifficultySelectManager.Instance.SelectEasyAndStartGame();
+            return;
+        }
+
+        Jugar();
+    }
+
+    public void JugarMedio()
+    {
+        Time.timeScale = 1f;
+
+        if (DifficultySelectManager.Instance != null)
+        {
+            DifficultySelectManager.Instance.SelectMediumAndStartGame();
+            return;
+        }
+
+        Jugar();
+    }
+
+    public void JugarDificil()
+    {
+        Time.timeScale = 1f;
+
+        if (DifficultySelectManager.Instance != null)
+        {
+            DifficultySelectManager.Instance.SelectHardAndStartGame();
+            return;
+        }
+
+        Jugar();
+    }
+
     public void AbreCreditos(){
         panelCreditos.SetActive(true);
     }

@@ -19,6 +19,7 @@ public class DifficultySelectManager : MonoBehaviour
     }
 
     [Header("Scene Flow")]
+    [SerializeField] private string gameStartSceneName = "Intro";
     [SerializeField] private string level1SceneName = "Lvl1";
     [SerializeField] private string level2SceneName = "Lvl2";
     [SerializeField] private string level3SceneName = "Lvl3";
@@ -62,11 +63,18 @@ public class DifficultySelectManager : MonoBehaviour
     {
         if (scene.name == "MainMenu")
             SetDifficulty(DifficultyMode.Medium);
+
+        if (scene.name == preBossSceneName && GameManager.Instance != null)
+            GameManager.Instance.mascarasRecogidas = 4;
     }
 
     public void SetEasyMode() => SetDifficulty(DifficultyMode.Easy);
     public void SetMediumMode() => SetDifficulty(DifficultyMode.Medium);
     public void SetHardMode() => SetDifficulty(DifficultyMode.Hard);
+
+    public void SelectEasyAndStartGame() => SelectDifficultyAndStartGame(DifficultyMode.Easy);
+    public void SelectMediumAndStartGame() => SelectDifficultyAndStartGame(DifficultyMode.Medium);
+    public void SelectHardAndStartGame() => SelectDifficultyAndStartGame(DifficultyMode.Hard);
 
     public void SetDifficulty(DifficultyMode mode)
     {
@@ -109,5 +117,15 @@ public class DifficultySelectManager : MonoBehaviour
             return preBossSceneName;
 
         return fallbackSceneName;
+    }
+
+    public void SelectDifficultyAndStartGame(DifficultyMode mode)
+    {
+        SetDifficulty(mode);
+
+        GameRunTimerManager.EnsureInstance().StartRunForDifficulty(mode);
+
+        if (!string.IsNullOrWhiteSpace(gameStartSceneName))
+            SceneManager.LoadScene(gameStartSceneName);
     }
 }
