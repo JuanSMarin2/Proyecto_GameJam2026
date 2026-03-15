@@ -60,6 +60,8 @@ public class ScreenManager : MonoBehaviour
         if (cam == null) cam = GetComponent<Camera>();
         if (cam == null) cam = Camera.main;
 
+        EnsurePlayerReference();
+
         ApplyTileProjectionIfNeeded();
         CalculateScreenSize();
         targetCameraPos = cam.transform.position;
@@ -115,6 +117,8 @@ public class ScreenManager : MonoBehaviour
     {
         if (cam == null) return;
 
+        EnsurePlayerReference();
+
         // Por si cambia resolución / aspecto
         if (Screen.width != lastScreenWidth || Screen.height != lastScreenHeight)
         {
@@ -148,6 +152,9 @@ public class ScreenManager : MonoBehaviour
 
     private void CheckPlayerExit()
     {
+        EnsurePlayerReference();
+        if (player == null) return;
+
         Vector3 camPos = cam.transform.position;
         Vector3 playerPos = player.position;
 
@@ -186,6 +193,16 @@ public class ScreenManager : MonoBehaviour
         // Si el player serializado no está asignado o cambió de instancia, actualizamos referencia.
         if (player == null || player != respawnedPlayer)
             player = respawnedPlayer;
+    }
+
+    private void EnsurePlayerReference()
+    {
+        if (player != null)
+            return;
+
+        GameObject playerGo = GameObject.FindGameObjectWithTag("Player");
+        if (playerGo != null)
+            player = playerGo.transform;
     }
 
     public void SyncCameraStateToCurrentPosition()

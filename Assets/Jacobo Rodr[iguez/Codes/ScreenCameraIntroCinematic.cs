@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -9,6 +10,8 @@ using UnityEngine.InputSystem;
 
 public class ScreenCameraIntroCinematic : MonoBehaviour
 {
+    private static readonly HashSet<string> CinematicPlayedScenes = new HashSet<string>();
+
     [Header("References")]
     [SerializeField] private Camera cam;
     [SerializeField] private ScreenManager screenManager;
@@ -28,6 +31,7 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
     private Vector3 initialCameraStartPos;
     private bool shouldRunThisScene;
+    private string activeSceneName;
 
     private PlayerMovement playerMovement;
     private bool restoreCanMove;
@@ -39,6 +43,8 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
     private void Awake()
     {
+        activeSceneName = SceneManager.GetActiveScene().name;
+
         if (cam == null) cam = GetComponent<Camera>();
         if (cam == null) cam = Camera.main;
         if (screenManager == null) screenManager = GetComponent<ScreenManager>();
@@ -46,7 +52,9 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
         if (cam != null)
             initialCameraStartPos = cam.transform.position;
 
-        shouldRunThisScene = ShouldPlayIntroCinematic() && !CheckPointManager.TryGetCheckpointCameraSnapPosition(out _);
+        shouldRunThisScene = ShouldPlayIntroCinematic()
+                             && !HasCinematicAlreadyPlayedForScene(activeSceneName)
+                             && !CheckPointManager.TryGetCheckpointCameraSnapPosition(out _);
         if (!shouldRunThisScene || cam == null)
             return;
 
@@ -59,9 +67,42 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
     private void Start()
     {
         if (!shouldRunThisScene)
+        {
+            // Si la cinemática se omite (por respawn o porque ya se reprodujo),
+            // asegurar que el ScreenManager quede operativo y sincronizado.
+            if (screenManager != null)
+            {
+                screenManager.enabled = true;
+                screenManager.SyncCameraStateToCurrentPosition();
+            }
+
             return;
+        }
+
+        MarkCinematicPlayedForScene(activeSceneName);
 
         StartCoroutine(PlayIntroCinematic());
+    }
+
+    public static void ClearPlayedScenesCache()
+    {
+        CinematicPlayedScenes.Clear();
+    }
+
+    private static bool HasCinematicAlreadyPlayedForScene(string sceneName)
+    {
+        if (string.IsNullOrWhiteSpace(sceneName))
+            return false;
+
+        return CinematicPlayedScenes.Contains(sceneName);
+    }
+
+    private static void MarkCinematicPlayedForScene(string sceneName)
+    {
+        if (string.IsNullOrWhiteSpace(sceneName))
+            return;
+
+        CinematicPlayedScenes.Add(sceneName);
     }
 
     private bool ShouldPlayIntroCinematic()

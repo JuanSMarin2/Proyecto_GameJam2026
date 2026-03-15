@@ -89,7 +89,7 @@ public class LavaLakeOrigin : MonoBehaviour
 
             // Si prefieres tu sistema:
             SoundManager.PlaySound(SoundType.LavaMoving);
-            Debug.Log("Lava Lake: blocked by Box, playing sound."+ SoundType.LavaMoving);
+          
         }
 
         // Importante: solo consideramos "bloqueado por box" mientras el bloqueo actual sea por box.

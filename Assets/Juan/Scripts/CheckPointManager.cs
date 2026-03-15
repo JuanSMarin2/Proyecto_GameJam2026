@@ -29,6 +29,7 @@ public class CheckPointManager : MonoBehaviour
         if (checkpointObject == null || playerObject == null) return;
 
         playerObject.transform.position = checkpointObject.transform.position;
+        Debug.Log("Player respawned at checkpoint: " + checkpointObject.name + " in scene: " + sceneName);
         StartCoroutine(NotifyRespawnNextFrame(playerObject.transform));
     }
 

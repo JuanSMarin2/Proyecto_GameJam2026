@@ -124,6 +124,7 @@ public class DifficultySelectManager : MonoBehaviour
         SetDifficulty(mode);
 
         GameRunTimerManager.EnsureInstance().StartRunForDifficulty(mode);
+        ScreenCameraIntroCinematic.ClearPlayedScenesCache();
 
         if (!string.IsNullOrWhiteSpace(gameStartSceneName))
             SceneManager.LoadScene(gameStartSceneName);
