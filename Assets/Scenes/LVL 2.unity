@@ -105271,6 +105271,10 @@ PrefabInstance:
       propertyPath: checkPointManager
       value: 
       objectReference: {fileID: 1583876975}
+    - target: {fileID: 1014080811487237163, guid: cb0840e6db2a5d244848717548a11b49, type: 3}
+      propertyPath: snapCameraOnRespawn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6485012909649768040, guid: cb0840e6db2a5d244848717548a11b49, type: 3}
       propertyPath: m_Name
       value: Checkpoint

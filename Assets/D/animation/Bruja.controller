@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 4
-  volume: 0.661
+  volume: 0.767
 --- !u!1101 &2424220004115015729
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

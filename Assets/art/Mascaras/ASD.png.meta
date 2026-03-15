@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a9a8a34d89810084294c65acfc79ca30
+guid: 74726f34519e8cd4198e0b686fd2fc55
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: VedeSliceCentro_0
+      name: ASD_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 64
-        height: 64
+        x: 10
+        y: 25
+        width: 33
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afa49c680278a5c4c9086005e46ecf0f
-      internalID: -637243600
+      spriteID: a96ddb4e7ac33e549b33374363e72976
+      internalID: -1697093090
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VedeSliceCentro_1
+      name: ASD_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
+        x: 74
+        y: 23
+        width: 33
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,20 +160,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06729473308c40d40b1b7a306375edc9
-      internalID: 2133428989
+      spriteID: a65df33b643a4cd4591a7f7ec702604e
+      internalID: 1749821617
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VedeSliceCentro_2
+      name: ASD_2
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
+        x: 138
+        y: 28
+        width: 33
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,20 +182,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cab59fb2560f499488fe0382a65de4ed
-      internalID: -1100426429
+      spriteID: ac6b990fb47b1374d8fa1f78e928ac86
+      internalID: -517392762
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VedeSliceCentro_3
+      name: ASD_3
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 64
-        height: 64
+        x: 202
+        y: 23
+        width: 33
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,20 +204,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 82b8d3f2fea0e564e878e5f306e9f2c3
-      internalID: 290814161
+      spriteID: 787f988e0bfd18a44943b5419bf2c2f4
+      internalID: -1487523962
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VedeSliceCentro_4
+      name: ASD_4
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 64
+        x: 266
+        y: 25
+        width: 33
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,8 +226,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb441fc54f752e5499a5023b7503f9c5
-      internalID: -425969587
+      spriteID: b31a72d7e0e08484586c6da8ab32152c
+      internalID: 1209122786
       vertices: []
       indices: 
       edges: []
@@ -246,11 +246,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      VedeSliceCentro_0: -637243600
-      VedeSliceCentro_1: 2133428989
-      VedeSliceCentro_2: -1100426429
-      VedeSliceCentro_3: 290814161
-      VedeSliceCentro_4: -425969587
+      ASD_0: -1697093090
+      ASD_1: 1749821617
+      ASD_2: -517392762
+      ASD_3: -1487523962
+      ASD_4: 1209122786
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

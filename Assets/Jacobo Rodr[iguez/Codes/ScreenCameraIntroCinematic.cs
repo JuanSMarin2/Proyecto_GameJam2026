@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -21,6 +22,9 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
     [SerializeField] private Transform[] introExtraPoints;
     [SerializeField] private Transform introPointB;
     [SerializeField] private bool hidePlayerUntilCinematicEnds = true;
+
+    [Header("Events")]
+    public UnityEvent OnCameraFinish;
 
     private Vector3 initialCameraStartPos;
     private bool shouldRunThisScene;
@@ -95,6 +99,8 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
             if (cam != null)
                 cam.transform.position = target;
         }
+
+        OnCameraFinish?.Invoke();
 
         if (hidePlayerUntilCinematicEnds && player != null)
             player.gameObject.SetActive(true);
