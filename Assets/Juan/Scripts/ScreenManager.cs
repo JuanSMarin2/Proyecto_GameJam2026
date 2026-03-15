@@ -141,7 +141,8 @@ public class ScreenManager : MonoBehaviour
         }
         else
         {
-            CheckPlayerExit();
+            if (player != null)
+                CheckPlayerExit();
         }
     }
 
@@ -185,6 +186,16 @@ public class ScreenManager : MonoBehaviour
         // Si el player serializado no está asignado o cambió de instancia, actualizamos referencia.
         if (player == null || player != respawnedPlayer)
             player = respawnedPlayer;
+    }
+
+    public void SyncCameraStateToCurrentPosition()
+    {
+        if (cam == null) cam = GetComponent<Camera>();
+        if (cam == null) cam = Camera.main;
+        if (cam == null) return;
+
+        targetCameraPos = cam.transform.position;
+        isMovingCamera = false;
     }
 
     private void OnValidate()

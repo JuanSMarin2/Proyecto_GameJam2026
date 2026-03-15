@@ -35,8 +35,24 @@ public class FinalBossManager : MonoBehaviour
     private Color originalColor;
     private float baseMoveSpeed;
 
+    private void ApplyDifficultySettings()
+    {
+        if (DifficultySelectManager.Instance == null)
+            return;
+
+        DifficultySelectManager.BossDifficultySettings settings = DifficultySelectManager.Instance.GetCurrentBossSettings();
+        if (settings == null)
+            return;
+
+        maxBossHealth = Mathf.Max(1, settings.bossHealth);
+
+        if (bossAttacks != null)
+            bossAttacks.SetBaseLaunchForce(settings.bossLaunchForce);
+    }
+
     private void Start()
     {
+        ApplyDifficultySettings();
         currentBossHealth = maxBossHealth;
 
         baseMoveSpeed = moveSpeed;

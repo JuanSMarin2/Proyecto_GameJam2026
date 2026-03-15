@@ -58,6 +58,12 @@ public class BossAttacks : MonoBehaviour
         ApplyEnrageForces(isEnraged);
     }
 
+    public void SetBaseLaunchForce(float newLaunchForce)
+    {
+        baseWallLaunchForce = Mathf.Max(0f, newLaunchForce);
+        ApplyEnrageForces(isEnraged);
+    }
+
     public void SetCanAttack(bool value)
     {
         canAttack = value;

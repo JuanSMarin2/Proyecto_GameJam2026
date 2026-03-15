@@ -65,7 +65,16 @@ foreach (GameObject go in gameObjectArray)
         }
 
         if (!string.IsNullOrWhiteSpace(sceneName))
-            SceneManager.LoadScene(sceneName);
+        {
+            string targetScene = sceneName;
+            if (DifficultySelectManager.Instance != null)
+            {
+                string currentScene = SceneManager.GetActiveScene().name;
+                targetScene = DifficultySelectManager.Instance.ResolveNextSceneFromLevelFlow(currentScene, sceneName);
+            }
+
+            SceneManager.LoadScene(targetScene);
+        }
         else
             Debug.LogWarning("WinLevel: sceneName no asignado.");
     }

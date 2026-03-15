@@ -26,12 +26,12 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 4328fe85394117b429ae9c3d0a6af7ea, type: 3}
   - name: Equipar
-    volume: 1
+    volume: 0.852
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: db402643359ed404591cea96b87a9ff5, type: 3}
   - name: Grunt
-    volume: 0.922
+    volume: 0.853
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 309f3cc0ca5447e4197ea48a9eb99160, type: 3}
@@ -58,7 +58,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 53479fcde6b287a418a8c40a15acebb7, type: 3}
   - name: Leitmotif1
-    volume: 0.886
+    volume: 0.709
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 19e2ea85c64de864b8429dbb52572527, type: 3}
