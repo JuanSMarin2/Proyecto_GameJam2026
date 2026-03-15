@@ -576,7 +576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameStartSceneName: Intro
-  level1SceneName: LVL 1
+  level1SceneName: LVL1
   level2SceneName: LVL 2
   level3SceneName: LVL3
   preBossSceneName: PreBoss
@@ -587,8 +587,8 @@ MonoBehaviour:
     bossHealth: 7
     bossLaunchForce: 5
   hard:
-    bossHealth: 9
-    bossLaunchForce: 7
+    bossHealth: 8
+    bossLaunchForce: 6
   defaultMode: 1
 --- !u!4 &159897986
 Transform:
