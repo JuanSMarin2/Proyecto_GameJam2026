@@ -14,6 +14,8 @@ public class ChaserObstacle : MonoBehaviour
     [SerializeField] private float historyBufferSeconds = 2f;
     [SerializeField] private float viewportPadding = 0f;
 
+    [SerializeField] private bool isAfectedByDifficulty = true;
+
     private readonly Queue<Sample> history = new Queue<Sample>();
     private Vector2 targetPos;
     private Rigidbody2D rb;
@@ -37,6 +39,27 @@ public class ChaserObstacle : MonoBehaviour
 
     private void Start()
     {
+        if (isAfectedByDifficulty)
+        {
+            if(DifficultySelectManager.Instance != null)
+            {
+                switch (DifficultySelectManager.Instance.CurrentMode)
+                {
+                    case DifficultySelectManager.DifficultyMode.Easy:
+                        moveSpeed *= 0.75f;
+                        break;
+                    case DifficultySelectManager.DifficultyMode.Medium:
+                        break;
+                    case DifficultySelectManager.DifficultyMode.Hard:
+                        moveSpeed *= 1.25f;
+                        break;
+                }
+            }
+
+
+        }
+                
+
         if (player == null)
         {
             GameObject found = GameObject.FindGameObjectWithTag("Player");

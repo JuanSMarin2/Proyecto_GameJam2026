@@ -58,7 +58,7 @@ public class FinalBossManager : MonoBehaviour
         
         currentBossHealth = maxBossHealth;
 
-        // Estado base al cargar escena; luego se aplica el comportamiento por default.
+     
         isActive = false;
 
         baseMoveSpeed = moveSpeed;

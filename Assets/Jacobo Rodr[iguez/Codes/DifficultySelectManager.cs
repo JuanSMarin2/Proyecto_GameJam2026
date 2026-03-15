@@ -26,9 +26,9 @@ public class DifficultySelectManager : MonoBehaviour
     [SerializeField] private string preBossSceneName = "PreBoss";
 
     [Header("Boss Difficulty (serialized)")]
-    [SerializeField] private BossDifficultySettings easy = new BossDifficultySettings { bossHealth = 5, bossLaunchForce = 5f };
-    [SerializeField] private BossDifficultySettings medium = new BossDifficultySettings { bossHealth = 7, bossLaunchForce = 6f };
-    [SerializeField] private BossDifficultySettings hard = new BossDifficultySettings { bossHealth = 9, bossLaunchForce = 8f };
+    [SerializeField] private BossDifficultySettings easy = new BossDifficultySettings { bossHealth = 3, bossLaunchForce = 3f };
+    [SerializeField] private BossDifficultySettings medium = new BossDifficultySettings { bossHealth = 7, bossLaunchForce = 5f };
+    [SerializeField] private BossDifficultySettings hard = new BossDifficultySettings { bossHealth = 9, bossLaunchForce = 7f };
 
     [Header("Default")]
     [SerializeField] private DifficultyMode defaultMode = DifficultyMode.Medium;
