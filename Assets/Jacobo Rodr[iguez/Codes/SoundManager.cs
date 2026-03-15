@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
    
     public class SoundManager : MonoBehaviour
@@ -29,8 +30,12 @@ using UnityEngine.Audio;
         [SerializeField] private int maxPoolSize = 32;
         [SerializeField] private bool allowVoiceStealing = true;
 
+        [Header("Debug")]
+        [SerializeField] private bool debugSceneAudioSync = false;
+
         private readonly List<AudioSource> sfxPool = new List<AudioSource>();
         private int stealIndex;
+        private SceneAudioSourceVolumeSync sceneAudioSourceVolumeSync;
 
         private void Awake()
         {
@@ -41,12 +46,42 @@ using UnityEngine.Audio;
             EnsurePrefsLoaded();
 
             WarmPool();
+            sceneAudioSourceVolumeSync = new SceneAudioSourceVolumeSync(
+                SO,
+                transform,
+                audioSource,
+                GetEffectiveSfxVolume,
+                debugSceneAudioSync
+            );
+              sceneAudioSourceVolumeSync?.ApplyConfiguredVolumesToSceneAudioSources(SceneManager.GetActiveScene());
+              if(sceneAudioSourceVolumeSync == null)
+              {
+                  Debug.LogWarning("SceneAudioSourceVolumeSync is null. Scene audio source volumes will not be synced.");
+              }
+              else if (debugSceneAudioSync)
+              {
+                  Debug.Log("SceneAudioSourceVolumeSync initialized successfully.");
+              }
+             
         }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
 
         private void OnDestroy()
         {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+
             if (instance == this)
                 instance = null;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            sceneAudioSourceVolumeSync?.ApplyConfiguredVolumesToSceneAudioSources(scene);
         }
 
         private void WarmPool()
@@ -178,6 +213,7 @@ using UnityEngine.Audio;
                 sfxLastNonZeroVolume = sfxUserVolume;
 
             SavePrefs();
+            RefreshSyncedSceneSfxAudioSources();
         }
 
         public static void SetMusicVolume(float value01)
@@ -200,6 +236,7 @@ using UnityEngine.Audio;
 
             sfxUserVolume = 0f;
             SavePrefs();
+            RefreshSyncedSceneSfxAudioSources();
         }
 
         public static void UnmuteSfxRestore()
@@ -211,6 +248,7 @@ using UnityEngine.Audio;
 
             sfxUserVolume = Mathf.Clamp01(Mathf.Max(0.01f, sfxLastNonZeroVolume));
             SavePrefs();
+            RefreshSyncedSceneSfxAudioSources();
         }
 
         public static void MuteMusic()
@@ -238,6 +276,7 @@ using UnityEngine.Audio;
         public static void SetGlobalVolume(float value01)
         {
             pauseDucking = Mathf.Clamp01(value01);
+            RefreshSyncedSceneSfxAudioSources();
         }
 
         public static void LowerGlobalVolume(float value01 = 0.25f)
@@ -281,6 +320,14 @@ using UnityEngine.Audio;
                 sfx.clip = randomClip;
                 sfx.Play();
             }
+        }
+
+        private static void RefreshSyncedSceneSfxAudioSources()
+        {
+            if (instance == null || instance.sceneAudioSourceVolumeSync == null)
+                return;
+
+            instance.sceneAudioSourceVolumeSync.ApplyConfiguredVolumesToSceneAudioSources(SceneManager.GetActiveScene());
         }
     }
 

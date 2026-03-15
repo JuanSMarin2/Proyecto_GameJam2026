@@ -2,6 +2,7 @@ using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public bool juegoTerminado = false;
     public bool hasCheckpoint = false;
+    private bool layerInputEnabled = true;
 
 
 
@@ -30,21 +32,38 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Al cargar nueva escena, se vuelve a permitir activar capas.
+        layerInputEnabled = true;
+    }
+
     public void Capa1(InputAction.CallbackContext cc)
     {
         if (!cc.performed) return;
+        if (!layerInputEnabled) return;
 
         if(mascarasRecogidas < 1) return;
 
         if (capa1Activa)
         {
-            Debug.Log("Desactiv� la capa 1");
+            
             EventManager.Instance.DesactivarCapa(1);
             capa1Activa = false;
         }
         else
         {
-            Debug.Log("Activ� la capa 1");
+           
             EventManager.Instance.ActivarCapa(1);
             capa1Activa = true;
         }
@@ -53,6 +72,7 @@ public class GameManager : MonoBehaviour
     public void Capa2(InputAction.CallbackContext cc)
     {
         if (!cc.performed) return;
+        if (!layerInputEnabled) return;
 
         if (mascarasRecogidas < 2) return;
 
@@ -71,6 +91,7 @@ public class GameManager : MonoBehaviour
     public void Capa3(InputAction.CallbackContext cc)
     {
         if (!cc.performed) return;
+        if (!layerInputEnabled) return;
 
         if (mascarasRecogidas < 3) return;
 
@@ -89,6 +110,7 @@ public class GameManager : MonoBehaviour
     public void Capa4(InputAction.CallbackContext cc)
     {
         if (!cc.performed) return;
+        if (!layerInputEnabled) return;
 
         if (mascarasRecogidas < 4) return;
 
@@ -157,6 +179,14 @@ public class GameManager : MonoBehaviour
             EventManager.Instance.DesactivarCapa(3);
             EventManager.Instance.DesactivarCapa(4);
         }
+    }
+
+    public void BlockLayerActivation(bool blocked)
+    {
+        layerInputEnabled = !blocked;
+
+        if (blocked)
+            DesactivarTodasLasCapas();
     }
 
 }

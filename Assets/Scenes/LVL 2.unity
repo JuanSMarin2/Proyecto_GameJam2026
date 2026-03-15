@@ -333,6 +333,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: MaxDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5889315136734563804, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
       propertyPath: m_Name
       value: AzulFuego (1)
@@ -10131,6 +10155,10 @@ PrefabInstance:
     - target: {fileID: 3566219143107487281, guid: 2165a856cb15092479079c1f356b9131, type: 3}
       propertyPath: m_Name
       value: Main Camera Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4144505757120141997, guid: 2165a856cb15092479079c1f356b9131, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4392590505370094246, guid: 2165a856cb15092479079c1f356b9131, type: 3}
       propertyPath: m_LocalPosition.x
@@ -89886,6 +89914,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: MaxDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2030906224198592094, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
       propertyPath: m_Name
       value: VerdeFire (3)
@@ -90169,6 +90221,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: MaxDistance
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4968642222611689538, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
       propertyPath: m_Name
       value: MoradoFire Variant
@@ -100193,6 +100265,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2323475872152137079, guid: f712f005aa15e8841aa6f0ca330f1647, type: 3}
+      propertyPath: m_Volume
+      value: 0.278
+      objectReference: {fileID: 0}
     - target: {fileID: 5934473527133136475, guid: f712f005aa15e8841aa6f0ca330f1647, type: 3}
       propertyPath: m_Name
       value: LavaLake Variant
@@ -100334,6 +100410,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2323475872152137079, guid: f712f005aa15e8841aa6f0ca330f1647, type: 3}
+      propertyPath: m_Volume
+      value: 0.189
+      objectReference: {fileID: 0}
     - target: {fileID: 5934473527133136475, guid: f712f005aa15e8841aa6f0ca330f1647, type: 3}
       propertyPath: m_Name
       value: LavaLake Variant (1)
@@ -101013,6 +101093,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: MaxDistance
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3204399957558029435, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
       propertyPath: DesapearsOnLayer
       value: 1
@@ -101404,21 +101496,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1384945349207345702, guid: 29243af82267c2244b0bff268c41f803, type: 3}
+      propertyPath: m_Color.a
+      value: 0.47058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 1384945349207345702, guid: 29243af82267c2244b0bff268c41f803, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 1384945349207345702, guid: 29243af82267c2244b0bff268c41f803, type: 3}
+      propertyPath: m_Color.g
+      value: 0.7243026
+      objectReference: {fileID: 0}
     - target: {fileID: 2317844954435437971, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_Name
       value: Cartel (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6855963893775181490, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.7
+      value: 1.123003
       objectReference: {fileID: 0}
     - target: {fileID: 6855963893775181490, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.7
+      value: 1.123003
       objectReference: {fileID: 0}
     - target: {fileID: 6855963893775181490, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.7
+      value: 1.123003
       objectReference: {fileID: 0}
     - target: {fileID: 6855963893775181490, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_LocalPosition.x
@@ -101720,6 +101824,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: MaxDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2030906224198592094, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
       propertyPath: m_Name
       value: VerdeFire (1)
@@ -103055,6 +103183,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: MaxDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5889315136734563804, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
       propertyPath: m_Name
       value: AzulFuego (2)
@@ -103216,6 +103368,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1384945349207345702, guid: 29243af82267c2244b0bff268c41f803, type: 3}
+      propertyPath: m_Color.a
+      value: 0.36862746
+      objectReference: {fileID: 0}
     - target: {fileID: 2317844954435437971, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_Name
       value: Cartel
@@ -103234,11 +103390,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6855963893775181490, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 43.63009
+      value: 40.24
       objectReference: {fileID: 0}
     - target: {fileID: 6855963893775181490, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.4
+      value: -0.02
       objectReference: {fileID: 0}
     - target: {fileID: 6855963893775181490, guid: 29243af82267c2244b0bff268c41f803, type: 3}
       propertyPath: m_LocalPosition.z
@@ -103372,6 +103528,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: MaxDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2030906224198592094, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
       propertyPath: m_Name
       value: VerdeFire
@@ -103619,6 +103799,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: MaxDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2030906224198592094, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
       propertyPath: m_Name
       value: VerdeFire (2)
@@ -103871,6 +104075,10 @@ PrefabInstance:
     - target: {fileID: 6124811948851206454, guid: f6974070bfa9cc64599ad4604970c982, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8627285276750016599, guid: f6974070bfa9cc64599ad4604970c982, type: 3}
+      propertyPath: debugSceneAudioSync
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -104394,135 +104602,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1924394140
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1924394142}
-  - component: {fileID: 1924394141}
-  m_Layer: 0
-  m_Name: Ambience
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &1924394141
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924394140}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: cdf47d51b8900684d98ea20913bcd1d5, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.5
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!4 &1924394142
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924394140}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.087137, y: -1.7861812, z: 0.042216662}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1969773390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105012,6 +105091,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fe35c8f75bc4d34cb93ea1d7765bffd, type: 3}
+--- !u!1001 &1611929999941765216
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.0622693
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.116204
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.08031525
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194103207256227211, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382658061392087207, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
+      propertyPath: m_Name
+      value: AmbientSound
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 71b5e8fb73f18d34f83834330a023294, type: 3}
 --- !u!1001 &2488118447263999884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105325,7 +105461,6 @@ SceneRoots:
   - {fileID: 1834655189}
   - {fileID: 8750147902784175033}
   - {fileID: 1790441966}
-  - {fileID: 1924394142}
   - {fileID: 1984319756}
   - {fileID: 1066713043}
   - {fileID: 1852865891}
@@ -105369,3 +105504,4 @@ SceneRoots:
   - {fileID: 1295039997}
   - {fileID: 3226040941009719523}
   - {fileID: 8635606615566242067}
+  - {fileID: 1611929999941765216}

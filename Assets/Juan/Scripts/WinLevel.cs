@@ -32,6 +32,9 @@ public class WinLevel : MonoBehaviour
 
     private IEnumerator WinAndLoad(GameObject player)
     {
+        if (GameManager.Instance != null)
+            GameManager.Instance.BlockLayerActivation(true);
+
         PlayerMovement pm = player != null ? player.GetComponent<PlayerMovement>() : null;
 foreach (GameObject go in gameObjectArray)
         {

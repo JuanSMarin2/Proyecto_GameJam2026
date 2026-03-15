@@ -21,7 +21,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 293e314e0f51b84459e563d85400ee0c, type: 3}
     - {fileID: 8300000, guid: 29433276147ba354e964bd2c97130919, type: 3}
   - name: FuegoFatuo
-    volume: 0.635
+    volume: 0.109
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 4328fe85394117b429ae9c3d0a6af7ea, type: 3}
@@ -94,7 +94,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: cdf47d51b8900684d98ea20913bcd1d5, type: 3}
   - name: Lava
-    volume: 1
+    volume: 0.433
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 86b817d01d9bf6c469985fdd08c132aa, type: 3}
@@ -104,17 +104,17 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: c1951f599d49db243be60627f0eb23e1, type: 3}
   - name: RecoleccionEuropea
-    volume: 1
+    volume: 0.686
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: f029ce28e9c373642a911e800ca38305, type: 3}
   - name: RecoleccionJaponesa
-    volume: 1
+    volume: 0.81
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 130354e263fcf5049a39c76840beb5a4, type: 3}
   - name: RecoleccionAfricana
-    volume: 0.9
+    volume: 0.857
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: fb72836136018c24182364565408030e, type: 3}
@@ -129,7 +129,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: b3de923bbaf0ca240b439bb5e1a75018, type: 3}
   - name: CapaAFricana
-    volume: 1
+    volume: 0.796
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: f785bbcb404105a41adf956fbab5fb02, type: 3}
@@ -170,12 +170,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 512bc76ccd9152c478826b406982a5f3, type: 3}
     - {fileID: 8300000, guid: cdf47d51b8900684d98ea20913bcd1d5, type: 3}
   - name: MusicaBoss
-    volume: 0.515
+    volume: 0.604
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: c7cebba5d9110bf479414135c51414cb, type: 3}
   - name: RisaBruja
-    volume: 0.173
+    volume: 0.369
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: debc3db8c798fa94c8b473217f3522c5, type: 3}
@@ -204,7 +204,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 5539ffdefd4e1ab45829215e12296aa4, type: 3}
   - name: UiError
-    volume: 0.245
+    volume: 0.351
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 1589a6ae905cf5642a2ed45b165fdaf7, type: 3}

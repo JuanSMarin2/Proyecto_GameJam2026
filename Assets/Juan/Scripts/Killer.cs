@@ -20,6 +20,9 @@ public class Killer : MonoBehaviour
 
     private IEnumerator KillAndRespawn(GameObject player)
     {
+        if (GameManager.Instance != null)
+            GameManager.Instance.BlockLayerActivation(true);
+
         PlayerMovement pm = player != null ? player.GetComponent<PlayerMovement>() : null;
         if (pm != null)
             pm.DisableMovementForDeath();
