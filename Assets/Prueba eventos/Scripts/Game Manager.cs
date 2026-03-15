@@ -189,4 +189,9 @@ public class GameManager : MonoBehaviour
             DesactivarTodasLasCapas();
     }
 
+    public void SetLayerInputEnabled(bool enabled)
+    {
+        layerInputEnabled = enabled;
+    }
+
 }

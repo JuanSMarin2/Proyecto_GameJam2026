@@ -15,6 +15,7 @@ public class FinalBossManager : MonoBehaviour
     [SerializeField] private float enragedMoveSpeed = 7f;
 
     [Header("State")]
+    [SerializeField] private bool startActiveOnSceneLoad = true;
     [SerializeField] private bool isActive = false;
 
     [Header("Health")]
@@ -34,6 +35,7 @@ public class FinalBossManager : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private float baseMoveSpeed;
+    private Coroutine bossRoutineCoroutine;
 
     private void ApplyDifficultySettings()
     {
@@ -53,7 +55,11 @@ public class FinalBossManager : MonoBehaviour
     private void Start()
     {
         ApplyDifficultySettings();
+        
         currentBossHealth = maxBossHealth;
+
+        // Estado base al cargar escena; luego se aplica el comportamiento por default.
+        isActive = false;
 
         baseMoveSpeed = moveSpeed;
 
@@ -67,10 +73,46 @@ public class FinalBossManager : MonoBehaviour
 
         UpdateEnrageState();
 
+        if (startActiveOnSceneLoad)
+            StartAttack();
+        else
+            StopAttack();
+    }
+
+    public void StartAttack()
+    {
         if (isActive)
+            return;
+
+        if (currentBossHealth <= 0)
+            return;
+
+        isActive = true;
+
+        if (bossAttacks != null)
+            bossAttacks.SetCanAttack(true);
+
+        if (bossRoutineCoroutine == null)
+            bossRoutineCoroutine = StartCoroutine(BossRoutine());
+        if (animator != null)
+            animator.SetBool("fightStarted", true);
+    }
+
+    public void StopAttack()
+    {
+        isActive = false;
+
+        if (bossRoutineCoroutine != null)
         {
-            StartCoroutine(BossRoutine());
+            StopCoroutine(bossRoutineCoroutine);
+            bossRoutineCoroutine = null;
         }
+
+        if (bossAttacks != null)
+            bossAttacks.SetCanAttack(false);
+
+        if (animator != null)
+            animator.SetBool("fightStarted", false);
     }
 
     private void TriggerAnim(string triggerName)
@@ -88,6 +130,12 @@ public class FinalBossManager : MonoBehaviour
         while (isActive)
         {
             SelectRandomNode();
+
+            if (currentTarget == null)
+            {
+                yield return null;
+                continue;
+            }
 
             if (!isActive)
                 yield break;
@@ -114,11 +162,14 @@ public class FinalBossManager : MonoBehaviour
                 yield break;
 
             TriggerAnim("Ataque");
-            bossAttacks.LaunchAttack();
+            if (bossAttacks != null)
+                bossAttacks.LaunchAttack();
 
             float waitTime = Random.Range(3f, 5f);
             yield return new WaitForSeconds(waitTime);
         }
+
+        bossRoutineCoroutine = null;
     }
 
     private void SelectRandomNode()
@@ -180,10 +231,7 @@ public class FinalBossManager : MonoBehaviour
     private void BossDefeat()
     {
         TriggerAnim("Muerte");
-        isActive = false;
-
-        if (bossAttacks != null)
-            bossAttacks.SetCanAttack(false);
+        StopAttack();
 
         StartCoroutine(WaitForScene());
 

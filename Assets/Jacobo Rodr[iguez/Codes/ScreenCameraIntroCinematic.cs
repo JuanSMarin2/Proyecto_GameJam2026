@@ -10,6 +10,20 @@ using UnityEngine.InputSystem;
 
 public class ScreenCameraIntroCinematic : MonoBehaviour
 {
+    private struct RoutePoint
+    {
+        public Vector3 position;
+        public bool isMiddle;
+        public int middleIndex;
+
+        public RoutePoint(Vector3 position, bool isMiddle, int middleIndex)
+        {
+            this.position = position;
+            this.isMiddle = isMiddle;
+            this.middleIndex = middleIndex;
+        }
+    }
+
     private static readonly HashSet<string> CinematicPlayedScenes = new HashSet<string>();
 
     [Header("References")]
@@ -27,6 +41,9 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
     [SerializeField] private bool hidePlayerUntilCinematicEnds = true;
 
     [Header("Events")]
+    public UnityEvent OnCameraStart;
+    public UnityEvent OnCameraReachMiddlePoint;
+    [SerializeField] private List<UnityEvent> OnCameraReachMiddlePointByIndex = new List<UnityEvent>();
     public UnityEvent OnCameraFinish;
 
     private Vector3 initialCameraStartPos;
@@ -35,6 +52,7 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private bool restoreCanMove;
+    private bool layerInputWasDisabledByCinematic;
 
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput playerInput;
@@ -119,18 +137,21 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
         if (screenManager != null)
             screenManager.enabled = false;
 
+        OnCameraStart?.Invoke();
+
         CachePlayerReference();
         DisablePlayerInputForCinematic();
 
         if (hidePlayerUntilCinematicEnds && player != null)
             player.gameObject.SetActive(false);
 
-        List<Vector3> route = BuildIntroRoute();
+        List<RoutePoint> route = BuildIntroRoute();
         float speed = Mathf.Max(0.01f, introCameraSpeed);
 
         for (int i = 0; i < route.Count; i++)
         {
-            Vector3 target = route[i];
+            RoutePoint routePoint = route[i];
+            Vector3 target = routePoint.position;
             while (cam != null && Vector3.Distance(cam.transform.position, target) > 0.01f)
             {
                 cam.transform.position = Vector3.MoveTowards(cam.transform.position, target, speed * Time.deltaTime);
@@ -139,6 +160,9 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
             if (cam != null)
                 cam.transform.position = target;
+
+            if (routePoint.isMiddle)
+                InvokeMiddlePointEvents(routePoint.middleIndex);
         }
 
         OnCameraFinish?.Invoke();
@@ -174,6 +198,12 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
     private void DisablePlayerInputForCinematic()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetLayerInputEnabled(false);
+            layerInputWasDisabledByCinematic = true;
+        }
+
         if (playerMovement != null)
         {
             restoreCanMove = playerMovement.canMove;
@@ -191,6 +221,12 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
     private void RestorePlayerInputAfterCinematic()
     {
+        if (layerInputWasDisabledByCinematic && GameManager.Instance != null)
+        {
+            GameManager.Instance.SetLayerInputEnabled(true);
+            layerInputWasDisabledByCinematic = false;
+        }
+
         if (playerMovement != null)
             playerMovement.canMove = restoreCanMove;
 
@@ -200,15 +236,31 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 #endif
     }
 
-    private List<Vector3> BuildIntroRoute()
+    private void InvokeMiddlePointEvents(int middleIndex)
     {
-        List<Vector3> route = new List<Vector3>();
+        OnCameraReachMiddlePoint?.Invoke();
+
+        if (middleIndex < 0)
+            return;
+
+        if (OnCameraReachMiddlePointByIndex == null)
+            return;
+
+        if (middleIndex >= OnCameraReachMiddlePointByIndex.Count)
+            return;
+
+        OnCameraReachMiddlePointByIndex[middleIndex]?.Invoke();
+    }
+
+    private List<RoutePoint> BuildIntroRoute()
+    {
+        List<RoutePoint> route = new List<RoutePoint>();
         if (cam == null)
             return route;
 
         Vector3 a = introPointA.position;
         a.z = cam.transform.position.z;
-        route.Add(a);
+        route.Add(new RoutePoint(a, false, -1));
 
         if (introExtraPoints != null)
         {
@@ -217,14 +269,36 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
                 if (introExtraPoints[i] == null) continue;
                 Vector3 p = introExtraPoints[i].position;
                 p.z = cam.transform.position.z;
-                route.Add(p);
+                route.Add(new RoutePoint(p, true, i));
             }
         }
 
         Vector3 b = introPointB != null ? introPointB.position : initialCameraStartPos;
         b.z = cam.transform.position.z;
-        route.Add(b);
+        route.Add(new RoutePoint(b, false, -1));
 
         return route;
+    }
+
+    public void SetCameraOrthographicSize(float size)
+    {
+        if (cam == null) cam = GetComponent<Camera>();
+        if (cam == null) cam = Camera.main;
+        if (cam == null) return;
+
+        if (size <= 0f) return;
+
+        cam.orthographic = true;
+        cam.orthographicSize = size;
+    }
+
+    public void SetCameraSize1_8()
+    {
+        SetCameraOrthographicSize(1.8f);
+    }
+
+    public void SetCameraSize5()
+    {
+        SetCameraOrthographicSize(5f);
     }
 }
