@@ -114,6 +114,17 @@ public class UIManager : MonoBehaviour
         SetPaused(false);
         SceneManager.LoadScene("MainMenu");
     }
+    public void RestartScene()
+    {
+        SetPaused(false);
+
+        if (GameManager.Instance != null)
+            GameManager.Instance.hasCheckpoint = false;
+
+        CheckPointManager.ClearSavedCheckpointState();
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
     private void SetPaused(bool paused)
     {

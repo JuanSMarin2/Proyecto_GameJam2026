@@ -24,6 +24,37 @@ public class ScreenManager : MonoBehaviour
     private int lastScreenWidth;
     private int lastScreenHeight;
 
+    private void Awake()
+    {
+        if (cam == null) cam = GetComponent<Camera>();
+        if (cam == null) cam = Camera.main;
+
+        ApplyTileProjectionIfNeeded();
+        CalculateScreenSize();
+
+        // Snap temprano (antes de Start) para evitar frame de glitch al cargar escena.
+        if (CheckPointManager.TryGetCheckpointCameraSnapPosition(out Vector3 snapPosition))
+        {
+            snapPosition.z = cam != null ? cam.transform.position.z : snapPosition.z;
+
+            if (cam != null)
+                cam.transform.position = snapPosition;
+
+            targetCameraPos = snapPosition;
+            isMovingCamera = false;
+        }
+    }
+
+    private void OnEnable()
+    {
+        CheckPointManager.OnPlayerRespawnedAtCheckpoint += HandlePlayerRespawnedAtCheckpoint;
+    }
+
+    private void OnDisable()
+    {
+        CheckPointManager.OnPlayerRespawnedAtCheckpoint -= HandlePlayerRespawnedAtCheckpoint;
+    }
+
     private void Start()
     {
         if (cam == null) cam = GetComponent<Camera>();
@@ -145,6 +176,15 @@ public class ScreenManager : MonoBehaviour
         );
 
         isMovingCamera = true;
+    }
+
+    private void HandlePlayerRespawnedAtCheckpoint(Transform respawnedPlayer)
+    {
+        if (respawnedPlayer == null) return;
+
+        // Si el player serializado no está asignado o cambió de instancia, actualizamos referencia.
+        if (player == null || player != respawnedPlayer)
+            player = respawnedPlayer;
     }
 
     private void OnValidate()
