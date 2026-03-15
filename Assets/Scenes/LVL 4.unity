@@ -57571,9 +57571,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.0060567856
+    y: 0.0063657463
     width: 1
-    height: 0.9878864
+    height: 0.9872685
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 120
@@ -60015,7 +60015,7 @@ MonoBehaviour:
   player: {fileID: 566956552}
   enableIntroCinematic: 1
   onlyWhenNoCheckpoint: 1
-  introCameraSpeed: 1.8
+  introCameraSpeed: 1.5
   introPointA: {fileID: 68298592}
   introExtraPoints:
   - {fileID: 524452988}

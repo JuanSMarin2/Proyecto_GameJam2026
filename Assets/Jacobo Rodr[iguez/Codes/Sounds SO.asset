@@ -183,7 +183,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e1b375000f33d8a4abba752fbdc185df, type: 3}
     - {fileID: 8300000, guid: 8c70f9eccf242704aacbd4cb60a3d3f4, type: 3}
   - name: QuejidoBruja
-    volume: 0.597
+    volume: 0.674
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 2a9d65387111ab34bad635dfe94d5df4, type: 3}
