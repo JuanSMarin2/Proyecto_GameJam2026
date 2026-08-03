@@ -15,15 +15,17 @@ public class MenuManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (GameManager.Instance.juegoTerminado)
+        if( GameManager.Instance != null )
+        {
+              if (GameManager.Instance.juegoTerminado)
         {
             panelCreditos.SetActive(true);
 
         }
-         
-
-        GameManager.Instance.mascarasRecogidas = 0;
+          GameManager.Instance.mascarasRecogidas = 0;
         GameManager.Instance.juegoTerminado = false;
+        }
+      
 
 
 
