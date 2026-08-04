@@ -6,7 +6,7 @@ using System.Collections;
 using UnityEngine.InputSystem;
 #endif
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement_Legacy : MonoBehaviour
 {
     [Header("Tile Movement")]
     [SerializeField] private float tileSize = 1f;
