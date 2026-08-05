@@ -1,64 +1,38 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GridCollision : MonoBehaviour
 {
-    [SerializeField] private float wallCheckRadius = 0.1f;
+    [SerializeField] private Tilemap obstacleTilemap;
+    [SerializeField] private Vector3 worldQueryOffset = Vector3.zero;
 
-    private BoxCollider2D boxCollider;
-
-    private void Awake()
+    public bool IsObstacleAtCell(Vector2Int cell)
     {
-        boxCollider = GetComponent<BoxCollider2D>();
+        if (obstacleTilemap == null)
+            return false;
+
+        GridManager gridManager = GridManager.Instance;
+        if (gridManager == null)
+            return false;
+
+        Vector3 worldPosition = gridManager.GridToWorld(cell) + worldQueryOffset;
+        Vector3Int tileCell = obstacleTilemap.WorldToCell(worldPosition);
+        return obstacleTilemap.HasTile(tileCell);
     }
 
-    public bool IsWallAtPosition(Vector2 position)
+    public bool IsObstacleAtArea(Vector2Int originCell, Vector2Int size)
     {
-        Vector2 size = GetColliderWorldSize();
-        float angle = transform.eulerAngles.z;
-        Vector2 center = position + GetColliderWorldOffset();
-        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
+        Vector2Int normalizedSize = new Vector2Int(Mathf.Max(1, size.x), Mathf.Max(1, size.y));
 
-        for (int i = 0; i < hits.Length; i++)
+        for (int x = 0; x < normalizedSize.x; x++)
         {
-            if (hits[i] != null && hits[i].gameObject != gameObject && hits[i].CompareTag("Wall"))
-                return true;
+            for (int y = 0; y < normalizedSize.y; y++)
+            {
+                if (IsObstacleAtCell(originCell + new Vector2Int(x, y)))
+                    return true;
+            }
         }
 
         return false;
-    }
-
-    public Box GetBoxAtPosition(Vector2 position)
-    {
-        Vector2 size = GetColliderWorldSize();
-        float angle = transform.eulerAngles.z;
-        Vector2 center = position + GetColliderWorldOffset();
-        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
-
-        for (int i = 0; i < hits.Length; i++)
-        {
-            if (hits[i] == null) continue;
-            if (hits[i].gameObject == gameObject) continue;
-            Box b = hits[i].GetComponent<Box>();
-            if (b != null)
-                return b;
-        }
-
-        return null;
-    }
-
-    private Vector2 GetColliderWorldSize()
-    {
-        if (boxCollider == null) return new Vector2(wallCheckRadius * 2f, wallCheckRadius * 2f);
-        Vector2 s = boxCollider.size;
-        Vector3 scale = transform.lossyScale;
-        return new Vector2(s.x * Mathf.Abs(scale.x), s.y * Mathf.Abs(scale.y));
-    }
-
-    private Vector2 GetColliderWorldOffset()
-    {
-        if (boxCollider == null) return Vector2.zero;
-        Vector2 local = boxCollider.offset;
-        Vector3 world = transform.TransformVector(new Vector3(local.x, local.y, 0f));
-        return new Vector2(world.x, world.y);
     }
 }

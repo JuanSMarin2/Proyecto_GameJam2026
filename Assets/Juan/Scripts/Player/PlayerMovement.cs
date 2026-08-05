@@ -1,11 +1,10 @@
 using UnityEngine;
 
+[RequireComponent(typeof(GridObject))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Tile Movement")]
-    [SerializeField] private float tileSize = 1f;
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float wallCheckRadius = 0.1f;
 
     [Header("Layer Visuals")]
     [SerializeField] private GameObject capa1;
@@ -26,13 +25,13 @@ public class PlayerMovement : MonoBehaviour
     private bool isMoving;
 
     private Rigidbody2D rb;
-    private BoxCollider2D boxCollider;
     private float currentMoveSpeed;
 
+    private GridObject gridObject;
+    private GridManager gridManager;
     private PlayerInputReader playerInputReader;
     private PlayerAnimation playerAnimation;
     private PlayerLayerVisuals playerLayerVisuals;
-    private GridCollision gridCollision;
 
 
     public bool canMove = true;
@@ -41,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     {
         canMove = false;
         isMoving = false;
-        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
+        targetPosition = rb != null ? rb.position : targetPosition;
         currentMoveSpeed = moveSpeed;
 
         if (playerAnimation != null)
@@ -52,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     {
         canMove = false;
         isMoving = false;
-        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
+        targetPosition = rb != null ? rb.position : targetPosition;
         currentMoveSpeed = moveSpeed;
     }
 
@@ -71,15 +70,14 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        gridObject = GetComponent<GridObject>();
         playerInputReader = GetComponent<PlayerInputReader>();
         playerAnimation = GetComponent<PlayerAnimation>();
         playerLayerVisuals = GetComponent<PlayerLayerVisuals>();
-        gridCollision = GetComponent<GridCollision>();
+        gridManager = GridManager.Instance;
 
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
-        targetPosition = rb.position;
         currentMoveSpeed = moveSpeed;
 
         if (playerAnimation != null)
@@ -99,6 +97,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        RefreshTargetPositionFromGrid();
+    }
+
     private void Update()
     {
         if (!canMove || isMoving)
@@ -115,20 +118,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void TryMove(MoveDirection direction)
     {
-        Vector2 vectorDirection = GetDirectionVector(direction);
-        if (vectorDirection == Vector2.zero)
+        Vector2Int cellDirection = GetDirectionVector(direction);
+        if (cellDirection == Vector2Int.zero)
             return;
 
-        Vector2 nextPosition = rb.position + vectorDirection * tileSize;
-        if (gridCollision != null && gridCollision.IsWallAtPosition(nextPosition))
+        if (gridManager == null)
+            gridManager = GridManager.Instance;
+
+        if (gridManager == null || gridObject == null)
             return;
 
-        Box box = gridCollision != null ? gridCollision.GetBoxAtPosition(nextPosition) : null;
-        if (box != null)
+        Vector2Int currentCell = gridObject.Cell;
+        Vector2Int destinationCell = currentCell + cellDirection;
+
+        if (gridManager.IsBlocked(destinationCell, gridObject.Size, gridObject))
+            return;
+
+        if (gridManager.TryGetObjectAtArea(destinationCell, gridObject.Size, out GridObject occupant) && occupant != null && occupant != gridObject)
         {
-            bool pushed = box.TryPush(vectorDirection, tileSize, moveSpeed * 0.5f);
+            Box box = occupant.GetComponent<Box>();
+            if (box == null)
+                return;
+
+            bool pushed = box.TryPush(cellDirection, moveSpeed * 0.5f);
             if (!pushed)
                 return;
+
             currentMoveSpeed = moveSpeed * 0.5f;
         }
         else
@@ -136,7 +151,10 @@ public class PlayerMovement : MonoBehaviour
             currentMoveSpeed = moveSpeed;
         }
 
-        targetPosition = nextPosition;
+        if (!gridObject.TrySetCell(destinationCell))
+            return;
+
+        targetPosition = gridManager.GridToWorld(destinationCell, gridObject.Size, gridObject.Anchor);
         isMoving = true;
 
         if (playerAnimation != null)
@@ -167,20 +185,42 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private static Vector2 GetDirectionVector(MoveDirection direction)
+    private void RefreshTargetPositionFromGrid()
+    {
+        if (gridManager == null)
+            gridManager = GridManager.Instance;
+
+        if (gridManager == null)
+        {
+            targetPosition = rb != null ? rb.position : targetPosition;
+            return;
+        }
+
+        if (gridObject != null)
+        {
+            Vector3 worldPosition = gridObject.GetWorldPosition();
+            targetPosition = new Vector2(worldPosition.x, worldPosition.y);
+        }
+        else if (rb != null)
+        {
+            targetPosition = rb.position;
+        }
+    }
+
+    private static Vector2Int GetDirectionVector(MoveDirection direction)
     {
         switch (direction)
         {
             case MoveDirection.Up:
-                return Vector2.up;
+                return Vector2Int.up;
             case MoveDirection.Down:
-                return Vector2.down;
+                return Vector2Int.down;
             case MoveDirection.Left:
-                return Vector2.left;
+                return Vector2Int.left;
             case MoveDirection.Right:
-                return Vector2.right;
+                return Vector2Int.right;
             default:
-                return Vector2.zero;
+                return Vector2Int.zero;
         }
     }
 }
