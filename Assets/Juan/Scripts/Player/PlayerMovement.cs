@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Tile Movement")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float waterPushSpeed = 3.5f;
 
     [Header("Layer Visuals")]
     [SerializeField] private GameObject capa1;
@@ -116,43 +117,67 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public bool TryPushFromWater(Vector2Int cellDirection)
+    {
+        return TryMove(cellDirection, false, false, waterPushSpeed);
+    }
+
+    public bool TryPushFromWater(Vector2Int cellDirection, float pushSpeed)
+    {
+        return TryMove(cellDirection, false, false, pushSpeed);
+    }
+
     private void TryMove(MoveDirection direction)
     {
         Vector2Int cellDirection = GetDirectionVector(direction);
         if (cellDirection == Vector2Int.zero)
             return;
 
+        TryMove(cellDirection, true, true, moveSpeed);
+    }
+
+    private bool TryMove(Vector2Int cellDirection, bool allowBoxPush, bool updateFacing, float requestedSpeed)
+    {
+        if (cellDirection == Vector2Int.zero)
+            return false;
+
+        if (!canMove || isMoving)
+            return false;
+
         if (gridManager == null)
             gridManager = GridManager.Instance;
 
         if (gridManager == null || gridObject == null)
-            return;
+            return false;
 
         Vector2Int currentCell = gridObject.Cell;
         Vector2Int destinationCell = currentCell + cellDirection;
 
         if (gridManager.IsBlocked(destinationCell, gridObject.Size, gridObject))
-            return;
+            return false;
 
         if (gridManager.TryGetObjectAtArea(destinationCell, gridObject.Size, out GridObject occupant) && occupant != null && occupant != gridObject)
         {
+            if (!allowBoxPush)
+                return false;
+
             Box box = occupant.GetComponent<Box>();
             if (box == null)
-                return;
+                return false;
 
             bool pushed = box.TryPush(cellDirection, moveSpeed * 0.5f);
             if (!pushed)
-                return;
+                return false;
 
             currentMoveSpeed = moveSpeed * 0.5f;
         }
         else
         {
-            currentMoveSpeed = moveSpeed;
+            currentMoveSpeed = Mathf.Max(0.01f, requestedSpeed);
         }
 
         if (!gridObject.TrySetCell(destinationCell))
-            return;
+            return false;
 
         targetPosition = gridManager.GridToWorld(destinationCell, gridObject.Size, gridObject.Anchor);
         isMoving = true;
@@ -160,11 +185,13 @@ public class PlayerMovement : MonoBehaviour
         if (playerAnimation != null)
             playerAnimation.TriggerMoveAnimation();
 
-        if (playerAnimation != null)
+        if (updateFacing && playerAnimation != null)
         {
-            if (direction == MoveDirection.Right) playerAnimation.ApplyFlipX(true);
-            else if (direction == MoveDirection.Left) playerAnimation.ApplyFlipX(false);
+            if (cellDirection == Vector2Int.right) playerAnimation.ApplyFlipX(true);
+            else if (cellDirection == Vector2Int.left) playerAnimation.ApplyFlipX(false);
         }
+
+        return true;
     }
 
 
