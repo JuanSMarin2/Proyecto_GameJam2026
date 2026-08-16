@@ -298,7 +298,8 @@ GameObject:
   - component: {fileID: 1926561352257827167}
   - component: {fileID: 985068711171038322}
   - component: {fileID: 6342049313500023699}
-  - component: {fileID: 1343813931943154828}
+  - component: {fileID: 9218453582004757281}
+  - component: {fileID: -7834160431722458294}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -472,9 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa8a645a2e083946807510156fba63f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSize: 1
   moveSpeed: 50
-  wallCheckRadius: 1
   capa1: {fileID: 8034627525959023268}
   capa2: {fileID: 2662398009136301028}
   capa3: {fileID: 7648119384291262822}
@@ -532,7 +531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcce979e2ae866848950981440550bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridCollision
-  wallCheckRadius: 0.1
+  obstacleTilemap: {fileID: 0}
+  worldQueryOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &985068711171038322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,14 +649,35 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!81 &1343813931943154828
-AudioListener:
+--- !u!114 &9218453582004757281
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6647899470801104218}
-  m_Enabled: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 015b6d9c6f7d5e748ab3bf4f6ff963ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GridObject
+  Cell: {x: 0, y: 0}
+  size: {x: 1, y: 1}
+  gridAnchor: 0
+--- !u!114 &-7834160431722458294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6647899470801104218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &7648119384291262822
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,8 +6,6 @@ public class Máscara : MonoBehaviour
     public bool recogida = false;
 
     private Collider2D miCollider;
-
-
     [SerializeField] private int idMascara;
 
     private void Start()

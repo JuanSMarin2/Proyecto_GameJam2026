@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.14
+      value: -1.1525
       objectReference: {fileID: 0}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalPosition.z
@@ -49,6 +49,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5740567686940190378, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_Size.y
+      value: 10.8856735
+      objectReference: {fileID: 0}
+    - target: {fileID: 5740567686940190378, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -56,8 +60,52 @@ PrefabInstance:
       propertyPath: m_Name
       value: LavaLake Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8726495687363659432, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 10.8856735
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1415623255799063633, guid: a01088366fe38674085c3e89f2049e03, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7043793765030702973, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3092899054578557622}
   m_SourcePrefab: {fileID: 100100000, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+--- !u!1 &5934473527133136475 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7043793765030702973, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+  m_PrefabInstance: {fileID: 3718822271079336230}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3092899054578557622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5934473527133136475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1265129954
+      Data2: 1288756476
+      Data3: -1454243936
+      Data4: 802396889
+    Path: event:/Obstacles/SFX_LavaIdle
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1.7415562
+  OverrideMaxDistance: 5.2371774

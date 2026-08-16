@@ -114,16 +114,18 @@ public class GameManager : MonoBehaviour
         switch (mascarasRecogidas)
         {
             case 1:
-                SoundManager.PlaySound(SoundType.RecoleccionAfricana);
+             //   SoundManager.PlaySound(SoundType.RecoleccionAfricana); ACTUALIZADO A FMOD
+              AudioManager.instance.PlayOneShot(FMODEvents.instance.FirstMaskCollectedSoundEvent, transform.position);
+              Debug.Log("Mascara recogida: " + mask);   
                 break;
             case 2:
-                SoundManager.PlaySound(SoundType.RecoleccionEuropea);
+             //   SoundManager.PlaySound(SoundType.RecoleccionEuropea);
                 break;
             case 3:
-                SoundManager.PlaySound(SoundType.RecoleccionJaponesa);
+              //  SoundManager.PlaySound(SoundType.RecoleccionJaponesa);
                 break;
             case 4:
-                SoundManager.PlaySound(SoundType.RecoleccionLatina);
+             //   SoundManager.PlaySound(SoundType.RecoleccionLatina);
                 break;
         }
     }
