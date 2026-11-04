@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float tileSize = 1f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float wallCheckRadius = 0.1f;
+    [SerializeField] private float waterObstacleBuffer = 0.20f;
 
     [Header("Layer Visuals")]
     [SerializeField] private GameObject capa1;
@@ -38,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D boxCollider;
     private float currentMoveSpeed;
     private Animator animator;
+    private bool canMoveBeforeWaterFlow;
+    private bool waterFlowActive;
 
     private bool capa1Activa;
     private bool capa2Activa;
@@ -90,6 +93,51 @@ public class PlayerMovement : MonoBehaviour
 
         SetChildrenSpriteRenderersEnabled(true);
         ApplyLayerVisuals();
+    }
+
+    public void BeginWaterFlow()
+    {
+        if (waterFlowActive)
+            return;
+
+        canMoveBeforeWaterFlow = canMove;
+        waterFlowActive = true;
+        canMove = false;
+        isMoving = false;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
+    }
+
+    public bool MoveByWater(Vector2 direction, float speed, out bool blockedByObstacle)
+    {
+        blockedByObstacle = false;
+        if (rb == null || direction.sqrMagnitude < 0.0001f)
+            return false;
+
+        Vector2 movement = direction.normalized * Mathf.Max(0f, speed) * Time.fixedDeltaTime;
+        Vector2 nextPosition = rb.position + movement;
+        if (IsSolidObstacleInPath(nextPosition, movement))
+        {
+            blockedByObstacle = true;
+            return false;
+        }
+
+        rb.MovePosition(nextPosition);
+        return movement.sqrMagnitude > 0.000001f;
+    }
+
+    public void EndWaterFlow()
+    {
+        if (!waterFlowActive)
+            return;
+
+        waterFlowActive = false;
+        canMove = canMoveBeforeWaterFlow;
+        isMoving = false;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
     }
 
 
@@ -250,6 +298,53 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    private bool IsSolidObstacleInPath(Vector2 nextPosition, Vector2 movement)
+    {
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 currentCenter = rb.position + GetColliderWorldOffset();
+        Vector2 nextCenter = nextPosition + GetColliderWorldOffset();
+
+        Collider2D[] overlaps = Physics2D.OverlapBoxAll(nextCenter, size, angle);
+        for (int i = 0; i < overlaps.Length; i++)
+        {
+            if (IsSolidObstacle(overlaps[i]))
+                return true;
+        }
+
+        if (movement.sqrMagnitude <= 0.000001f)
+            return false;
+
+        RaycastHit2D[] pathHits = Physics2D.BoxCastAll(
+            currentCenter,
+            size,
+            angle,
+            movement.normalized,
+            movement.magnitude + waterObstacleBuffer);
+
+        for (int i = 0; i < pathHits.Length; i++)
+        {
+            Collider2D hitCollider = pathHits[i].transform != null
+                ? pathHits[i].transform.GetComponent<Collider2D>()
+                : null;
+            if (IsSolidObstacle(hitCollider))
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IsSolidObstacle(Collider2D hit)
+    {
+        if (hit == null || hit.isTrigger)
+            return false;
+
+        if (hit.transform == transform || hit.transform.IsChildOf(transform))
+            return false;
+
+        return true;
     }
 
     private Box GetBoxAtPosition(Vector2 position)

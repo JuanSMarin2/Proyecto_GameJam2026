@@ -11,6 +11,8 @@ public class Box : MonoBehaviour
     private float moveSpeed;
     private bool isMoving;
 
+    public bool IsMoving => isMoving;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -44,6 +46,20 @@ public class Box : MonoBehaviour
         isMoving = true;
         Debug.Log("Box is Moving");
         return true;
+    }
+
+    public bool MoveByWater(Vector2 direction, float speed)
+    {
+        if (rb == null || isMoving || direction.sqrMagnitude < 0.0001f)
+            return false;
+
+        Vector2 movement = direction.normalized * Mathf.Max(0f, speed) * Time.fixedDeltaTime;
+        Vector2 nextPosition = GetCurrentPosition2D() + movement;
+        if (IsBlocked(nextPosition))
+            return false;
+
+        rb.MovePosition(nextPosition);
+        return movement.sqrMagnitude > 0.000001f;
     }
 
     private bool HasWallAtPosition(Vector2 pos)

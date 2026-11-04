@@ -98,20 +98,10 @@ public class DifficultySelectManager : MonoBehaviour
             return fallbackSceneName;
 
         if (currentSceneName == level1SceneName)
-        {
-            if (CurrentMode == DifficultyMode.Easy)
-                return preBossSceneName;
-
             return level2SceneName;
-        }
 
         if (currentSceneName == level2SceneName)
-        {
-            if (CurrentMode == DifficultyMode.Hard)
-                return level3SceneName;
-
-            return preBossSceneName;
-        }
+            return level3SceneName;
 
         if (currentSceneName == level3SceneName)
             return preBossSceneName;
