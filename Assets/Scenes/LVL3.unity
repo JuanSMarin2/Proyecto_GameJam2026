@@ -8434,6 +8434,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: m_Volume
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0.12245178
+      objectReference: {fileID: 0}
     - target: {fileID: 2030906224198592094, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
       propertyPath: m_Name
       value: VerdeFire
@@ -8865,6 +8877,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 932562710}
     m_Modifications:
+    - target: {fileID: 1415623255799063633, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 96977c86b21c6f146b50fbdcdd5e115a, type: 3}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.937584
@@ -9387,7 +9403,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1549516939, guid: 2e1e0e045d93fe442b85f072044f538e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.59607846}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -9625,6 +9641,7 @@ MonoBehaviour:
   startsActive: 1
   windVisual: {fileID: 1698905534}
   fadeDuration: 0.25
+  windSound: 37
 --- !u!61 &469738342
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9742,6 +9759,18 @@ PrefabInstance:
       propertyPath: DesapearsOnLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: m_Volume
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0.12245178
+      objectReference: {fileID: 0}
     - target: {fileID: 4968642222611689538, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
       propertyPath: m_Name
       value: MoradoFire Variant (1)
@@ -9844,6 +9873,7 @@ MonoBehaviour:
   startsActive: 1
   windVisual: {fileID: 851182093}
   fadeDuration: 0.25
+  windSound: 37
 --- !u!61 &505818226
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9961,6 +9991,7 @@ GameObject:
   - component: {fileID: 508798834}
   - component: {fileID: 508798833}
   - component: {fileID: 508798832}
+  - component: {fileID: 508798836}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -9983,6 +10014,8 @@ MonoBehaviour:
   direction: {x: 0, y: -1}
   pushForce: 2
   blockedReleaseTime: 0.5
+  enterOrExitSound: 38
+  flowMovementSound: 38
 --- !u!61 &508798833
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10017,17 +10050,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.006156683}
+  m_Offset: {x: 0.00000009685755, y: -0.014733002}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.99333334, y: 0.99333334}
+    oldSize: {x: 0.12, y: 0.6}
     newSize: {x: 1, y: 7.09134}
     adaptiveTilingThreshold: 0.5
-    drawMode: 2
+    drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 7.1143737}
+  m_Size: {x: 0.15100981, y: 0.7835847}
   m_EdgeRadius: 0
 --- !u!212 &508798834
 SpriteRenderer:
@@ -10078,11 +10111,11 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 0872461ab8fde5342918358cb172c847, type: 3}
+  m_Sprite: {fileID: 91189245, guid: 40e90769bb44fec47b156cd917137f7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
+  m_DrawMode: 0
   m_Size: {x: 1, y: 7.09134}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -10097,12 +10130,34 @@ Transform:
   m_GameObject: {fileID: 508798831}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.44, y: -1.32, z: 0}
-  m_LocalScale: {x: 0.99333334, y: 0.99333334, z: 1}
+  m_LocalPosition: {x: 30.8519, y: -0.8964, z: 0}
+  m_LocalScale: {x: 8.988688, y: 13.157171, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &508798836
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508798831}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ad7d3423e8e72584b9f1d6b73d8bc56c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &511455948
 GameObject:
   m_ObjectHideFlags: 0
@@ -10132,7 +10187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ComponentVersion: 2
+  m_ComponentVersion: 3
   m_LightType: 1
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.195
@@ -10488,6 +10543,7 @@ MonoBehaviour:
   startsActive: 1
   windVisual: {fileID: 1608574164}
   fadeDuration: 0.25
+  windSound: 37
 --- !u!61 &590515294
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12029,6 +12085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 851182094}
   - component: {fileID: 851182095}
+  - component: {fileID: 851182096}
   m_Layer: 0
   m_Name: Wind Visual
   m_TagString: Untagged
@@ -12101,7 +12158,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2075942827, guid: 0303e8d68fbd3384fbe69633640740c0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.3137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -12110,6 +12167,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &851182096
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851182093}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0c74523335438ff46a1ed55f1a85bba4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &890890177 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2103402771235164012, guid: 44c99233e8dc02547a542fd27fd3dbc9, type: 3}
@@ -15176,6 +15255,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: m_Volume
+      value: 0.328
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6172620052387844652, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.275031
@@ -15623,7 +15714,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1549516939, guid: 2e1e0e045d93fe442b85f072044f538e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.59607846}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -15716,6 +15807,7 @@ MonoBehaviour:
   startsActive: 1
   windVisual: {fileID: 369575467}
   fadeDuration: 0.25
+  windSound: 37
 --- !u!61 &1024884737
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15833,6 +15925,7 @@ GameObject:
   - component: {fileID: 1025531229}
   - component: {fileID: 1025531228}
   - component: {fileID: 1025531227}
+  - component: {fileID: 1025531231}
   m_Layer: 0
   m_Name: Water (1)
   m_TagString: Untagged
@@ -15855,6 +15948,8 @@ MonoBehaviour:
   direction: {x: 0, y: -1}
   pushForce: 2
   blockedReleaseTime: 0.5
+  enterOrExitSound: 38
+  flowMovementSound: 38
 --- !u!61 &1025531228
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15889,17 +15984,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.03989397, y: -0.039078712}
+  m_Offset: {x: 0.0040331185, y: -0.005600542}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.99333334, y: 0.99333334}
+    oldSize: {x: 0.12, y: 0.6}
     newSize: {x: 1, y: 8.079004}
     adaptiveTilingThreshold: 0.5
-    drawMode: 2
+    drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.92021203, y: 8.036196}
+  m_Size: {x: 0.1680542, y: 0.7824587}
   m_EdgeRadius: 0
 --- !u!212 &1025531229
 SpriteRenderer:
@@ -15950,11 +16045,11 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 0872461ab8fde5342918358cb172c847, type: 3}
+  m_Sprite: {fileID: 91189245, guid: 40e90769bb44fec47b156cd917137f7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
+  m_DrawMode: 0
   m_Size: {x: 1, y: 8.079004}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -15970,11 +16065,33 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 32.46, y: -0.8295, z: 0}
-  m_LocalScale: {x: 0.99333334, y: 0.99333334, z: 1}
+  m_LocalScale: {x: 8.277778, y: 13.375241, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1025531231
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025531226}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 62eb6968fef8fd74d9df606fd8ac8bc5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1025864169
 GameObject:
   m_ObjectHideFlags: 0
@@ -16508,6 +16625,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 763350738}
     m_Modifications:
+    - target: {fileID: 1415623255799063633, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 96977c86b21c6f146b50fbdcdd5e115a, type: 3}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.937584
@@ -16818,6 +16939,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: m_Volume
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787808468834588819, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0.12245178
+      objectReference: {fileID: 0}
     - target: {fileID: 2030906224198592094, guid: de5e1c4cca06d7a439ef36e1e6aa8e21, type: 3}
       propertyPath: m_Name
       value: VerdeFire (1)
@@ -16936,6 +17069,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2003913454}
     m_Modifications:
+    - target: {fileID: 1415623255799063633, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 96977c86b21c6f146b50fbdcdd5e115a, type: 3}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.937584
@@ -17017,6 +17154,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 363796190}
     m_Modifications:
+    - target: {fileID: 1415623255799063633, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 96977c86b21c6f146b50fbdcdd5e115a, type: 3}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -17314,6 +17455,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 608320478}
     m_Modifications:
+    - target: {fileID: 1415623255799063633, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 96977c86b21c6f146b50fbdcdd5e115a, type: 3}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -17559,6 +17704,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 93149265}
     m_Modifications:
+    - target: {fileID: 1415623255799063633, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 96977c86b21c6f146b50fbdcdd5e115a, type: 3}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.937584
@@ -17807,6 +17956,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: m_Volume
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669987072216527732, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0.12245178
+      objectReference: {fileID: 0}
     - target: {fileID: 4968642222611689538, guid: 41d6d781beccf2a4082c5538f3e3d323, type: 3}
       propertyPath: m_Name
       value: MoradoFire Variant
@@ -18035,7 +18196,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1549516939, guid: 2e1e0e045d93fe442b85f072044f538e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.59607846}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -18052,6 +18213,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: m_Volume
+      value: 0.328
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2705934735194312267, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3204399957558029435, guid: 2223a50f798f44446a287efd4a8d6751, type: 3}
       propertyPath: DesapearsOnLayer
       value: 1
@@ -18158,6 +18331,7 @@ MonoBehaviour:
   startsActive: 1
   windVisual: {fileID: 984756484}
   fadeDuration: 0.25
+  windSound: 37
 --- !u!61 &1647092933
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18547,7 +18721,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1549516939, guid: 2e1e0e045d93fe442b85f072044f538e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.59607846}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -18669,6 +18843,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1832257229}
     m_Modifications:
+    - target: {fileID: 1415623255799063633, guid: a01088366fe38674085c3e89f2049e03, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 96977c86b21c6f146b50fbdcdd5e115a, type: 3}
     - target: {fileID: 4974665121351045080, guid: a01088366fe38674085c3e89f2049e03, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.937584
@@ -18832,6 +19010,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: m_Volume
+      value: 0.328
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5889315136734563804, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
       propertyPath: m_Name
       value: AzulFuego (1)
@@ -19440,6 +19630,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: m_Volume
+      value: 0.328
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931695414658435721, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5889315136734563804, guid: dcc12a2fb79493a4186b936e6f2638d1, type: 3}
       propertyPath: m_Name
       value: AzulFuego

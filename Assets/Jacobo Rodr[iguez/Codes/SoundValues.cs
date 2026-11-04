@@ -36,7 +36,10 @@
     MovimiendoBruja,
     AplausoBruja,
     AmbienteTerror,
-    UiError
+    UiError,
+    Viento,
+    Agua,
+    
 
     
     }

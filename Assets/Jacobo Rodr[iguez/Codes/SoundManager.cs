@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -23,6 +24,7 @@ using UnityEngine.SceneManagement;
         private static float musicLastNonZeroVolume = 1f;
         private static float pauseDucking = 1f;
         private static float normalPauseDucking = 1f;
+        private static float collectionMusicDucking = 1f;
 
         [Header("SFX Pool")]
         [SerializeField] private int initialPoolSize = 10;
@@ -30,21 +32,29 @@ using UnityEngine.SceneManagement;
         [SerializeField] private int maxPoolSize = 32;
         [SerializeField] private bool allowVoiceStealing = true;
 
+        [Header("Collection Music Ducking")]
+        [SerializeField, Range(0f, 1f)] private float collectionMusicVolumeMultiplier = 0.2f;
+        [SerializeField, Min(0f)] private float collectionMusicFadeOutSeconds = 0.1f;
+        [SerializeField, Min(0f)] private float collectionMusicFadeInSeconds = 0.15f;
+
         [Header("Debug")]
         [SerializeField] private bool debugSceneAudioSync = false;
 
         private readonly List<AudioSource> sfxPool = new List<AudioSource>();
         private int stealIndex;
         private SceneAudioSourceVolumeSync sceneAudioSourceVolumeSync;
+        private Coroutine collectionMusicDuckingRoutine;
 
         private void Awake()
         {
             instance = this;
+            collectionMusicDucking = 1f;
             audioSource = GetComponent<AudioSource>();
             if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
 
             EnsurePrefsLoaded();
 
+            RemoveLegacyPoolChildren();
             WarmPool();
             sceneAudioSourceVolumeSync = new SceneAudioSourceVolumeSync(
                 SO,
@@ -76,7 +86,10 @@ using UnityEngine.SceneManagement;
             SceneManager.sceneLoaded -= OnSceneLoaded;
 
             if (instance == this)
+            {
+                collectionMusicDucking = 1f;
                 instance = null;
+            }
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -95,13 +108,25 @@ using UnityEngine.SceneManagement;
             }
         }
 
+        private void RemoveLegacyPoolChildren()
+        {
+            for (int i = transform.childCount - 1; i >= 0; i--)
+            {
+                Transform child = transform.GetChild(i);
+                if (!child.name.StartsWith("SFX_") || child.GetComponent<AudioSource>() == null)
+                    continue;
+
+                Destroy(child.gameObject);
+            }
+        }
+
         private AudioSource CreatePooledSource(int index)
         {
-            GameObject go = new GameObject($"SFX_{index:00}");
-            go.transform.SetParent(transform, false);
-
-            AudioSource src = go.AddComponent<AudioSource>();
+            // El pool conserva fuentes independientes para solapar efectos, pero no crea
+            // GameObjects hijos visibles en la jerarquía.
+            AudioSource src = gameObject.AddComponent<AudioSource>();
             CopyAudioSourceSettings(audioSource, src);
+            src.hideFlags = HideFlags.HideInInspector;
             return src;
         }
 
@@ -201,7 +226,7 @@ using UnityEngine.SceneManagement;
         public static float GetEffectiveMusicVolume()
         {
             EnsurePrefsLoaded();
-            return musicUserVolume * pauseDucking;
+            return musicUserVolume * pauseDucking * collectionMusicDucking;
         }
 
         public static void SetSfxVolume(float value01)
@@ -320,6 +345,71 @@ using UnityEngine.SceneManagement;
                 sfx.clip = randomClip;
                 sfx.Play();
             }
+
+            if (IsCollectionSound(sound))
+                instance.StartCollectionMusicDucking(randomClip.length);
+        }
+
+        private static bool IsCollectionSound(SoundType sound)
+        {
+            return sound == SoundType.RecoleccionAfricana
+                || sound == SoundType.RecoleccionEuropea
+                || sound == SoundType.RecoleccionJaponesa
+                || sound == SoundType.RecoleccionLatina;
+        }
+
+        private void StartCollectionMusicDucking(float clipDuration)
+        {
+            if (collectionMusicDuckingRoutine != null)
+                StopCoroutine(collectionMusicDuckingRoutine);
+
+            collectionMusicDuckingRoutine = StartCoroutine(CollectionMusicDuckingRoutine(clipDuration));
+        }
+
+        private IEnumerator CollectionMusicDuckingRoutine(float clipDuration)
+        {
+            float duration = Mathf.Max(0f, clipDuration);
+            float fadeOut = Mathf.Max(0f, collectionMusicFadeOutSeconds);
+            float fadeIn = Mathf.Max(0f, collectionMusicFadeInSeconds);
+            float combinedFadeDuration = fadeOut + fadeIn;
+
+            // Si el clip es muy corto, los fades se ajustan para no prolongar el ducking
+            // más allá de la duración del sonido de recolección.
+            if (duration < combinedFadeDuration && combinedFadeDuration > 0f)
+            {
+                float scale = duration / combinedFadeDuration;
+                fadeOut *= scale;
+                fadeIn *= scale;
+            }
+
+            yield return FadeCollectionMusicDucking(Mathf.Clamp01(collectionMusicVolumeMultiplier), fadeOut);
+
+            float holdDuration = Mathf.Max(0f, duration - fadeOut - fadeIn);
+            if (holdDuration > 0f)
+                yield return new WaitForSecondsRealtime(holdDuration);
+
+            yield return FadeCollectionMusicDucking(1f, fadeIn);
+            collectionMusicDuckingRoutine = null;
+        }
+
+        private IEnumerator FadeCollectionMusicDucking(float target, float duration)
+        {
+            float start = collectionMusicDucking;
+            if (duration <= 0f)
+            {
+                collectionMusicDucking = target;
+                yield break;
+            }
+
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                collectionMusicDucking = Mathf.Lerp(start, target, Mathf.Clamp01(elapsed / duration));
+                yield return null;
+            }
+
+            collectionMusicDucking = target;
         }
 
         private static void RefreshSyncedSceneSfxAudioSources()

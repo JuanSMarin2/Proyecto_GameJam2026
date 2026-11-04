@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: Pisadas
-    volume: 0.589
+    volume: 0.635
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: e6326e839056f654a88c3227058b2ba5, type: 3}
@@ -24,12 +24,12 @@ MonoBehaviour:
     volume: 0.109
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 4328fe85394117b429ae9c3d0a6af7ea, type: 3}
+    - {fileID: 8300000, guid: 6be27d42f46aad04696cd2e8bf31c995, type: 3}
   - name: Equipar
     volume: 0.852
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: db402643359ed404591cea96b87a9ff5, type: 3}
+    - {fileID: 8300000, guid: 68c050a65afc5224c92ff064de16de59, type: 3}
   - name: Grunt
     volume: 0.853
     mixer: {fileID: 0}
@@ -39,8 +39,7 @@ MonoBehaviour:
     volume: 0.614
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 506b36adc1c68f24d8b5c69b4be9e70e, type: 3}
-    - {fileID: 8300000, guid: 6e51a0da1f39bfd4485ca5f42d2073c4, type: 3}
+    - {fileID: 8300000, guid: 003b8d02878b90e4183dfd2d0757883d, type: 3}
   - name: Revivir
     volume: 0.88
     mixer: {fileID: 0}
@@ -57,6 +56,10 @@ MonoBehaviour:
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 53479fcde6b287a418a8c40a15acebb7, type: 3}
+    - {fileID: 8300000, guid: bdd1e2d45e86e634ba48ffe19810b2b5, type: 3}
+    - {fileID: 8300000, guid: 6b010ac3e9b68d548a5f4522f51c0198, type: 3}
+    - {fileID: 8300000, guid: 7f83af0831d93c14dbf232ea4cee6169, type: 3}
+    - {fileID: 8300000, guid: 130f374d2e1720d4a8910f1d06f478bd, type: 3}
   - name: Leitmotif1
     volume: 0.709
     mixer: {fileID: 0}
@@ -64,7 +67,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 19e2ea85c64de864b8429dbb52572527, type: 3}
     - {fileID: 8300000, guid: 5c3ee7b2939edb049b2d561019e9afda, type: 3}
   - name: Leitmotif2
-    volume: 0.75
+    volume: 0.423
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 099a731154b921a40a00ae2761f729b8, type: 3}
@@ -79,17 +82,17 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: a5942cfdf1d3ef44591d043bd05b6799, type: 3}
   - name: Dardos
-    volume: 0.786
+    volume: 0.744
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: b2cec3e088ec0d844a6bcecc3bc37d61, type: 3}
+    - {fileID: 8300000, guid: f8714d51f74edc34a8dca36af6b4185b, type: 3}
   - name: JunglaDeDia
-    volume: 0.417
+    volume: 0.631
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 512bc76ccd9152c478826b406982a5f3, type: 3}
   - name: JunglaDeNoche
-    volume: 0.422
+    volume: 0.635
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: cdf47d51b8900684d98ea20913bcd1d5, type: 3}
@@ -97,12 +100,12 @@ MonoBehaviour:
     volume: 0.433
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: 86b817d01d9bf6c469985fdd08c132aa, type: 3}
+    - {fileID: 8300000, guid: 96977c86b21c6f146b50fbdcdd5e115a, type: 3}
   - name: MusicaBase
-    volume: 0.4
+    volume: 0.796
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: c1951f599d49db243be60627f0eb23e1, type: 3}
+    - {fileID: 8300000, guid: 1eab3119701dadb4294190af4a441eff, type: 3}
   - name: RecoleccionEuropea
     volume: 0.686
     mixer: {fileID: 0}
@@ -124,7 +127,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 9c6183371e12ff245b9a62a4da148dd1, type: 3}
   - name: CapaBase
-    volume: 0.421
+    volume: 0.3
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: b3de923bbaf0ca240b439bb5e1a75018, type: 3}
@@ -154,12 +157,12 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 329b0caafacd96940996afb2ba5d130e, type: 3}
   - name: LavaMoving
-    volume: 0.559
+    volume: 0.568
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: c80a48afa49ccfa46ab3cc7d59372d95, type: 3}
   - name: UIButtonSound
-    volume: 0.172
+    volume: 0.305
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 099a731154b921a40a00ae2761f729b8, type: 3}
@@ -170,12 +173,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 512bc76ccd9152c478826b406982a5f3, type: 3}
     - {fileID: 8300000, guid: cdf47d51b8900684d98ea20913bcd1d5, type: 3}
   - name: MusicaBoss
-    volume: 0.604
+    volume: 0.623
     mixer: {fileID: 0}
     sounds:
-    - {fileID: 8300000, guid: c7cebba5d9110bf479414135c51414cb, type: 3}
+    - {fileID: 8300000, guid: 4a3425627f7c8a7458065c82674ee3aa, type: 3}
   - name: RisaBruja
-    volume: 0.469
+    volume: 0.457
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: debc3db8c798fa94c8b473217f3522c5, type: 3}
@@ -183,17 +186,17 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e1b375000f33d8a4abba752fbdc185df, type: 3}
     - {fileID: 8300000, guid: 8c70f9eccf242704aacbd4cb60a3d3f4, type: 3}
   - name: QuejidoBruja
-    volume: 0.674
+    volume: 0.653
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 2a9d65387111ab34bad635dfe94d5df4, type: 3}
   - name: MovimiendoBruja
-    volume: 0.688
+    volume: 0.886
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: b5f207adce76ae8458b11f4ae38eeb13, type: 3}
   - name: AplausoBruja
-    volume: 0.6
+    volume: 0.843
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 9b9f8817be8d06948b859e99eddcbc7a, type: 3}
@@ -208,3 +211,14 @@ MonoBehaviour:
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 1589a6ae905cf5642a2ed45b165fdaf7, type: 3}
+  - name: Viento
+    volume: 1
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: daf33f51d4574734ba668e3a0c33ae1a, type: 3}
+  - name: Agua
+    volume: 1
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: f9181fc457290f94f97f208f2a7cccbc, type: 3}
+    - {fileID: 8300000, guid: c3d9cf57d28ee724e9fb6c7164db6d54, type: 3}

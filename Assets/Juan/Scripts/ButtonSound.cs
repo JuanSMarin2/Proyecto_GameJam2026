@@ -1,99 +1,65 @@
 using UnityEngine;
-
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
-public class ButtonSound : MonoBehaviour
+public class ButtonSound : MonoBehaviour, IPointerDownHandler, ISubmitHandler
 {
     [Header("Audio")]
     [SerializeField] private SoundType buttonSound = SoundType.UIButtonSound;
     [SerializeField, Range(0f, 1f)] private float volume = 1f;
 
-    [Header("Input")]
-    [SerializeField] private bool includeKeyboard = true;
-    [SerializeField] private bool includeMouseButtons = true;
-    [SerializeField] private bool includeGamepad = true;
+    private Selectable selectable;
+    private Button button;
+    private int lastSoundFrame = -1;
 
- public void PlayButtonSound()
+    private void Awake()
     {
+        selectable = GetComponent<Selectable>();
+        button = GetComponent<Button>();
+        if (selectable == null)
+        {
+            Debug.LogWarning($"[{nameof(ButtonSound)}] Debe estar en el mismo GameObject que un control UI Selectable (por ejemplo, Button o Slider).", this);
+            enabled = false;
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (button != null)
+            button.onClick.AddListener(PlayButtonSound);
+    }
+
+    private void OnDisable()
+    {
+        if (button != null)
+            button.onClick.RemoveListener(PlayButtonSound);
+    }
+
+    // Puede usarse también desde un evento OnClick/OnValueChanged del Inspector.
+    public void PlayButtonSound()
+    {
+        if (selectable == null || !selectable.IsInteractable())
+            return;
+
+        // Evita duplicar el audio si además está enlazado a OnClick/OnValueChanged.
+        if (lastSoundFrame == Time.frameCount)
+            return;
+
+        lastSoundFrame = Time.frameCount;
         SoundManager.PlaySound(buttonSound, null, volume);
     }
-    private void Update()
+
+    // Los Button usan onClick; los demás Selectable (como Slider) su pulsación inicial.
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if (AnyButtonPressedThisFrame())
-        {
-            SoundManager.PlaySound(buttonSound, null, volume);
-        }
+        if (button == null && eventData.button == PointerEventData.InputButton.Left)
+            PlayButtonSound();
     }
- 
-    private bool AnyButtonPressedThisFrame()
+
+    // Cubre la activación mediante teclado o mando cuando el control está seleccionado.
+    public void OnSubmit(BaseEventData eventData)
     {
-#if ENABLE_INPUT_SYSTEM
-        if (includeKeyboard && Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
-        {
-            return true;
-        }
-
-        if (includeMouseButtons && Mouse.current != null)
-        {
-            var mouse = Mouse.current;
-            if (mouse.leftButton.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame || mouse.middleButton.wasPressedThisFrame)
-            {
-                return true;
-            }
-
-            if (mouse.forwardButton != null && mouse.forwardButton.wasPressedThisFrame)
-            {
-                return true;
-            }
-
-            if (mouse.backButton != null && mouse.backButton.wasPressedThisFrame)
-            {
-                return true;
-            }
-        }
-
-        if (includeGamepad && Gamepad.current != null)
-        {
-            var gamepad = Gamepad.current;
-
-            if (gamepad.buttonSouth.wasPressedThisFrame || gamepad.buttonNorth.wasPressedThisFrame || gamepad.buttonEast.wasPressedThisFrame || gamepad.buttonWest.wasPressedThisFrame)
-            {
-                return true;
-            }
-
-            if (gamepad.startButton.wasPressedThisFrame || gamepad.selectButton.wasPressedThisFrame)
-            {
-                return true;
-            }
-
-            if (gamepad.leftShoulder.wasPressedThisFrame || gamepad.rightShoulder.wasPressedThisFrame)
-            {
-                return true;
-            }
-
-            if (gamepad.leftTrigger.wasPressedThisFrame || gamepad.rightTrigger.wasPressedThisFrame)
-            {
-                return true;
-            }
-
-            if (gamepad.leftStickButton.wasPressedThisFrame || gamepad.rightStickButton.wasPressedThisFrame)
-            {
-                return true;
-            }
-
-            if (gamepad.dpad.up.wasPressedThisFrame || gamepad.dpad.down.wasPressedThisFrame || gamepad.dpad.left.wasPressedThisFrame || gamepad.dpad.right.wasPressedThisFrame)
-            {
-                return true;
-            }
-        }
-
-        return false;
-#else
-        return Input.anyKeyDown;
-#endif
+        PlayButtonSound();
     }
-      
 }
