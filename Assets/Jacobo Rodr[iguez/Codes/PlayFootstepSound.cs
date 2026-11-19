@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 public class PlayFootstepSound : MonoBehaviour
 {
@@ -7,11 +8,11 @@ public class PlayFootstepSound : MonoBehaviour
     [SerializeField] private string softGroundTag = "SoftGround";
     [SerializeField] private string hardGroundTag = "HardGround";
 
-    [Header("Audio")]
-    [Tooltip("Optional AudioSource to play the sound through (e.g., on the player). If null, SoundManager uses its own AudioSource.")]
-    [SerializeField] private AudioSource source;
+    [Header("Audio (FMOD)")]
+    [SerializeField] private EventReference footstepEvent;
+    [SerializeField] private string terrainParameterName = "Terrain";
 
-   //  private SoundType currentFootstepType = SoundType.PisadaDura;
+    private float terrainParameterValue = 0f;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -25,29 +26,44 @@ public class PlayFootstepSound : MonoBehaviour
 
     private void UpdateFootstepTypeFromCollision(Collision2D collision)
     {
-        // This script is expected to be on the Player.
-        // Only react when the player is the one colliding.
         if (!CompareTag(playerTag))
             return;
 
-        // Determine which terrain tag we are standing on.
         GameObject other = collision.collider != null ? collision.collider.gameObject : null;
         if (other == null)
             return;
 
         if (other.CompareTag(softGroundTag))
         {
-           // currentFootstepType = SoundType.PisadaArena;
+            terrainParameterValue = 0f;
         }
         else if (other.CompareTag(hardGroundTag))
         {
-           // currentFootstepType = SoundType.PisadaDura;
+            terrainParameterValue = 1f;
         }
     }
 
     // Call this from an Animation Event when the foot hits the ground.
     public void PlayFootstep()
     {
-      //  SoundManager.PlaySound(currentFootstepType, source);
+        if (AudioManager.instance == null)
+            return;
+
+        EventReference targetEvent = !footstepEvent.IsNull
+            ? footstepEvent
+            : (FMODEvents.instance != null ? FMODEvents.instance.FootstepsSoundEvent : default);
+
+        if (!targetEvent.IsNull)
+        {
+            var instance = AudioManager.instance.CreateEventInstance(targetEvent, transform.position);
+            if (instance.isValid())
+            {
+                if (!string.IsNullOrEmpty(terrainParameterName))
+                    instance.setParameterByName(terrainParameterName, terrainParameterValue);
+
+                instance.start();
+                instance.release();
+            }
+        }
     }
 }

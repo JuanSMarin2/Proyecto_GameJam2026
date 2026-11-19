@@ -111,22 +111,27 @@ public class GameManager : MonoBehaviour
     public void MascaraRecogida(int mask)
     {
         mascarasRecogidas = Mathf.Clamp(mask, 0, 4);
-        switch (mascarasRecogidas)
+        if (AudioManager.instance != null && FMODEvents.instance != null)
         {
-            case 1:
-             //   SoundManager.PlaySound(SoundType.RecoleccionAfricana); ACTUALIZADO A FMOD
-              AudioManager.instance.PlayOneShot(FMODEvents.instance.FirstMaskCollectedSoundEvent, transform.position);
-              Debug.Log("Mascara recogida: " + mask);   
-                break;
-            case 2:
-             //   SoundManager.PlaySound(SoundType.RecoleccionEuropea);
-                break;
-            case 3:
-              //  SoundManager.PlaySound(SoundType.RecoleccionJaponesa);
-                break;
-            case 4:
-             //   SoundManager.PlaySound(SoundType.RecoleccionLatina);
-                break;
+            switch (mascarasRecogidas)
+            {
+                case 1:
+                    AudioManager.instance.PlayOneShot(FMODEvents.instance.FirstMaskCollectedSoundEvent, transform.position);
+                    Debug.Log("Mascara recogida: " + mask);   
+                    break;
+                case 2:
+                    AudioManager.instance.PlayOneShot(FMODEvents.instance.SecondMaskCollectedSoundEvent, transform.position);
+                    Debug.Log("Mascara recogida: " + mask);
+                    break;
+                case 3:
+                    AudioManager.instance.PlayOneShot(FMODEvents.instance.ThirdMaskCollectedSoundEvent, transform.position);
+                    Debug.Log("Mascara recogida: " + mask);
+                    break;
+                case 4:
+                    AudioManager.instance.PlayOneShot(FMODEvents.instance.FourthMaskCollectedSoundEvent, transform.position);
+                    Debug.Log("Mascara recogida: " + mask);
+                    break;
+            }
         }
     }
 

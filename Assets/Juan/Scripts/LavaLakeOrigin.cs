@@ -88,7 +88,10 @@ public class LavaLakeOrigin : MonoBehaviour
            
 
             // Si prefieres tu sistema:
-            SoundManager.PlaySound(SoundType.LavaMoving);
+            if (AudioManager.instance != null && FMODEvents.instance != null)
+            {
+                AudioManager.instance.PlayOneShot(FMODEvents.instance.LavaMovingSoundEvent, transform.position);
+            }
             Debug.Log("Lava Lake: blocked by Box, playing sound."+ SoundType.LavaMoving);
         }
 

@@ -62,7 +62,10 @@ public class Box : MonoBehaviour
 
         targetPosition = gridManager.GridToWorld(destinationCell, gridObject.Size, gridObject.Anchor);
         moveSpeed = Mathf.Max(0.01f, speed);
-        SoundManager.PlaySound(SoundType.BloqueMoviendose);
+        if (AudioManager.instance != null && FMODEvents.instance != null)
+        {
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.BoxMovingSoundEvent, transform.position);
+        }
         isMoving = true;
         Debug.Log("Box is Moving");
         return true;

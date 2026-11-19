@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   sound: 33
   volume: 1
 --- !u!114 &-5250858947993463010
@@ -26,6 +33,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   sound: 32
   volume: 1
 --- !u!1101 &-5236163524730091762
@@ -65,6 +79,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   sound: 34
   volume: 1
 --- !u!114 &-3794566903407646277
@@ -79,6 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   sound: 32
   volume: 1
 --- !u!1102 &-1635305072863556723
@@ -244,6 +272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   sound: 31
   volume: 1
 --- !u!1107 &1116953490013831302
@@ -324,6 +359,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   sound: 4
   volume: 0.661
 --- !u!1101 &2424220004115015729

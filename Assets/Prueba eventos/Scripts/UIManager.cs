@@ -62,7 +62,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.RestoreGlobalVolume();
+        if (AudioManager.instance != null)
+            AudioManager.instance.RestoreGlobalVolume();
     }
 
     private void Update()
@@ -99,9 +100,10 @@ public class UIManager : MonoBehaviour
 
     public void TogglePause()
     {
-        SoundManager.PlaySound(SoundType.Leitmotif2);
-        SetPaused(!isPaused);
+        if (AudioManager.instance != null && FMODEvents.instance != null)
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.PauseSoundEvent, transform.position);
 
+        SetPaused(!isPaused);
     }
 
     public void ResumePause()
@@ -128,9 +130,15 @@ public class UIManager : MonoBehaviour
         Time.timeScale = isPaused ? 0f : 1f;
 
         if (isPaused)
-            SoundManager.LowerGlobalVolume(pauseDuckingVolume);
+        {
+            if (AudioManager.instance != null)
+                AudioManager.instance.LowerGlobalVolume(pauseDuckingVolume);
+        }
         else
-            SoundManager.RestoreGlobalVolume();
+        {
+            if (AudioManager.instance != null)
+                AudioManager.instance.RestoreGlobalVolume();
+        }
     }
 
     private void RefreshFromMaskCount(int maskCount)

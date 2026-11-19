@@ -453,8 +453,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../AudiosnuevosGamejam2026/Maskeeper/Maskeeper.fspro
-  sourceBankPath: ../AudiosnuevosGamejam2026/Maskeeper/Build
+  sourceProjectPath: ../NuevosAudiosMaskeeper/Maskeeper/Maskeeper.fspro
+  sourceBankPath: ../NuevosAudiosMaskeeper/Maskeeper/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: -1
   ShowBankRefreshWindow: 1
@@ -491,22 +491,22 @@ MonoBehaviour:
   EnableErrorCallback: 0
   SharedLibraryUpdateStage: 0
   SharedLibraryTimeSinceStart: 0
-  CurrentVersion: 131860
+  CurrentVersion: 131861
   HideSetupWizard: 1
   LastEventReferenceScanVersion: 131860
   Platforms:
+  - {fileID: -6786009129164192300}
   - {fileID: -5228932359273518590}
-  - {fileID: 1135009059315872816}
   - {fileID: -3143359939589947058}
+  - {fileID: -2075367827270350901}
+  - {fileID: -999505872326253289}
+  - {fileID: -517754977742767724}
+  - {fileID: 1135009059315872816}
   - {fileID: 1378098552074795277}
+  - {fileID: 2829963114193500593}
+  - {fileID: 5383988595851973605}
   - {fileID: 6306332534778662226}
   - {fileID: 7849887901635839830}
-  - {fileID: -6786009129164192300}
-  - {fileID: -999505872326253289}
-  - {fileID: 5383988595851973605}
-  - {fileID: -517754977742767724}
-  - {fileID: 2829963114193500593}
-  - {fileID: -2075367827270350901}
   MigratedPlatforms: 0a00000000000000150000000b00000009000000050000001200000008000000060000000c0000000200000001000000
 --- !u!114 &1135009059315872816
 MonoBehaviour:
@@ -578,16 +578,16 @@ MonoBehaviour:
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers:
+  - fd7c55dab0fce234b8c25f6ffca523c1
   - 2fea114e74ecf3c4f920e1d5cc1c4c40
+  - b7716510a1f36934c87976f3a81dbf3d
+  - 52eb9df5db46521439908db3a29a1bbb
+  - 46fbfdf3fc43db0458918377fd40293e
   - c88d16e5272a4e241b0ef0ac2e53b73d
+  - de700ef3f37a49b58a57ae3addf01ad9
+  - 0f8eb3f400726694eb47beb1a9f94ce8
   - 2c5177b11d81d824dbb064f9ac8527da
   - e7a046c753c3c3d4aacc91f6597f310d
-  - fd7c55dab0fce234b8c25f6ffca523c1
-  - 52eb9df5db46521439908db3a29a1bbb
-  - 0f8eb3f400726694eb47beb1a9f94ce8
-  - 46fbfdf3fc43db0458918377fd40293e
-  - de700ef3f37a49b58a57ae3addf01ad9
-  - b7716510a1f36934c87976f3a81dbf3d
   codecChannels:
     Value: []
     HasValue: 0

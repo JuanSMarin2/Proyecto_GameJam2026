@@ -91,7 +91,7 @@ public class MusicLayerManager : MonoBehaviour
         if (baseSource == null || baseSource.clip == null)
             return;
 
-        float musicMultiplier = SoundManager.GetEffectiveMusicVolume();
+        float musicMultiplier = AudioManager.instance != null ? AudioManager.instance.GetEffectiveMusicVolume() : 1f;
 
         // Keep base steady; fade layers towards their targets.
         baseSource.volume = baseVolume * musicMultiplier;

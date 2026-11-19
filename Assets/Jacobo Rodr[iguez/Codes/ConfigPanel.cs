@@ -51,8 +51,8 @@ public class ConfigPanel : MonoBehaviour
 
     private void PullValuesFromAudioSystem()
     {
-        float sfx = SoundManager.GetSfxVolume();
-        float music = SoundManager.GetMusicVolume();
+        float sfx = AudioManager.instance != null ? AudioManager.instance.GetSfxVolume() : 1f;
+        float music = AudioManager.instance != null ? AudioManager.instance.GetMusicVolume() : 1f;
 
         if (sfxSlider != null)
             sfxSlider.SetValueWithoutNotify(sfx);
@@ -63,26 +63,33 @@ public class ConfigPanel : MonoBehaviour
 
     private void OnSfxSliderChanged(float value)
     {
-        SoundManager.SetSfxVolume(value);
+        if (AudioManager.instance != null)
+            AudioManager.instance.SetSfxVolume(value);
+
         RefreshSfxUI(value);
     }
 
     private void OnMusicSliderChanged(float value)
     {
-        SoundManager.SetMusicVolume(value);
+        if (AudioManager.instance != null)
+            AudioManager.instance.SetMusicVolume(value);
+
         RefreshMusicUI(value);
     }
 
     public void ToggleSfxMute()
     {
-        float current = SoundManager.GetSfxVolume();
+        if (AudioManager.instance == null)
+            return;
+
+        float current = AudioManager.instance.GetSfxVolume();
 
         if (current <= MutedThreshold)
-            SoundManager.UnmuteSfxRestore();
+            AudioManager.instance.UnmuteSfxRestore();
         else
-            SoundManager.MuteSfx();
+            AudioManager.instance.MuteSfx();
 
-        float newValue = SoundManager.GetSfxVolume();
+        float newValue = AudioManager.instance.GetSfxVolume();
         if (sfxSlider != null)
             sfxSlider.SetValueWithoutNotify(newValue);
 
@@ -91,14 +98,17 @@ public class ConfigPanel : MonoBehaviour
 
     public void ToggleMusicMute()
     {
-        float current = SoundManager.GetMusicVolume();
+        if (AudioManager.instance == null)
+            return;
+
+        float current = AudioManager.instance.GetMusicVolume();
 
         if (current <= MutedThreshold)
-            SoundManager.UnmuteMusicRestore();
+            AudioManager.instance.UnmuteMusicRestore();
         else
-            SoundManager.MuteMusic();
+            AudioManager.instance.MuteMusic();
 
-        float newValue = SoundManager.GetMusicVolume();
+        float newValue = AudioManager.instance.GetMusicVolume();
         if (musicSlider != null)
             musicSlider.SetValueWithoutNotify(newValue);
 
@@ -107,8 +117,11 @@ public class ConfigPanel : MonoBehaviour
 
     private void RefreshUI()
     {
-        RefreshSfxUI(SoundManager.GetSfxVolume());
-        RefreshMusicUI(SoundManager.GetMusicVolume());
+        float sfx = AudioManager.instance != null ? AudioManager.instance.GetSfxVolume() : 1f;
+        float music = AudioManager.instance != null ? AudioManager.instance.GetMusicVolume() : 1f;
+
+        RefreshSfxUI(sfx);
+        RefreshMusicUI(music);
     }
 
     private void RefreshSfxUI(float value)

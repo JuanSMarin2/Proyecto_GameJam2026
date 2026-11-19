@@ -136,7 +136,10 @@ public class ScreenManager : MonoBehaviour
     {
 
 
-        SoundManager.PlaySound(SoundType.CambioDePantalla);
+        if (AudioManager.instance != null && FMODEvents.instance != null)
+        {
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.ScreenChangeSoundEvent, transform.position);
+        }
 
         targetCameraPos += new Vector3(
             direction.x * screenWidth,

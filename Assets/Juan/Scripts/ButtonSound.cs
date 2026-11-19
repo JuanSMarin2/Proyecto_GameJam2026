@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -7,7 +8,8 @@ using UnityEngine.InputSystem;
 [DisallowMultipleComponent]
 public class ButtonSound : MonoBehaviour
 {
-    [Header("Audio")]
+    [Header("Audio (FMOD)")]
+    [SerializeField] private EventReference soundEvent;
     [SerializeField] private SoundType buttonSound = SoundType.CambioDePantalla;
     [SerializeField, Range(0f, 1f)] private float volume = 1f;
 
@@ -18,9 +20,32 @@ public class ButtonSound : MonoBehaviour
 
     private void Update()
     {
-        if (AnyButtonPressedThisFrame())
+        if (AnyButtonPressedThisFrame() && AudioManager.instance != null)
         {
-            SoundManager.PlaySound(buttonSound, null, volume);
+            EventReference evt = !soundEvent.IsNull
+                ? soundEvent
+                : (FMODEvents.instance != null ? FMODEvents.instance.UIButtonSoundEvent : default);
+
+            if (evt.IsNull && FMODEvents.instance != null)
+                evt = FMODEvents.instance.GetEventByType(buttonSound);
+
+            if (!evt.IsNull)
+            {
+                if (Mathf.Approximately(volume, 1f))
+                {
+                    AudioManager.instance.PlayOneShot(evt, transform.position);
+                }
+                else
+                {
+                    var eventInstance = AudioManager.instance.CreateEventInstance(evt, transform.position);
+                    if (eventInstance.isValid())
+                    {
+                        eventInstance.setVolume(volume);
+                        eventInstance.start();
+                        eventInstance.release();
+                    }
+                }
+            }
         }
     }
 

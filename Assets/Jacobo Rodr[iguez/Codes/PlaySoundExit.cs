@@ -1,12 +1,37 @@
 using UnityEngine;
+using FMODUnity;
 
+public class PlaySoundExit : StateMachineBehaviour
+{
+    [SerializeField] private EventReference soundEvent;
+    [SerializeField] private SoundType sound;
+    [SerializeField, Range(0, 1)] private float volume = 1f;
 
-    public class PlaySoundExit : StateMachineBehaviour
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        [SerializeField] private SoundType sound;
-        [SerializeField, Range(0, 1)] private float volume = 1;
-        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        if (AudioManager.instance == null)
+            return;
+
+        EventReference targetEvent = !soundEvent.IsNull
+            ? soundEvent
+            : (FMODEvents.instance != null ? FMODEvents.instance.GetEventByType(sound) : default);
+
+        if (!targetEvent.IsNull)
         {
-            SoundManager.PlaySound(sound, null, volume);
+            if (Mathf.Approximately(volume, 1f))
+            {
+                AudioManager.instance.PlayOneShot(targetEvent, animator.transform.position);
+            }
+            else
+            {
+                var eventInstance = AudioManager.instance.CreateEventInstance(targetEvent, animator.transform.position);
+                if (eventInstance.isValid())
+                {
+                    eventInstance.setVolume(volume);
+                    eventInstance.start();
+                    eventInstance.release();
+                }
+            }
         }
     }
+}

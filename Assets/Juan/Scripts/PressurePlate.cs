@@ -31,7 +31,7 @@ public class PressurePlate : MonoBehaviour
         lastActivatedPlate = this;
         isShooting = true;
 
-        SoundManager.PlaySound(SoundType.PlacaPresion);
+      
         shootingCoroutine = StartCoroutine(HandleShooting());
     }
 

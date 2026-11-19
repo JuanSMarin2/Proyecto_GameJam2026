@@ -42,7 +42,7 @@ public class MenuMusicPlayer : MonoBehaviour
 
     private void Update()
     {
-        float musicMultiplier = SoundManager.GetEffectiveMusicVolume();
+        float musicMultiplier = AudioManager.instance != null ? AudioManager.instance.GetEffectiveMusicVolume() : 1f;
 
         if (musicSource != null)
             musicSource.volume = musicConfiguredVolume * musicMultiplier;

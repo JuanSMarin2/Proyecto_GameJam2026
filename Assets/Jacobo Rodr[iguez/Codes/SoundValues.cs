@@ -35,7 +35,11 @@
     QuejidoBruja,
     MovimiendoBruja,
     AplausoBruja,
-    AmbienteTerror
+    AmbienteTerror,
+    Viento,
+    Agua,
+    DialogueStinger,
+    PositiveStinger
 
     
     }

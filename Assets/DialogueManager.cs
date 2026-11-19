@@ -13,6 +13,11 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private float typingSpeed = 0.03f;
     [SerializeField] private bool isPreBoss;
+    [SerializeField] private bool IsBegginingOfScene;
+    [SerializeField] private GameObject dialogueMark;
+
+    
+    
 
     [System.Serializable]
     private class DialogueEvent
@@ -25,13 +30,37 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private List<DialogueEvent> dialogueEvents;
     [SerializeField] private UnityEvent onDialogueEnd;
 
+   
+
     private int currentIndex = -1;
     private Coroutine typingCoroutine;
     private bool isTyping;
 
-    #region PUBLIC API
+    #region TriggerLogic
 
+    
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            dialogueMark.SetActive(false);
+            StartDialogue();
+        }
+    }
+
+    #endregion
+
+    #region PUBLIC API
     private void Start()
+    {
+        if (IsBegginingOfScene)
+        {
+            StartDialogue();
+        }
+    }
+
+    public void StartDialogue()
     {
         NextDialogue();
     }
