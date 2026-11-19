@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PreBoss.unity
     guid: fb0eebbaef5d2f84bba0e6c9692b2d87
+  - enabled: 1
+    path: Assets/Scenes/Ganaste.unity
+    guid: 0effe34a9abda8a4e863b6f2294e9375
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

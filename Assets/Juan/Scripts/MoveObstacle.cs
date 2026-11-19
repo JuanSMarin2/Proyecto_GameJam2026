@@ -12,12 +12,34 @@ public class MoveObstacle : MonoBehaviour
     [SerializeField] private float stopDuration = 0.5f;
 
     private int currentNodeIndex = 0;
-    private int direction = 1; // 1 = adelante, -1 = atrás
+    private int direction = 1; 
     private float stopTimer = 0f;
     private bool isStopping = false;
 
+    [SerializeField] private bool isAfectedByDifficulty = true;
+
     private void Start()
     {
+
+        if (isAfectedByDifficulty)
+        {
+                        if (DifficultySelectManager.Instance != null)
+            {
+                switch (DifficultySelectManager.Instance.CurrentMode)
+                {
+                    case DifficultySelectManager.DifficultyMode.Easy:
+                        speed *= 0.75f;
+                        break;
+                    case DifficultySelectManager.DifficultyMode.Medium:
+                        break;
+                    case DifficultySelectManager.DifficultyMode.Hard:
+                        speed *= 1.25f;
+                        break;
+                }
+            }
+
+        }
+
         if (nodes == null || nodes.Length < 2)
         {
             Debug.LogError("NodeMover necesita al menos 2 nodos.");

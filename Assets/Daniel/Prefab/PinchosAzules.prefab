@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   misCapas: 02000000
   DesapearsOnLayer: 0
-  inactiveOpacity: 0.3
+  inactiveOpacity: 0.2
   activeMaterial: {fileID: 0}
   inactiveMaterial: {fileID: 0}
   activeSprite: {fileID: 0}

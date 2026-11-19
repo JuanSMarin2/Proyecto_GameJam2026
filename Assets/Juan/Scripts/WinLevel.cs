@@ -32,6 +32,9 @@ public class WinLevel : MonoBehaviour
 
     private IEnumerator WinAndLoad(GameObject player)
     {
+        if (GameManager.Instance != null)
+            GameManager.Instance.BlockLayerActivation(true);
+
         PlayerMovement pm = player != null ? player.GetComponent<PlayerMovement>() : null;
 foreach (GameObject go in gameObjectArray)
         {
@@ -51,6 +54,7 @@ foreach (GameObject go in gameObjectArray)
         if (GameManager.Instance != null)
         {
             GameManager.Instance.DesactivarTodasLasCapas();
+            GameManager.Instance.hasCheckpoint = false;
         }
         else if (EventManager.Instance != null)
         {
@@ -61,7 +65,16 @@ foreach (GameObject go in gameObjectArray)
         }
 
         if (!string.IsNullOrWhiteSpace(sceneName))
-            SceneManager.LoadScene(sceneName);
+        {
+            string targetScene = sceneName;
+            if (DifficultySelectManager.Instance != null)
+            {
+                string currentScene = SceneManager.GetActiveScene().name;
+                targetScene = DifficultySelectManager.Instance.ResolveNextSceneFromLevelFlow(currentScene, sceneName);
+            }
+
+            SceneManager.LoadScene(targetScene);
+        }
         else
             Debug.LogWarning("WinLevel: sceneName no asignado.");
     }

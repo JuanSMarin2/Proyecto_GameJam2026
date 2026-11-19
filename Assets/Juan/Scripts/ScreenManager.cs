@@ -24,10 +24,43 @@ public class ScreenManager : MonoBehaviour
     private int lastScreenWidth;
     private int lastScreenHeight;
 
+    private void Awake()
+    {
+        if (cam == null) cam = GetComponent<Camera>();
+        if (cam == null) cam = Camera.main;
+
+        ApplyTileProjectionIfNeeded();
+        CalculateScreenSize();
+
+        // Snap temprano (antes de Start) para evitar frame de glitch al cargar escena.
+        if (CheckPointManager.TryGetCheckpointCameraSnapPosition(out Vector3 snapPosition))
+        {
+            snapPosition.z = cam != null ? cam.transform.position.z : snapPosition.z;
+
+            if (cam != null)
+                cam.transform.position = snapPosition;
+
+            targetCameraPos = snapPosition;
+            isMovingCamera = false;
+        }
+    }
+
+    private void OnEnable()
+    {
+        CheckPointManager.OnPlayerRespawnedAtCheckpoint += HandlePlayerRespawnedAtCheckpoint;
+    }
+
+    private void OnDisable()
+    {
+        CheckPointManager.OnPlayerRespawnedAtCheckpoint -= HandlePlayerRespawnedAtCheckpoint;
+    }
+
     private void Start()
     {
         if (cam == null) cam = GetComponent<Camera>();
         if (cam == null) cam = Camera.main;
+
+        EnsurePlayerReference();
 
         ApplyTileProjectionIfNeeded();
         CalculateScreenSize();
@@ -84,6 +117,8 @@ public class ScreenManager : MonoBehaviour
     {
         if (cam == null) return;
 
+        EnsurePlayerReference();
+
         // Por si cambia resolución / aspecto
         if (Screen.width != lastScreenWidth || Screen.height != lastScreenHeight)
         {
@@ -110,12 +145,16 @@ public class ScreenManager : MonoBehaviour
         }
         else
         {
-            CheckPlayerExit();
+            if (player != null)
+                CheckPlayerExit();
         }
     }
 
     private void CheckPlayerExit()
     {
+        EnsurePlayerReference();
+        if (player == null) return;
+
         Vector3 camPos = cam.transform.position;
         Vector3 playerPos = player.position;
 
@@ -148,6 +187,35 @@ public class ScreenManager : MonoBehaviour
         );
 
         isMovingCamera = true;
+    }
+
+    private void HandlePlayerRespawnedAtCheckpoint(Transform respawnedPlayer)
+    {
+        if (respawnedPlayer == null) return;
+
+        // Si el player serializado no está asignado o cambió de instancia, actualizamos referencia.
+        if (player == null || player != respawnedPlayer)
+            player = respawnedPlayer;
+    }
+
+    private void EnsurePlayerReference()
+    {
+        if (player != null)
+            return;
+
+        GameObject playerGo = GameObject.FindGameObjectWithTag("Player");
+        if (playerGo != null)
+            player = playerGo.transform;
+    }
+
+    public void SyncCameraStateToCurrentPosition()
+    {
+        if (cam == null) cam = GetComponent<Camera>();
+        if (cam == null) cam = Camera.main;
+        if (cam == null) return;
+
+        targetCameraPos = cam.transform.position;
+        isMovingCamera = false;
     }
 
     private void OnValidate()

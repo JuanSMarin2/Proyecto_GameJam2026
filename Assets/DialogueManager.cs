@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
-using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
+
 
 public class DialogueManager : MonoBehaviour
 {

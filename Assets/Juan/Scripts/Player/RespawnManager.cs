@@ -41,6 +41,9 @@ public class RespawnManager : MonoBehaviour
             EventManager.Instance.DesactivarCapa(4);
         }
 
+        // Reproducir leitmotif al respawnear al jugador
+        SoundManager.PlaySound(SoundType.Leitmotif1);
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 

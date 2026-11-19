@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b166649ba22fd04aa991ba35fd78d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  misCapas: 03000000
+  misCapas: 04000000
   DesapearsOnLayer: 1
   inactiveOpacity: 0.3
   activeMaterial: {fileID: 0}
