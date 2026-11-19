@@ -1,10 +1,18 @@
 using UnityEngine;
+using System.Linq;
+using System.Collections;
 
-[RequireComponent(typeof(GridObject))]
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
+
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Tile Movement")]
+    [SerializeField] private float tileSize = 1f;
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float wallCheckRadius = 0.1f;
+    [SerializeField] private float waterObstacleBuffer = 0.20f;
 
     [Header("Layer Visuals")]
     [SerializeField] private GameObject capa1;
@@ -21,129 +29,200 @@ public class PlayerMovement : MonoBehaviour
     [Header("Postprocess Config")]
     [SerializeField] private postprocessConfig postprocessConfig;
 
+    private Vector2 rawInput;
+    private Vector2 lastRawInput;
     private Vector2 targetPosition;
     private bool isMoving;
 
+    private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
+    private BoxCollider2D boxCollider;
     private float currentMoveSpeed;
+    private Animator animator;
+    private bool canMoveBeforeWaterFlow;
+    private bool waterFlowActive;
 
-    private GridObject gridObject;
-    private GridManager gridManager;
-    private PlayerInputReader playerInputReader;
-    private PlayerAnimation playerAnimation;
-    private PlayerLayerVisuals playerLayerVisuals;
+    private bool capa1Activa;
+    private bool capa2Activa;
+    private bool capa3Activa;
+    private bool capa4Activa;
+
+    private SpriteRenderer[] capa1Renderers;
+    private SpriteRenderer[] capa2Renderers;
+    private SpriteRenderer[] capa3Renderers;
+    private SpriteRenderer[] capa4Renderers;
+
+    private bool subscribedToLayers;
+
+    private Coroutine layerVisualsRoutine;
 
 
     public bool canMove = true;
+
+    [Header("Legacy Input")]
+    [Tooltip("Si está activo, el movimiento se lee desde el sistema viejo (Input.GetAxisRaw / teclado).")]
+    [SerializeField] private bool useLegacyInput = true;
 
     public void DisableMovementForDeath()
     {
         canMove = false;
         isMoving = false;
-        targetPosition = rb != null ? rb.position : targetPosition;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
         currentMoveSpeed = moveSpeed;
 
-        if (playerAnimation != null)
-            playerAnimation.SetChildrenSpriteRenderersEnabled(false);
+        SetChildrenSpriteRenderersEnabled(false);
     }
 
     public void DisableMovementForWin()
     {
         canMove = false;
         isMoving = false;
-        targetPosition = rb != null ? rb.position : targetPosition;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
         currentMoveSpeed = moveSpeed;
     }
 
     public void EnableMovement()
     {
         canMove = true;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
 
-        if (playerAnimation != null)
-            playerAnimation.SetChildrenSpriteRenderersEnabled(true);
+        SetChildrenSpriteRenderersEnabled(true);
+        ApplyLayerVisuals();
+    }
 
-        if (playerLayerVisuals != null)
-            playerLayerVisuals.ApplyLayerVisuals();
+    public void BeginWaterFlow()
+    {
+        if (waterFlowActive)
+            return;
+
+        canMoveBeforeWaterFlow = canMove;
+        waterFlowActive = true;
+        canMove = false;
+        isMoving = false;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
+    }
+
+    public bool MoveByWater(Vector2 direction, float speed, out bool blockedByObstacle)
+    {
+        blockedByObstacle = false;
+        if (rb == null || direction.sqrMagnitude < 0.0001f)
+            return false;
+
+        Vector2 movement = direction.normalized * Mathf.Max(0f, speed) * Time.fixedDeltaTime;
+        Vector2 nextPosition = rb.position + movement;
+        if (IsSolidObstacleInPath(nextPosition, movement))
+        {
+            blockedByObstacle = true;
+            return false;
+        }
+
+        rb.MovePosition(nextPosition);
+        return movement.sqrMagnitude > 0.000001f;
+    }
+
+    public void EndWaterFlow()
+    {
+        if (!waterFlowActive)
+            return;
+
+        waterFlowActive = false;
+        canMove = canMoveBeforeWaterFlow;
+        isMoving = false;
+        rawInput = Vector2.zero;
+        lastRawInput = Vector2.zero;
+        targetPosition = rb != null ? rb.position : (Vector2)transform.position;
     }
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        gridObject = GetComponent<GridObject>();
-        playerInputReader = GetComponent<PlayerInputReader>();
-        playerAnimation = GetComponent<PlayerAnimation>();
-        playerLayerVisuals = GetComponent<PlayerLayerVisuals>();
-        gridManager = GridManager.Instance;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        animator = GetComponent<Animator>();
+
+
+        boxCollider = GetComponent<BoxCollider2D>();
 
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
+        targetPosition = rb.position;
         currentMoveSpeed = moveSpeed;
 
-        if (playerAnimation != null)
-            playerAnimation.SetMaskTriggerName(maskTriggerName);
-
-        if (playerLayerVisuals != null)
-        {
-            playerLayerVisuals.Configure(
-                capa1,
-                capa2,
-                capa3,
-                capa4,
-                postprocessConfig,
-                playMaskAnimationOnLayerChange,
-                maskVisualDelay,
-                playerAnimation);
-        }
+        CacheLayerRenderers();
+        ApplyLayerVisuals();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        RefreshTargetPositionFromGrid();
+        TrySubscribeLayerEvents();
     }
+
+    private void OnDisable()
+    {
+        UnsubscribeLayerEvents();
+    }
+
+
+
+    #if ENABLE_INPUT_SYSTEM
+  
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        rawInput = context.ReadValue<Vector2>();
+    }
+    #endif
+
+   
 
     private void Update()
     {
+        if (useLegacyInput)
+            rawInput = ReadLegacyInput();
+
         if (!canMove || isMoving)
-            return;
-
-        if (playerInputReader == null)
-            return;
-
-        if (playerInputReader.ConsumeMove(out MoveDirection direction))
         {
-            TryMove(direction);
+            lastRawInput = rawInput;
+            return;
         }
-    }
 
-    private void TryMove(MoveDirection direction)
-    {
-        Vector2Int cellDirection = GetDirectionVector(direction);
-        if (cellDirection == Vector2Int.zero)
-            return;
-
-        if (gridManager == null)
-            gridManager = GridManager.Instance;
-
-        if (gridManager == null || gridObject == null)
-            return;
-
-        Vector2Int currentCell = gridObject.Cell;
-        Vector2Int destinationCell = currentCell + cellDirection;
-
-        if (gridManager.IsBlocked(destinationCell, gridObject.Size, gridObject))
-            return;
-
-        if (gridManager.TryGetObjectAtArea(destinationCell, gridObject.Size, out GridObject occupant) && occupant != null && occupant != gridObject)
+        bool newPress = rawInput.sqrMagnitude > 0.01f && lastRawInput.sqrMagnitude <= 0.01f;
+        if (!newPress)
         {
-            Box box = occupant.GetComponent<Box>();
-            if (box == null)
-                return;
+            lastRawInput = rawInput;
+            return;
+        }
 
-            bool pushed = box.TryPush(cellDirection, moveSpeed * 0.5f);
+        Vector2 direction = GetStepDirection(rawInput);
+        if (direction == Vector2.zero)
+        {
+            lastRawInput = rawInput;
+            return;
+        }
+
+        Vector2 nextPosition = rb.position + direction * tileSize;
+        if (IsWallAtPosition(nextPosition))
+        {
+            lastRawInput = rawInput;
+            return;
+        }
+
+        Box box = GetBoxAtPosition(nextPosition);
+        if (box != null)
+        {
+            bool pushed = box.TryPush(direction, tileSize, moveSpeed * 0.5f);
             if (!pushed)
+            {
+                lastRawInput = rawInput;
                 return;
-
+            }
             currentMoveSpeed = moveSpeed * 0.5f;
         }
         else
@@ -151,20 +230,30 @@ public class PlayerMovement : MonoBehaviour
             currentMoveSpeed = moveSpeed;
         }
 
-        if (!gridObject.TrySetCell(destinationCell))
-            return;
-
-        targetPosition = gridManager.GridToWorld(destinationCell, gridObject.Size, gridObject.Anchor);
+        targetPosition = nextPosition;
         isMoving = true;
 
-        if (playerAnimation != null)
-            playerAnimation.TriggerMoveAnimation();
+        TriggerMoveAnimation();
 
-        if (playerAnimation != null)
-        {
-            if (direction == MoveDirection.Right) playerAnimation.ApplyFlipX(true);
-            else if (direction == MoveDirection.Left) playerAnimation.ApplyFlipX(false);
-        }
+        if (direction.x > 0) ApplyFlipX(true);
+        else if (direction.x < 0) ApplyFlipX(false);
+
+        lastRawInput = rawInput;
+    }
+
+    private Vector2 ReadLegacyInput()
+    {
+        float x = 0f;
+        float y = 0f;
+
+     
+        if (Input.GetKey(KeyCode.A)) x = -1f;
+        else if (Input.GetKey(KeyCode.D)) x = 1f;
+
+        if (Input.GetKey(KeyCode.S)) y = -1f;
+        else if (Input.GetKey(KeyCode.W)) y = 1f;
+
+        return new Vector2(x, y);
     }
 
 
@@ -185,42 +274,294 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void RefreshTargetPositionFromGrid()
+    private Vector2 GetStepDirection(Vector2 input)
     {
-        if (gridManager == null)
-            gridManager = GridManager.Instance;
+        if (input.sqrMagnitude < 0.01f)
+            return Vector2.zero;
 
-        if (gridManager == null)
+        if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+            return new Vector2(Mathf.Sign(input.x), 0f);
+
+        return new Vector2(0f, Mathf.Sign(input.y));
+    }
+
+    private bool IsWallAtPosition(Vector2 position)
+    {
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 center = position + GetColliderWorldOffset();
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
+        for (int i = 0; i < hits.Length; i++)
         {
-            targetPosition = rb != null ? rb.position : targetPosition;
-            return;
+            if (hits[i] != null && hits[i].gameObject != gameObject && hits[i].CompareTag("Wall"))
+                return true;
         }
 
-        if (gridObject != null)
+        return false;
+    }
+
+    private bool IsSolidObstacleInPath(Vector2 nextPosition, Vector2 movement)
+    {
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 currentCenter = rb.position + GetColliderWorldOffset();
+        Vector2 nextCenter = nextPosition + GetColliderWorldOffset();
+
+        Collider2D[] overlaps = Physics2D.OverlapBoxAll(nextCenter, size, angle);
+        for (int i = 0; i < overlaps.Length; i++)
         {
-            Vector3 worldPosition = gridObject.GetWorldPosition();
-            targetPosition = new Vector2(worldPosition.x, worldPosition.y);
+            if (IsSolidObstacle(overlaps[i]))
+                return true;
         }
-        else if (rb != null)
+
+        if (movement.sqrMagnitude <= 0.000001f)
+            return false;
+
+        RaycastHit2D[] pathHits = Physics2D.BoxCastAll(
+            currentCenter,
+            size,
+            angle,
+            movement.normalized,
+            movement.magnitude + waterObstacleBuffer);
+
+        for (int i = 0; i < pathHits.Length; i++)
         {
-            targetPosition = rb.position;
+            Collider2D hitCollider = pathHits[i].transform != null
+                ? pathHits[i].transform.GetComponent<Collider2D>()
+                : null;
+            if (IsSolidObstacle(hitCollider))
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IsSolidObstacle(Collider2D hit)
+    {
+        if (hit == null || hit.isTrigger)
+            return false;
+
+        if (hit.transform == transform || hit.transform.IsChildOf(transform))
+            return false;
+
+        return true;
+    }
+
+    private Box GetBoxAtPosition(Vector2 position)
+    {
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 center = position + GetColliderWorldOffset();
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i] == null) continue;
+            if (hits[i].gameObject == gameObject) continue;
+            Box b = hits[i].GetComponent<Box>();
+            if (b != null)
+                return b;
+        }
+        return null;
+    }
+
+    private Vector2 GetColliderWorldSize()
+    {
+        if (boxCollider == null) return new Vector2(wallCheckRadius * 2f, wallCheckRadius * 2f);
+        Vector2 s = boxCollider.size;
+        Vector3 scale = transform.lossyScale;
+        return new Vector2(s.x * Mathf.Abs(scale.x), s.y * Mathf.Abs(scale.y));
+    }
+
+    private Vector2 GetColliderWorldOffset()
+    {
+        if (boxCollider == null) return Vector2.zero;
+        Vector2 local = boxCollider.offset;
+        Vector3 world = transform.TransformVector(new Vector3(local.x, local.y, 0f));
+        return new Vector2(world.x, world.y);
+    }
+
+    private void ApplyFlipX(bool flip)
+    {
+        if (spriteRenderer != null)
+            spriteRenderer.flipX = flip;
+
+        SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>();
+        for (int i = 0; i < children.Length; i++)
+        {
+            SpriteRenderer sr = children[i];
+            if (sr == null || sr == spriteRenderer) continue;
+            sr.flipX = flip;
         }
     }
 
-    private static Vector2Int GetDirectionVector(MoveDirection direction)
+    private void CacheLayerRenderers()
     {
-        switch (direction)
+        capa1Renderers = capa1 != null ? capa1.GetComponentsInChildren<SpriteRenderer>(true) : null;
+        capa2Renderers = capa2 != null ? capa2.GetComponentsInChildren<SpriteRenderer>(true) : null;
+        capa3Renderers = capa3 != null ? capa3.GetComponentsInChildren<SpriteRenderer>(true) : null;
+        capa4Renderers = capa4 != null ? capa4.GetComponentsInChildren<SpriteRenderer>(true) : null;
+    }
+
+    private void ApplyLayerVisuals()
+    {
+        // Sin prioridad: si hay varias capas activas, se renderizan todas.
+        SetRenderersEnabled(capa1Renderers, capa1Activa);
+        SetRenderersEnabled(capa2Renderers, capa2Activa);
+        SetRenderersEnabled(capa3Renderers, capa3Activa);
+        SetRenderersEnabled(capa4Renderers, capa4Activa);
+    }
+
+    private int GetHighestActiveLayer()
+    {
+        if (capa4Activa) return 4;
+        if (capa3Activa) return 3;
+        if (capa2Activa) return 2;
+        if (capa1Activa) return 1;
+        return 0;
+    }
+
+    private void SetRenderersEnabled(SpriteRenderer[] renderers, bool enabled)
+    {
+        if (renderers == null) return;
+        for (int i = 0; i < renderers.Length; i++)
         {
-            case MoveDirection.Up:
-                return Vector2Int.up;
-            case MoveDirection.Down:
-                return Vector2Int.down;
-            case MoveDirection.Left:
-                return Vector2Int.left;
-            case MoveDirection.Right:
-                return Vector2Int.right;
-            default:
-                return Vector2Int.zero;
+            if (renderers[i] == null) continue;
+            renderers[i].enabled = enabled;
+        }
+    }
+
+    private void TrySubscribeLayerEvents()
+    {
+        if (subscribedToLayers) return;
+        if (EventManager.Instance == null) return;
+
+        EventManager.Instance.EnActivarCapa += OnLayerActivated;
+        EventManager.Instance.EnDesactivarCapa += OnLayerDeactivated;
+        subscribedToLayers = true;
+    }
+
+    private void UnsubscribeLayerEvents()
+    {
+        if (!subscribedToLayers) return;
+        if (EventManager.Instance == null) return;
+
+        EventManager.Instance.EnActivarCapa -= OnLayerActivated;
+        EventManager.Instance.EnDesactivarCapa -= OnLayerDeactivated;
+        subscribedToLayers = false;
+    }
+
+    private void OnLayerActivated(int capa)
+    {
+        switch (capa)
+        {
+            case 1:
+                capa1Activa = true;
+                if (postprocessConfig != null)
+                    postprocessConfig.ActivaMaskMagenta();
+                break;
+            case 2:
+                capa2Activa = true;
+                if (postprocessConfig != null)
+                    postprocessConfig.ActivaMaskCyan();
+                break;
+            case 3:
+                capa3Activa = true;
+                if (postprocessConfig != null)
+                    postprocessConfig.ActivaMaskYellow();
+                break;
+            case 4:
+                capa4Activa = true;
+                if (postprocessConfig != null)
+                    postprocessConfig.ActivaMaskGreen();
+                break;
+        }
+        QueueLayerVisualsUpdate();
+    }
+
+    private void OnLayerDeactivated(int capa)
+    {
+        switch (capa)
+        {
+            case 1: capa1Activa = false; break;
+            case 2: capa2Activa = false; break;
+            case 3: capa3Activa = false; break;
+            case 4: capa4Activa = false; break;
+        }
+        
+        // Si todas las capas están desactivadas, desactiva la máscara
+        if (!capa1Activa && !capa2Activa && !capa3Activa && !capa4Activa)
+        {
+            if (postprocessConfig != null)
+                postprocessConfig.DesactivaMask();
+        }
+        
+        QueueLayerVisualsUpdate();
+    }
+
+    private void QueueLayerVisualsUpdate()
+    {
+        if (layerVisualsRoutine != null)
+        {
+            StopCoroutine(layerVisualsRoutine);
+            layerVisualsRoutine = null;
+        }
+
+        if (!playMaskAnimationOnLayerChange || string.IsNullOrWhiteSpace(maskTriggerName))
+        {
+            ApplyLayerVisuals();
+            return;
+        }
+
+        bool hasAnyAnimator = animator != null || GetComponentsInChildren<Animator>(true).Any(a => a != null);
+        if (!hasAnyAnimator)
+        {
+            ApplyLayerVisuals();
+            return;
+        }
+
+        TriggerMaskAnimation();
+        layerVisualsRoutine = StartCoroutine(ApplyLayerVisualsAfterMask());
+    }
+
+    private IEnumerator ApplyLayerVisualsAfterMask()
+    {
+        if (maskVisualDelay <= 0f)
+            yield return null;
+        else
+            yield return new WaitForSeconds(maskVisualDelay);
+
+        ApplyLayerVisuals();
+        layerVisualsRoutine = null;
+    }
+
+    private void TriggerMoveAnimation()
+    {
+        if (animator != null)
+            animator.SetTrigger("move");
+
+        Animator[] childAnimators = GetComponentsInChildren<Animator>();
+        for (int i = 0; i < childAnimators.Length; i++)
+        {
+            Animator a = childAnimators[i];
+            if (a == null || a == animator) continue;
+            a.SetTrigger("move");
+        }
+    }
+
+    private void TriggerMaskAnimation()
+    {
+        if (animator != null)
+            animator.SetTrigger(maskTriggerName);
+    }
+
+    private void SetChildrenSpriteRenderersEnabled(bool enabled)
+    {
+        SpriteRenderer[] children = GetComponentsInChildren<SpriteRenderer>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            SpriteRenderer sr = children[i];
+            if (sr == null || sr == spriteRenderer) continue;
+            sr.enabled = enabled;
         }
     }
 }
