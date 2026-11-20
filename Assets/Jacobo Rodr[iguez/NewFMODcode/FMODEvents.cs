@@ -10,6 +10,11 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference SecondMaskCollectedSoundEvent { get; private set; }
     [field: SerializeField] public EventReference ThirdMaskCollectedSoundEvent { get; private set; }
     [field: SerializeField] public EventReference FourthMaskCollectedSoundEvent { get; private set; }
+    [field: SerializeField] public EventReference IdleMask1 { get; private set; }
+    [field: SerializeField] public EventReference IdleMask2 { get; private set; }
+    [field: SerializeField] public EventReference IdleMask3 { get; private set; }
+    [field: SerializeField] public EventReference IdleMask4 { get; private set; }
+    
 
     [field: Header("Player")]
     [field: SerializeField] public EventReference FootstepsSoundEvent { get; private set; }

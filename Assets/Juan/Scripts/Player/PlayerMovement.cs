@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Linq;
 using System.Collections;
 
@@ -58,6 +58,13 @@ public class PlayerMovement : MonoBehaviour
 
 
     public bool canMove = true;
+
+    [Header("Footsteps")]
+    [Tooltip("Servicio de audio de pasos. Añade PlayerFootstepService al mismo GameObject.")]
+    [SerializeField] private PlayerFootstepService footstepService;
+
+    [Tooltip("Detector de superficie bajo el jugador. Añade SurfaceDetector al mismo GameObject.")]
+    [SerializeField] private SurfaceDetector surfaceDetector;
 
     [Header("Legacy Input")]
     [Tooltip("Si está activo, el movimiento se lee desde el sistema viejo (Input.GetAxisRaw / teclado).")]
@@ -271,6 +278,11 @@ public class PlayerMovement : MonoBehaviour
             rb.MovePosition(targetPosition);
             isMoving = false;
             currentMoveSpeed = moveSpeed;
+
+            // Dispara el paso una sola vez al llegar al tile destino.
+            // No disparamos durante waterFlowActive (el jugador no camina).
+            if (!waterFlowActive)
+                FireFootstep();
         }
     }
 
@@ -552,6 +564,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if (animator != null)
             animator.SetTrigger(maskTriggerName);
+    }
+
+    // ── Footsteps ─────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Detecta la superficie actual y delega al servicio de audio de pasos.
+    /// Desacoplado de FMOD: PlayerMovement sólo conoce IFootstepAudioService.
+    /// </summary>
+    private void FireFootstep()
+    {
+        if (footstepService == null) return;
+
+        // Detectar superficie (SurfaceType.Default si no hay detector o no hay hit)
+        SurfaceType surface = surfaceDetector != null
+            ? surfaceDetector.Detect(rb.position)
+            : SurfaceType.Default;
+
+        footstepService.OnPlayerStep(surface, rb.position);
     }
 
     private void SetChildrenSpriteRenderersEnabled(bool enabled)

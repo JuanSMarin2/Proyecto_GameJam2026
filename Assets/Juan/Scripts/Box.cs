@@ -1,87 +1,89 @@
 using UnityEngine;
 
-[RequireComponent(typeof(GridObject))]
 public class Box : MonoBehaviour
 {
     [Header("Box Movement")]
+    [SerializeField] private float obstacleCheckRadius = 0.12f;
+
     private Rigidbody2D rb;
-    private GridObject gridObject;
-    private GridManager gridManager;
+    private BoxCollider2D boxCollider;
     private Vector2 targetPosition;
     private float moveSpeed;
     private bool isMoving;
 
+    public bool IsMoving => isMoving;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        gridObject = GetComponent<GridObject>();
-        gridManager = GridManager.Instance;
+        boxCollider = GetComponent<BoxCollider2D>();
         if (rb != null)
         {
             rb.gravityScale = 0f;
             rb.freezeRotation = true;
         }
+        targetPosition = GetCurrentPosition2D();
     }
 
-    private void Start()
-    {
-        SyncTargetPositionToCell();
-    }
-
-    public bool TryPush(Vector2Int direction, float speed)
+    public bool TryPush(Vector2 direction, float tileSize, float speed)
     {
         if (isMoving) return false;
 
-        if (gridManager == null)
-            gridManager = GridManager.Instance;
-
-        if (gridManager == null || gridObject == null)
-            return false;
-
-        Vector2Int destinationCell = gridObject.Cell + direction;
-        if (gridManager.IsBlocked(destinationCell, gridObject.Size, gridObject)) return false;
+        Vector2 dest = GetCurrentPosition2D() + direction * tileSize;
+        if (IsBlocked(dest)) return false;
 
         // Regla: la caja no puede terminar en una casilla que esté justo arriba
         // o justo abajo de una pared (adyacente verticalmente a 1 tile).
-        Vector2Int boxSize = gridObject.Size;
-        for (int x = 0; x < boxSize.x; x++)
+        if (HasWallAtPosition(dest + Vector2.up * tileSize) || HasWallAtPosition(dest + Vector2.down * tileSize))
         {
-            for (int y = 0; y < boxSize.y; y++)
-            {
-                Vector2Int occupiedCell = destinationCell + new Vector2Int(x, y);
-                if (gridManager.IsObstacleBlocked(occupiedCell + Vector2Int.up) || gridManager.IsObstacleBlocked(occupiedCell + Vector2Int.down))
-                    return false;
-            }
+            SoundManager.PlaySound(SoundType.UiError);
+            return false;
         }
 
-        if (gridManager.TryGetObjectAtArea(destinationCell, gridObject.Size, out GridObject occupant) && occupant != null && occupant != gridObject)
-            return false;
-
-        if (!gridObject.TrySetCell(destinationCell))
-            return false;
-
-        targetPosition = gridManager.GridToWorld(destinationCell, gridObject.Size, gridObject.Anchor);
+        targetPosition = dest;
         moveSpeed = Mathf.Max(0.01f, speed);
-        if (AudioManager.instance != null && FMODEvents.instance != null)
-        {
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.BoxMovingSoundEvent, transform.position);
-        }
+        SoundManager.PlaySound(SoundType.BloqueMoviendose);
         isMoving = true;
         Debug.Log("Box is Moving");
         return true;
     }
 
-    public bool TryPush(Vector2 direction, float tileSize, float speed)
+    public bool MoveByWater(Vector2 direction, float speed)
     {
-        Vector2Int gridDirection = new Vector2Int(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y));
-        return TryPush(gridDirection, speed);
+        if (rb == null || isMoving || direction.sqrMagnitude < 0.0001f)
+            return false;
+
+        Vector2 movement = direction.normalized * Mathf.Max(0f, speed) * Time.fixedDeltaTime;
+        Vector2 nextPosition = GetCurrentPosition2D() + movement;
+        if (IsBlocked(nextPosition))
+            return false;
+
+        rb.MovePosition(nextPosition);
+        return movement.sqrMagnitude > 0.000001f;
+    }
+
+    private bool HasWallAtPosition(Vector2 pos)
+    {
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 center = pos + GetColliderWorldOffset();
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i] == null) continue;
+            if (hits[i].gameObject == gameObject) continue;
+            if (hits[i].CompareTag("Wall"))
+                return true;
+        }
+        return false;
     }
 
     private void FixedUpdate()
     {
         if (!isMoving) return;
 
-        Vector2 current = rb != null ? rb.position : (Vector2)transform.position;
+        Vector2 current = GetCurrentPosition2D();
         Vector2 next = Vector2.MoveTowards(current, targetPosition, moveSpeed * Time.fixedDeltaTime);
 
         if (rb != null)
@@ -97,18 +99,43 @@ public class Box : MonoBehaviour
         }
     }
 
-    private void SyncTargetPositionToCell()
+    private bool IsBlocked(Vector2 pos)
     {
-        if (gridManager == null)
-            gridManager = GridManager.Instance;
-
-        if (gridManager == null || gridObject == null)
+        Vector2 size = GetColliderWorldSize();
+        float angle = transform.eulerAngles.z;
+        Vector2 center = pos + GetColliderWorldOffset();
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle);
+        for (int i = 0; i < hits.Length; i++)
         {
-            targetPosition = rb != null ? rb.position : targetPosition;
-            return;
+          if (
+    hits[i] != null &&
+    hits[i].gameObject != gameObject &&
+    (hits[i].CompareTag("Wall") || hits[i].CompareTag("Box"))
+)
+                return true;
         }
+        return false;
+    }
 
-        Vector3 worldPosition = gridObject.GetWorldPosition();
-        targetPosition = new Vector2(worldPosition.x, worldPosition.y);
+    private Vector2 GetCurrentPosition2D()
+    {
+        if (rb != null) return rb.position;
+        return (Vector2)transform.position;
+    }
+
+    private Vector2 GetColliderWorldSize()
+    {
+        if (boxCollider == null) return new Vector2(obstacleCheckRadius * 2f, obstacleCheckRadius * 2f);
+        Vector2 s = boxCollider.size;
+        Vector3 scale = transform.lossyScale;
+        return new Vector2(s.x * Mathf.Abs(scale.x), s.y * Mathf.Abs(scale.y));
+    }
+
+    private Vector2 GetColliderWorldOffset()
+    {
+        if (boxCollider == null) return Vector2.zero;
+        Vector2 local = boxCollider.offset;
+        Vector3 world = transform.TransformVector(new Vector3(local.x, local.y, 0f));
+        return new Vector2(world.x, world.y);
     }
 }

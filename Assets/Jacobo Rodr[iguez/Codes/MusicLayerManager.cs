@@ -1,203 +1,293 @@
 using System;
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 
+/// <summary>
+/// Gestor de música adaptativa por capas mediante FMOD Studio para MasKeeper.
+/// 
+/// Reemplaza el antiguo sistema de múltiples AudioSources nativos y PlayScheduled.
+/// En FMOD Studio, las pistas de las capas (Base, Africana, Europea, Asiática, Latina)
+/// se sincronizan automáticamente dentro de un mismo Evento en bucle.
+/// 
+/// El control de activación de capas se realiza a través de parámetros de FMOD (0.0f a 1.0f)
+/// vinculados a los eventos de EventManager (EnActivarCapa / EnDesactivarCapa).
+/// El volumen global y ducking de la música se delegan a la arquitectura de Buses de FMOD
+/// (gestionados por AudioManager).
+/// </summary>
 public class MusicLayerManager : MonoBehaviour
 {
-    [Header("Sounds")]
-    [SerializeField] private SoundsSO soundsSO;
+    // ── FMOD Event ─────────────────────────────────────────────────────────────
+    [Header("FMOD Music Event")]
+    [Tooltip("Evento FMOD que contiene la música con las pistas de las capas sincronizadas.")]
+    [SerializeField] private EventReference musicEvent;
 
-    [Header("Fade")]
+    [Tooltip("Si está activo, la música comienza a reproducirse automáticamente en Start.")]
+    [SerializeField] private bool playOnStart = true;
+
+    // ── Parámetros de Capas FMOD ───────────────────────────────────────────────
+    [Header("FMOD Layer Parameter Names")]
+    [Tooltip("Capa 1: Nombre exacto del parámetro en FMOD Studio para la máscara africana.")]
+    [SerializeField] private string africanParam = "Mask_01_African";
+
+    [Tooltip("Capa 2: Nombre exacto del parámetro en FMOD Studio para la máscara europea.")]
+    [SerializeField] private string europeanParam = "Mask_02_European";
+
+    [Tooltip("Capa 3: Nombre exacto del parámetro en FMOD Studio para la máscara asiática.")]
+    [SerializeField] private string asianParam = "Mask_03_Asian";
+
+    [Tooltip("Capa 4: Nombre exacto del parámetro en FMOD Studio para la máscara latina.")]
+    [SerializeField] private string latinParam = "Mask_04_Latin";
+
+    // ── Fades y Suavizado ──────────────────────────────────────────────────────
+    [Header("Fade & Smoothing")]
+    [Tooltip("RECOMENDADO: Si está activo, FMOD Studio gestiona el fade in/out mediante " +
+             "el 'Seek Speed' configurado en las propiedades de cada parámetro en FMOD Studio. " +
+             "Esto ahorra cálculos en Update() y permite curvas de transición no lineales.")]
+    [SerializeField] private bool useFmodSeekSpeed = true;
+
+    [Tooltip("Si 'useFmodSeekSpeed' es false, Unity calculará la interpolación con este tiempo de entrada.")]
     [SerializeField, Min(0f)] private float fadeInSeconds = 0.25f;
+
+    [Tooltip("Si 'useFmodSeekSpeed' es false, Unity calculará la interpolación con este tiempo de salida.")]
     [SerializeField, Min(0f)] private float fadeOutSeconds = 0.35f;
 
-    [Header("Sound Types")]
-    [SerializeField] private SoundType baseSound = SoundType.CapaBase;
-    [SerializeField] private SoundType africanLayer = SoundType.CapaAFricana;
-    [SerializeField] private SoundType europeanLayer = SoundType.CapaEuropea;
-    [SerializeField] private SoundType asianLayer = SoundType.CapaAsiatica;
-    [SerializeField] private SoundType latinLayer = SoundType.CapaLatina;
+    // ── Estado Inicial ─────────────────────────────────────────────────────────
+    [Header("Initial Layer States")]
+    [SerializeField] private bool startAfricanActive = false;
+    [SerializeField] private bool startEuropeanActive = false;
+    [SerializeField] private bool startAsianActive = false;
+    [SerializeField] private bool startLatinActive = false;
 
-    private AudioSource baseSource;
-    private AudioSource africanSource;
-    private AudioSource europeanSource;
-    private AudioSource asianSource;
-    private AudioSource latinSource;
+    // ── Variables Internas ─────────────────────────────────────────────────────
+    private EventInstance musicInstance;
+    private bool isSubscribedToEvents;
 
-    private bool africanTargetActive;
-    private bool europeanTargetActive;
-    private bool asianTargetActive;
-    private bool latinTargetActive;
+    // Objetivos de activación (0f = inactivo, 1f = activo)
+    private float targetAfrican;
+    private float targetEuropean;
+    private float targetAsian;
+    private float targetLatin;
 
-    private float baseVolume;
-    private float africanVolume;
-    private float europeanVolume;
-    private float asianVolume;
-    private float latinVolume;
+    // Valores actuales (usados si useFmodSeekSpeed == false)
+    private float currentAfrican;
+    private float currentEuropean;
+    private float currentAsian;
+    private float currentLatin;
+
+    // ── Ciclo de Vida ──────────────────────────────────────────────────────────
 
     private void Awake()
     {
-        EnsureSources();
+        // Inicializar estados objetivo
+        targetAfrican = startAfricanActive ? 1f : 0f;
+        targetEuropean = startEuropeanActive ? 1f : 0f;
+        targetAsian = startAsianActive ? 1f : 0f;
+        targetLatin = startLatinActive ? 1f : 0f;
 
-        if (EventManager.Instance != null)
-        {
-            EventManager.Instance.EnActivarCapa += ActivarCapa;
-            EventManager.Instance.EnDesactivarCapa += DesactivarCapa;
-        }
-
+        currentAfrican = targetAfrican;
+        currentEuropean = targetEuropean;
+        currentAsian = targetAsian;
+        currentLatin = targetLatin;
     }
 
-    private void OnDisable()
+    private void OnEnable()
     {
-        if (EventManager.Instance != null)
-        {
-            EventManager.Instance.EnActivarCapa -= ActivarCapa;
-            EventManager.Instance.EnDesactivarCapa -= DesactivarCapa;
-        }
-
+        TrySubscribeEvents();
     }
 
     private void Start()
     {
-        if (soundsSO == null)
-        {
-            Debug.LogWarning("[MusicLayerManager] Missing SoundsSO reference.");
-            enabled = false;
-            return;
-        }
+        // Reintentar suscripción por si EventManager.Instance se inicializó en el Awake de otro objeto
+        TrySubscribeEvents();
 
-        SetupSource(baseSource, baseSound, out baseVolume);
-        SetupSource(africanSource, africanLayer, out africanVolume);
-        SetupSource(europeanSource, europeanLayer, out europeanVolume);
-        SetupSource(asianSource, asianLayer, out asianVolume);
-        SetupSource(latinSource, latinLayer, out latinVolume);
-
-        baseSource.volume = baseVolume;
-        africanSource.volume = 0f;
-        europeanSource.volume = 0f;
-        asianSource.volume = 0f;
-        latinSource.volume = 0f;
-
-        // Schedule playback to start aligned.
-        double startTime = AudioSettings.dspTime + 0.1d;
-        baseSource.PlayScheduled(startTime);
-        africanSource.PlayScheduled(startTime);
-        europeanSource.PlayScheduled(startTime);
-        asianSource.PlayScheduled(startTime);
-        latinSource.PlayScheduled(startTime);
+        InitializeAndPlayMusic();
     }
 
     private void Update()
     {
-        if (baseSource == null || baseSource.clip == null)
+        // Si delegamos la interpolación a FMOD Seek Speed, no se requiere ningún cálculo en Update
+        if (useFmodSeekSpeed || !musicInstance.isValid())
             return;
 
-        float musicMultiplier = AudioManager.instance != null ? AudioManager.instance.GetEffectiveMusicVolume() : 1f;
-
-        // Keep base steady; fade layers towards their targets.
-        baseSource.volume = baseVolume * musicMultiplier;
-
-        UpdateLayerVolume(africanSource, africanTargetActive, africanVolume, musicMultiplier);
-        UpdateLayerVolume(europeanSource, europeanTargetActive, europeanVolume, musicMultiplier);
-        UpdateLayerVolume(asianSource, asianTargetActive, asianVolume, musicMultiplier);
-        UpdateLayerVolume(latinSource, latinTargetActive, latinVolume, musicMultiplier);
+        UpdateManualSmoothing();
     }
+
+    private void OnDisable()
+    {
+        UnsubscribeEvents();
+    }
+
+    private void OnDestroy()
+    {
+        StopAndReleaseMusic();
+    }
+
+    // ── FMOD Music Playback & Lifecycle ───────────────────────────────────────
+
+    private void InitializeAndPlayMusic()
+    {
+        // Resolver EventReference: el configurado en Inspector o fallback a FMODEvents
+        EventReference evt = musicEvent;
+        if (evt.IsNull && FMODEvents.instance != null)
+        {
+            evt = FMODEvents.instance.LayerMusicSoundEvent;
+        }
+
+        if (evt.IsNull)
+        {
+            Debug.LogWarning("[MusicLayerManager] No hay ningún evento de música asignado ni en el Inspector ni en FMODEvents.");
+            return;
+        }
+
+        // Crear instancia del evento
+        if (AudioManager.instance != null)
+        {
+            musicInstance = AudioManager.instance.CreateEventInstance(evt, transform.position);
+        }
+        else
+        {
+            musicInstance = RuntimeManager.CreateInstance(evt);
+        }
+
+        if (!musicInstance.isValid())
+        {
+            Debug.LogError("[MusicLayerManager] No se pudo crear la EventInstance de música de FMOD.");
+            return;
+        }
+
+        // Aplicar estados iniciales de las capas
+        ApplyLayerParameter(africanParam, targetAfrican);
+        ApplyLayerParameter(europeanParam, targetEuropean);
+        ApplyLayerParameter(asianParam, targetAsian);
+        ApplyLayerParameter(latinParam, targetLatin);
+
+        // Iniciar reproducción si está configurado
+        if (playOnStart)
+        {
+            PlayMusic();
+        }
+    }
+
+    /// <summary>
+    /// Inicia la reproducción del evento musical.
+    /// </summary>
+    public void PlayMusic()
+    {
+        if (!musicInstance.isValid()) return;
+
+        musicInstance.getPlaybackState(out PLAYBACK_STATE playState);
+
+        if (playState != PLAYBACK_STATE.PLAYING)
+        {
+            musicInstance.start();
+        }
+    }
+
+    /// <summary>
+    /// Detiene la música con fade out configurado en el evento de FMOD y libera la instancia.
+    /// </summary>
+    public void StopAndReleaseMusic(bool allowFadeout = true)
+    {
+        if (!musicInstance.isValid()) return;
+
+        FMOD.Studio.STOP_MODE stopMode = allowFadeout 
+            ? FMOD.Studio.STOP_MODE.ALLOWFADEOUT 
+            : FMOD.Studio.STOP_MODE.IMMEDIATE;
+
+        musicInstance.stop(stopMode);
+        musicInstance.release();
+    }
+
+    // ── Reacción a Capas (EventManager) ───────────────────────────────────────
 
     private void ActivarCapa(int capa)
     {
-        switch (capa)
-        {
-            case 1:
-                africanTargetActive = true;
-                break;
-            case 2:
-                europeanTargetActive = true;
-                break;
-            case 3:
-                asianTargetActive = true;
-                break;
-            case 4:
-                latinTargetActive = true;
-                break;
-        }
+        SetLayerState(capa, 1f);
     }
 
     private void DesactivarCapa(int capa)
     {
+        SetLayerState(capa, 0f);
+    }
+
+    private void SetLayerState(int capa, float value)
+    {
         switch (capa)
         {
             case 1:
-                africanTargetActive = false;
+                targetAfrican = value;
+                if (useFmodSeekSpeed) ApplyLayerParameter(africanParam, targetAfrican);
                 break;
             case 2:
-                europeanTargetActive = false;
+                targetEuropean = value;
+                if (useFmodSeekSpeed) ApplyLayerParameter(europeanParam, targetEuropean);
                 break;
             case 3:
-                asianTargetActive = false;
+                targetAsian = value;
+                if (useFmodSeekSpeed) ApplyLayerParameter(asianParam, targetAsian);
                 break;
             case 4:
-                latinTargetActive = false;
+                targetLatin = value;
+                if (useFmodSeekSpeed) ApplyLayerParameter(latinParam, targetLatin);
+                break;
+            default:
+                Debug.LogWarning($"[MusicLayerManager] Capa {capa} no reconocida (solo 1 a 4).");
                 break;
         }
     }
 
-    private void UpdateLayerVolume(AudioSource source, bool targetActive, float activeVolume, float musicMultiplier)
+    // ── Suavizado en Unity (Modo Manual Fallback) ──────────────────────────────
+
+    private void UpdateManualSmoothing()
     {
-        if (source == null)
-            return;
-
-        float targetVolume = targetActive ? (activeVolume * musicMultiplier) : 0f;
-        float seconds = targetActive ? fadeInSeconds : fadeOutSeconds;
-
-        if (seconds <= 0f)
-        {
-            source.volume = targetVolume;
-            return;
-        }
-
-        // Speed is in "volume units per second".
-        float maxDelta = Mathf.Max(activeVolume, 1f) / Mathf.Max(seconds, 0.0001f) * Time.deltaTime;
-        source.volume = Mathf.MoveTowards(source.volume, targetVolume, maxDelta);
+        currentAfrican = MoveTowardValue(currentAfrican, targetAfrican, africanParam);
+        currentEuropean = MoveTowardValue(currentEuropean, targetEuropean, europeanParam);
+        currentAsian = MoveTowardValue(currentAsian, targetAsian, asianParam);
+        currentLatin = MoveTowardValue(currentLatin, targetLatin, latinParam);
     }
 
-    private void EnsureSources()
+    private float MoveTowardValue(float current, float target, string paramName)
     {
-        if (baseSource == null) baseSource = gameObject.AddComponent<AudioSource>();
-        if (africanSource == null) africanSource = gameObject.AddComponent<AudioSource>();
-        if (europeanSource == null) europeanSource = gameObject.AddComponent<AudioSource>();
-        if (asianSource == null) asianSource = gameObject.AddComponent<AudioSource>();
-        if (latinSource == null) latinSource = gameObject.AddComponent<AudioSource>();
+        if (Mathf.Approximately(current, target))
+            return target;
+
+        bool isFadingIn = target > current;
+        float duration = isFadingIn ? fadeInSeconds : fadeOutSeconds;
+        float step = (duration > 0.0001f) ? (Time.deltaTime / duration) : 1f;
+
+        float next = Mathf.MoveTowards(current, target, step);
+        ApplyLayerParameter(paramName, next);
+        return next;
     }
 
-    private void SetupSource(AudioSource source, SoundType soundType, out float configuredVolume)
+    private void ApplyLayerParameter(string paramName, float value)
     {
-        configuredVolume = 1f;
-
-        if (source == null)
+        if (string.IsNullOrEmpty(paramName) || !musicInstance.isValid())
             return;
 
-        source.playOnAwake = false;
-        source.loop = true;
+        musicInstance.setParameterByName(paramName, value);
+    }
 
-        int index = (int)soundType;
-        if (soundsSO.sounds == null || index < 0 || index >= soundsSO.sounds.Length)
-        {
-            Debug.LogWarning($"[MusicLayerManager] SoundsSO missing entry for {soundType}.");
-            source.clip = null;
-            return;
-        }
+    // ── Suscripción Segura a EventManager ──────────────────────────────────────
 
-        SoundList list = soundsSO.sounds[index];
-        configuredVolume = list.volume;
-        source.outputAudioMixerGroup = list.mixer;
+    private void TrySubscribeEvents()
+    {
+        if (isSubscribedToEvents) return;
+        if (EventManager.Instance == null) return;
 
-        if (list.sounds == null || list.sounds.Length == 0)
-        {
-            Debug.LogWarning($"[MusicLayerManager] No clips assigned for {soundType}.");
-            source.clip = null;
-            return;
-        }
+        EventManager.Instance.EnActivarCapa += ActivarCapa;
+        EventManager.Instance.EnDesactivarCapa += DesactivarCapa;
+        isSubscribedToEvents = true;
+    }
 
-        // For music we use the first clip deterministically.
-        source.clip = list.sounds[0];
+    private void UnsubscribeEvents()
+    {
+        if (!isSubscribedToEvents) return;
+        if (EventManager.Instance == null) return;
+
+        EventManager.Instance.EnActivarCapa -= ActivarCapa;
+        EventManager.Instance.EnDesactivarCapa -= DesactivarCapa;
+        isSubscribedToEvents = false;
     }
 }

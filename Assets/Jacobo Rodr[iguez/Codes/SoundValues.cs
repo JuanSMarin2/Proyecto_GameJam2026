@@ -39,7 +39,8 @@
     Viento,
     Agua,
     DialogueStinger,
-    PositiveStinger
+    PositiveStinger,
+    UiError,
 
     
     }
