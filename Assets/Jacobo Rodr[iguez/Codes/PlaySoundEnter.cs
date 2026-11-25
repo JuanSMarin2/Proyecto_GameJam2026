@@ -4,9 +4,7 @@ using FMODUnity;
 public class PlaySoundEnter : StateMachineBehaviour
 {
     [SerializeField] private EventReference soundEvent;
-    [SerializeField] private SoundType sound;
-    [SerializeField, Range(0, 1)] private float volume = 1;
-
+    
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (AudioManager.instance == null)
@@ -16,13 +14,9 @@ public class PlaySoundEnter : StateMachineBehaviour
         {
             AudioManager.instance.PlayOneShot(soundEvent, animator.transform.position);
         }
-        else if (FMODEvents.instance != null)
+        else
         {
-            EventReference evt = FMODEvents.instance.GetEventByType(sound);
-            if (!evt.IsNull)
-            {
-                AudioManager.instance.PlayOneShot(evt, animator.transform.position);
-            }
+            Debug.LogWarning("Sound event is null for PlaySoundEnter on state: " + stateInfo.fullPathHash);
         }
     }
 }

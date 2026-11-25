@@ -1,4 +1,4 @@
-//Author: Small Hedge Games
+/* //Author: Small Hedge Games
 //Updated: 13/06/2024
 
 #if UNITY_EDITOR
@@ -101,4 +101,4 @@ using UnityEngine.Audio;
         }
     }
 
-#endif
+#endif */

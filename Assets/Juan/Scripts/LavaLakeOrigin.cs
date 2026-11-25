@@ -85,14 +85,11 @@ public class LavaLakeOrigin : MonoBehaviour
 
         if (blockedByBox && isCompressing && !wasBlockedByBox)
         {
-           
-
-            // Si prefieres tu sistema:
             if (AudioManager.instance != null && FMODEvents.instance != null)
             {
                 AudioManager.instance.PlayOneShot(FMODEvents.instance.LavaMovingSoundEvent, transform.position);
             }
-            Debug.Log("Lava Lake: blocked by Box, playing sound."+ SoundType.LavaMoving);
+            Debug.Log("Lava Lake: blocked by Box, playing sound.");
         }
 
         // Importante: solo consideramos "bloqueado por box" mientras el bloqueo actual sea por box.

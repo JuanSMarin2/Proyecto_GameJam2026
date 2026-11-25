@@ -36,13 +36,13 @@ public class Box : MonoBehaviour
         // o justo abajo de una pared (adyacente verticalmente a 1 tile).
         if (HasWallAtPosition(dest + Vector2.up * tileSize) || HasWallAtPosition(dest + Vector2.down * tileSize))
         {
-            SoundManager.PlaySound(SoundType.UiError);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.UIErrorSoundEvent, transform.position);
             return false;
         }
 
         targetPosition = dest;
         moveSpeed = Mathf.Max(0.01f, speed);
-        SoundManager.PlaySound(SoundType.BloqueMoviendose);
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.BoxMovingSoundEvent, transform.position);
         isMoving = true;
         Debug.Log("Box is Moving");
         return true;

@@ -44,13 +44,7 @@ public class MusicLayerManager : MonoBehaviour
     [Tooltip("RECOMENDADO: Si está activo, FMOD Studio gestiona el fade in/out mediante " +
              "el 'Seek Speed' configurado en las propiedades de cada parámetro en FMOD Studio. " +
              "Esto ahorra cálculos en Update() y permite curvas de transición no lineales.")]
-    [SerializeField] private bool useFmodSeekSpeed = true;
-
-    [Tooltip("Si 'useFmodSeekSpeed' es false, Unity calculará la interpolación con este tiempo de entrada.")]
-    [SerializeField, Min(0f)] private float fadeInSeconds = 0.25f;
-
-    [Tooltip("Si 'useFmodSeekSpeed' es false, Unity calculará la interpolación con este tiempo de salida.")]
-    [SerializeField, Min(0f)] private float fadeOutSeconds = 0.35f;
+    
 
     // ── Estado Inicial ─────────────────────────────────────────────────────────
     [Header("Initial Layer States")]
@@ -69,11 +63,7 @@ public class MusicLayerManager : MonoBehaviour
     private float targetAsian;
     private float targetLatin;
 
-    // Valores actuales (usados si useFmodSeekSpeed == false)
-    private float currentAfrican;
-    private float currentEuropean;
-    private float currentAsian;
-    private float currentLatin;
+
 
     // ── Ciclo de Vida ──────────────────────────────────────────────────────────
 
@@ -85,10 +75,7 @@ public class MusicLayerManager : MonoBehaviour
         targetAsian = startAsianActive ? 1f : 0f;
         targetLatin = startLatinActive ? 1f : 0f;
 
-        currentAfrican = targetAfrican;
-        currentEuropean = targetEuropean;
-        currentAsian = targetAsian;
-        currentLatin = targetLatin;
+        musicEvent = !musicEvent.IsNull ? musicEvent : (FMODEvents.instance != null ? FMODEvents.instance.LayerMusicSoundEvent : default);
     }
 
     private void OnEnable()
@@ -104,14 +91,6 @@ public class MusicLayerManager : MonoBehaviour
         InitializeAndPlayMusic();
     }
 
-    private void Update()
-    {
-        // Si delegamos la interpolación a FMOD Seek Speed, no se requiere ningún cálculo en Update
-        if (useFmodSeekSpeed || !musicInstance.isValid())
-            return;
-
-        UpdateManualSmoothing();
-    }
 
     private void OnDisable()
     {
@@ -217,19 +196,19 @@ public class MusicLayerManager : MonoBehaviour
         {
             case 1:
                 targetAfrican = value;
-                if (useFmodSeekSpeed) ApplyLayerParameter(africanParam, targetAfrican);
+              
                 break;
             case 2:
                 targetEuropean = value;
-                if (useFmodSeekSpeed) ApplyLayerParameter(europeanParam, targetEuropean);
+             
                 break;
             case 3:
                 targetAsian = value;
-                if (useFmodSeekSpeed) ApplyLayerParameter(asianParam, targetAsian);
+              
                 break;
             case 4:
                 targetLatin = value;
-                if (useFmodSeekSpeed) ApplyLayerParameter(latinParam, targetLatin);
+               
                 break;
             default:
                 Debug.LogWarning($"[MusicLayerManager] Capa {capa} no reconocida (solo 1 a 4).");
@@ -238,28 +217,6 @@ public class MusicLayerManager : MonoBehaviour
     }
 
     // ── Suavizado en Unity (Modo Manual Fallback) ──────────────────────────────
-
-    private void UpdateManualSmoothing()
-    {
-        currentAfrican = MoveTowardValue(currentAfrican, targetAfrican, africanParam);
-        currentEuropean = MoveTowardValue(currentEuropean, targetEuropean, europeanParam);
-        currentAsian = MoveTowardValue(currentAsian, targetAsian, asianParam);
-        currentLatin = MoveTowardValue(currentLatin, targetLatin, latinParam);
-    }
-
-    private float MoveTowardValue(float current, float target, string paramName)
-    {
-        if (Mathf.Approximately(current, target))
-            return target;
-
-        bool isFadingIn = target > current;
-        float duration = isFadingIn ? fadeInSeconds : fadeOutSeconds;
-        float step = (duration > 0.0001f) ? (Time.deltaTime / duration) : 1f;
-
-        float next = Mathf.MoveTowards(current, target, step);
-        ApplyLayerParameter(paramName, next);
-        return next;
-    }
 
     private void ApplyLayerParameter(string paramName, float value)
     {

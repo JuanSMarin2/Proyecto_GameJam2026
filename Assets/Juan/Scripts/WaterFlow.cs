@@ -9,10 +9,6 @@ public class WaterFlow : MonoBehaviour
     [SerializeField, Min(0f)] private float pushForce = 2f;
     [SerializeField, Min(0f)] private float blockedReleaseTime = 0.5f;
 
-    [Header("Audio")]
-    [SerializeField] private SoundType enterOrExitSound = SoundType.Agua;
-    [SerializeField] private SoundType flowMovementSound = SoundType.Agua;
-
     private readonly HashSet<PlayerMovement> players = new HashSet<PlayerMovement>();
     private readonly HashSet<PlayerMovement> releasedPlayers = new HashSet<PlayerMovement>();
     private readonly HashSet<PlayerMovement> playersWithFlowMovementSound = new HashSet<PlayerMovement>();
@@ -60,7 +56,7 @@ public class WaterFlow : MonoBehaviour
             {
                 blockedTimes[player] = 0f;
                 if (playersWithFlowMovementSound.Add(player))
-                    SoundManager.PlaySound(flowMovementSound);
+                    AudioManager.instance.PlayOneShot(FMODEvents.instance.WaterPushingSound, player.transform.position);
                 continue;
             }
 
@@ -135,7 +131,7 @@ public class WaterFlow : MonoBehaviour
         {
             blockedTimes[player] = 0f;
             player.BeginWaterFlow();
-            SoundManager.PlaySound(enterOrExitSound);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.WaterPushingSound, player.transform.position);
         }
 
         Box box = other.GetComponentInParent<Box>();
@@ -153,7 +149,7 @@ public class WaterFlow : MonoBehaviour
         if (player != null)
         {
             player.EndWaterFlow();
-            SoundManager.PlaySound(enterOrExitSound);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.WaterExit, player.transform.position);
         }
     }
 }

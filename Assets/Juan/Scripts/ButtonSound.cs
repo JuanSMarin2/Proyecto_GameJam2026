@@ -10,9 +10,6 @@ public class ButtonSound : MonoBehaviour
 {
     [Header("Audio (FMOD)")]
     [SerializeField] private EventReference soundEvent;
-    [SerializeField] private SoundType buttonSound = SoundType.CambioDePantalla;
-    [SerializeField, Range(0f, 1f)] private float volume = 1f;
-
     [Header("Input")]
     [SerializeField] private bool includeKeyboard = true;
     [SerializeField] private bool includeMouseButtons = true;
@@ -27,24 +24,15 @@ public class ButtonSound : MonoBehaviour
                 : (FMODEvents.instance != null ? FMODEvents.instance.UIButtonSoundEvent : default);
 
             if (evt.IsNull && FMODEvents.instance != null)
-                evt = FMODEvents.instance.GetEventByType(buttonSound);
+                evt = FMODEvents.instance.UIButtonSoundEvent;
 
             if (!evt.IsNull)
-            {
-                if (Mathf.Approximately(volume, 1f))
-                {
+            {       
                     AudioManager.instance.PlayOneShot(evt, transform.position);
-                }
-                else
-                {
-                    var eventInstance = AudioManager.instance.CreateEventInstance(evt, transform.position);
-                    if (eventInstance.isValid())
-                    {
-                        eventInstance.setVolume(volume);
-                        eventInstance.start();
-                        eventInstance.release();
-                    }
-                }
+            }
+            else if (FMODEvents.instance == null)
+            {
+                Debug.LogWarning("No sound event assigned for button press and FMODEvents instance is null.");
             }
         }
     }

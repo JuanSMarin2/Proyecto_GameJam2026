@@ -97,7 +97,7 @@ MonoBehaviour:
       Data2: 1288756476
       Data3: -1454243936
       Data4: 802396889
-    Path: event:/Obstacles/SFX_LavaIdle
+    Path: event:/Environment&Obstacles/SFX_LavaIdle
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 0

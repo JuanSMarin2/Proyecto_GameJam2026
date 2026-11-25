@@ -14,8 +14,6 @@ public class WindFlow : MonoBehaviour
     [SerializeField] private GameObject windVisual;
     [SerializeField, Min(0f)] private float fadeDuration = 0.25f;
 
-    [Header("Audio")]
-    [SerializeField] private SoundType windSound = SoundType.Viento;
 
     private readonly HashSet<PlayerMovement> playersInside = new HashSet<PlayerMovement>();
     private readonly HashSet<Box> boxesInside = new HashSet<Box>();
@@ -287,7 +285,7 @@ public class WindFlow : MonoBehaviour
 
         blockedTimes[player] = 0f;
         player.BeginWaterFlow();
-        SoundManager.PlaySound(windSound);
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.WindSound, player.transform.position);
     }
 
     private void StopPushingPlayer(PlayerMovement player)

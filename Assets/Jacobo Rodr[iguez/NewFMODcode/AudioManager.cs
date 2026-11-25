@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private string masterBusPath = "bus:/";
     [SerializeField] private string musicBusPath = "bus:/Music";
     [SerializeField] private string sfxBusPath = "bus:/SFX";
+    [SerializeField] private string ambienceBusPath = "bus:/Ambience";
 
     private const string PrefMasterVolume = "audio.master.volume";
     private const string PrefSfxVolume = "audio.sfx.volume";
@@ -19,23 +20,29 @@ public class AudioManager : MonoBehaviour
     private const string PrefMasterLastNonZero = "audio.master.lastNonZero";
     private const string PrefSfxLastNonZero = "audio.sfx.lastNonZero";
     private const string PrefMusicLastNonZero = "audio.music.lastNonZero";
+    private const string PrefAmbienceVolume = "audio.ambience.volume";
+    private const string PrefAmbienceLastNonZero = "audio.ambience.lastNonZero";
+    
 
     private static bool prefsLoaded;
     private static float masterUserVolume = 1f;
     private static float sfxUserVolume = 1f;
     private static float musicUserVolume = 1f;
+    private static float ambienceUserVolume = 1f;
     private static float masterLastNonZeroVolume = 1f;
     private static float sfxLastNonZeroVolume = 1f;
     private static float musicLastNonZeroVolume = 1f;
-    private static float pauseDucking = 1f;
-    private static float normalPauseDucking = 1f;
+    private static float ambienceLastNonZeroVolume = 1f;
+    
 
     private Bus masterBus;
     private Bus musicBus;
     private Bus sfxBus;
+    private Bus ambienceBus;
     private bool hasMasterBus;
     private bool hasMusicBus;
     private bool hasSfxBus;
+    private bool hasAmbienceBus;
 
     private readonly List<EventInstance> activeEvents = new List<EventInstance>();
 
@@ -94,6 +101,16 @@ public class AudioManager : MonoBehaviour
         {
             hasSfxBus = false;
         }
+        try
+        {
+            var ambienceBus = RuntimeManager.GetBus(ambienceBusPath);
+            this.ambienceBus = ambienceBus;
+            hasAmbienceBus = ambienceBus.isValid();
+        }
+        catch (Exception)
+        {
+            hasAmbienceBus = false;
+        } 
     }
 
     private static void EnsurePrefsLoaded()
@@ -104,14 +121,16 @@ public class AudioManager : MonoBehaviour
         masterUserVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefMasterVolume, 1f));
         sfxUserVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefSfxVolume, 1f));
         musicUserVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefMusicVolume, 1f));
-
+        ambienceUserVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefAmbienceVolume, 1f));
         masterLastNonZeroVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefMasterLastNonZero, Mathf.Max(0.01f, masterUserVolume)));
         sfxLastNonZeroVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefSfxLastNonZero, Mathf.Max(0.01f, sfxUserVolume)));
         musicLastNonZeroVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefMusicLastNonZero, Mathf.Max(0.01f, musicUserVolume)));
+        ambienceLastNonZeroVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(PrefAmbienceLastNonZero, Mathf.Max(0.01f, ambienceUserVolume)));
 
         if (masterLastNonZeroVolume <= 0f) masterLastNonZeroVolume = 1f;
         if (sfxLastNonZeroVolume <= 0f) sfxLastNonZeroVolume = 1f;
         if (musicLastNonZeroVolume <= 0f) musicLastNonZeroVolume = 1f;
+        if (ambienceLastNonZeroVolume <= 0f) ambienceLastNonZeroVolume = 1f;
 
         prefsLoaded = true;
     }
@@ -121,9 +140,11 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat(PrefMasterVolume, masterUserVolume);
         PlayerPrefs.SetFloat(PrefSfxVolume, sfxUserVolume);
         PlayerPrefs.SetFloat(PrefMusicVolume, musicUserVolume);
+        PlayerPrefs.SetFloat(PrefAmbienceVolume, ambienceUserVolume);
         PlayerPrefs.SetFloat(PrefMasterLastNonZero, masterLastNonZeroVolume);
         PlayerPrefs.SetFloat(PrefSfxLastNonZero, sfxLastNonZeroVolume);
         PlayerPrefs.SetFloat(PrefMusicLastNonZero, musicLastNonZeroVolume);
+        PlayerPrefs.SetFloat(PrefAmbienceLastNonZero, ambienceLastNonZeroVolume);
         PlayerPrefs.Save();
     }
 
@@ -148,7 +169,7 @@ public class AudioManager : MonoBehaviour
 
         if (hasMasterBus && masterBus.isValid())
         {
-            masterBus.setVolume(masterUserVolume * pauseDucking);
+            masterBus.setVolume(masterUserVolume);
         }
     }
 
@@ -187,6 +208,23 @@ public class AudioManager : MonoBehaviour
             sfxBus.setVolume(sfxUserVolume);
         }
     }
+    private void ApplyAmbienceVolume()
+    {
+        if (!hasAmbienceBus)
+        {
+            try
+            {
+                var ambienceBus = RuntimeManager.GetBus(ambienceBusPath);
+                hasAmbienceBus = ambienceBus.isValid();
+            }
+            catch (Exception) { }
+        }
+
+        if (hasAmbienceBus)
+        {
+           ambienceBus.setVolume(ambienceUserVolume);
+        }
+    }
 
     // --- Volume Getters ---
     public float GetMasterVolume()
@@ -206,23 +244,34 @@ public class AudioManager : MonoBehaviour
         EnsurePrefsLoaded();
         return musicUserVolume;
     }
+    public float GetAmbienceVolume()
+    {
+        EnsurePrefsLoaded();
+        return ambienceUserVolume;
+    }
 
     public float GetEffectiveMasterVolume()
     {
         EnsurePrefsLoaded();
-        return masterUserVolume * pauseDucking;
+        return masterUserVolume;
     }
 
     public float GetEffectiveSfxVolume()
     {
         EnsurePrefsLoaded();
-        return sfxUserVolume * pauseDucking;
+        return sfxUserVolume;
     }
 
     public float GetEffectiveMusicVolume()
     {
         EnsurePrefsLoaded();
-        return musicUserVolume * pauseDucking;
+        return musicUserVolume;
+    }
+
+    public float GetEffectiveAmbienceVolume()
+    {
+        EnsurePrefsLoaded();
+        return ambienceUserVolume;
     }
 
     // --- Volume Setters (usados por sliders) ---
@@ -257,6 +306,16 @@ public class AudioManager : MonoBehaviour
 
         SavePrefs();
         ApplyMusicVolume();
+    }
+    public void SetAmbienceVolume(float value01)
+    {
+        EnsurePrefsLoaded();
+        ambienceUserVolume = Mathf.Clamp01(value01);
+        if (ambienceUserVolume > 0.0001f)
+            ambienceLastNonZeroVolume = ambienceUserVolume;
+
+        SavePrefs();
+        ApplyAmbienceVolume();
     }
 
     // --- Mute / Unmute ---
@@ -314,6 +373,16 @@ public class AudioManager : MonoBehaviour
         SavePrefs();
         ApplyMusicVolume();
     }
+    public void MuteAmbience()
+    {
+        EnsurePrefsLoaded();
+        if (ambienceUserVolume > 0.0001f)
+            ambienceLastNonZeroVolume = ambienceUserVolume;
+
+        ambienceUserVolume = 0f;
+        SavePrefs();
+        ApplyAmbienceVolume();
+    }
 
     public void UnmuteMusicRestore()
     {
@@ -325,24 +394,7 @@ public class AudioManager : MonoBehaviour
         SavePrefs();
         ApplyMusicVolume();
     }
-
-    // --- Pause Ducking / Global Volume ---
-    public void SetGlobalVolume(float value01)
-    {
-        pauseDucking = Mathf.Clamp01(value01);
-        ApplyMasterVolume();
-    }
-
-    public void LowerGlobalVolume(float value01 = 0.25f)
-    {
-        normalPauseDucking = pauseDucking;
-        SetGlobalVolume(value01);
-    }
-
-    public void RestoreGlobalVolume()
-    {
-        SetGlobalVolume(normalPauseDucking);
-    }
+    
 
     #endregion
 
@@ -367,7 +419,7 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Reproduce un sonido basado en el enum SoundType mediante FMODEvents.
     /// </summary>
-    public void PlaySound(SoundType sound, Vector3 position = default)
+ /*    public void PlaySound(SoundType sound, Vector3 position = default)
     {
         if (FMODEvents.instance == null)
             return;
@@ -385,7 +437,7 @@ public class AudioManager : MonoBehaviour
     public void PlayStingerSound()
     {
         PlaySound(SoundType.DialogueStinger, default);
-    }
+    } */
 
     public EventInstance CreateEventInstance(EventReference soundEventReference)
     {
@@ -476,6 +528,11 @@ public class AudioManager : MonoBehaviour
     {
         get => instance != null ? instance.GetMasterVolume() : masterUserVolume;
         set { if (instance != null) instance.SetMasterVolume(value); else masterUserVolume = Mathf.Clamp01(value); }
+    }
+    public static float AmbienceVolume
+    {
+        get => instance != null ? instance.GetAmbienceVolume() : ambienceUserVolume;
+        set { if (instance != null) instance.SetAmbienceVolume(value); else ambienceUserVolume = Mathf.Clamp01(value); }
     }
 
     #endregion

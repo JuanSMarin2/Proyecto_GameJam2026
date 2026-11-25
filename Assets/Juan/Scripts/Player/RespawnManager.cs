@@ -42,7 +42,7 @@ public class RespawnManager : MonoBehaviour
         }
 
         // Reproducir leitmotif al respawnear al jugador
-        SoundManager.PlaySound(SoundType.Leitmotif1);
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.ReviveSoundEvent, transform.position);
 
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
