@@ -7,6 +7,14 @@ TagManager:
   - Wall
   - Void
   - Box
+  - Concrete
+  - Water
+  - Grass
+  - Dirt
+  - Normal
+  - Tienda
+  - PreBoss
+  - ExcludedButton
   layers:
   - Default
   - TransparentFX

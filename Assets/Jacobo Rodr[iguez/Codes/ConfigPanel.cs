@@ -5,16 +5,24 @@ using UnityEngine.UI;
 public class ConfigPanel : MonoBehaviour
 {
     [Header("Sliders")]
+    [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider ambienceSlider;
 
     [Header("Value Text")]
+    [SerializeField] private TMP_Text masterValueText;
     [SerializeField] private TMP_Text sfxValueText;
     [SerializeField] private TMP_Text musicValueText;
+    [SerializeField] private TMP_Text ambienceValueText;
 
     [Header("Mute Icons")]
+    [SerializeField] private Image MasterIconImage;
     [SerializeField] private Image sfxIconImage;
     [SerializeField] private Image musicIconImage;
+    [SerializeField] private Image ambienceIconImage;
+
+
 
     [Header("Icon Sprites")]
     [SerializeField] private Sprite unmutedSprite;
@@ -36,6 +44,11 @@ public class ConfigPanel : MonoBehaviour
 
     private void BindSliderEvents(bool bind)
     {
+        if (masterSlider != null)
+        {
+            if (bind) masterSlider.onValueChanged.AddListener(OnMasterSliderChanged);
+            else masterSlider.onValueChanged.RemoveListener(OnMasterSliderChanged);
+        }
         if (sfxSlider != null)
         {
             if (bind) sfxSlider.onValueChanged.AddListener(OnSfxSliderChanged);
@@ -46,6 +59,11 @@ public class ConfigPanel : MonoBehaviour
         {
             if (bind) musicSlider.onValueChanged.AddListener(OnMusicSliderChanged);
             else musicSlider.onValueChanged.RemoveListener(OnMusicSliderChanged);
+        }
+        if (ambienceSlider != null)
+        {
+            if (bind) ambienceSlider.onValueChanged.AddListener(OnAmbienceSliderChanged);
+            else ambienceSlider.onValueChanged.RemoveListener(OnAmbienceSliderChanged);
         }
     }
 
@@ -59,6 +77,13 @@ public class ConfigPanel : MonoBehaviour
 
         if (musicSlider != null)
             musicSlider.SetValueWithoutNotify(music);
+    }
+
+    private void OnMasterSliderChanged(float value)
+    {
+        if (AudioManager.instance != null)
+            AudioManager.instance.SetMasterVolume(value);
+            RefreshMasterUI(value);
     }
 
     private void OnSfxSliderChanged(float value)
@@ -75,6 +100,12 @@ public class ConfigPanel : MonoBehaviour
             AudioManager.instance.SetMusicVolume(value);
 
         RefreshMusicUI(value);
+    }
+    private void OnAmbienceSliderChanged(float value)
+    {
+        if (AudioManager.instance != null)
+            AudioManager.instance.SetAmbienceVolume(value);
+            RefreshAmbienceUI(value);
     }
 
     public void ToggleSfxMute()
@@ -94,6 +125,22 @@ public class ConfigPanel : MonoBehaviour
             sfxSlider.SetValueWithoutNotify(newValue);
 
         RefreshSfxUI(newValue);
+    }
+    public void ToggleAmbienceMute()
+    {
+        if (AudioManager.instance == null)
+            return;
+
+        float current = AudioManager.instance.GetAmbienceVolume();
+
+        if (current <= MutedThreshold)
+            AudioManager.instance.UnmuteAmbienceRestore();
+        else
+            AudioManager.instance.MuteAmbience();
+
+        float newValue = AudioManager.instance.GetAmbienceVolume();
+        if (ambienceSlider != null)
+            ambienceSlider.SetValueWithoutNotify(newValue);
     }
 
     public void ToggleMusicMute()
@@ -117,13 +164,27 @@ public class ConfigPanel : MonoBehaviour
 
     private void RefreshUI()
     {
+        float master = AudioManager.instance != null ? AudioManager.instance.GetMasterVolume() : 1f;
         float sfx = AudioManager.instance != null ? AudioManager.instance.GetSfxVolume() : 1f;
         float music = AudioManager.instance != null ? AudioManager.instance.GetMusicVolume() : 1f;
+        float ambience = AudioManager.instance != null ? AudioManager.instance.GetAmbienceVolume() : 1f;
 
+        RefreshMasterUI(master);
         RefreshSfxUI(sfx);
         RefreshMusicUI(music);
+        RefreshAmbienceUI(ambience);
+        
     }
 
+
+    private void RefreshMasterUI(float value)
+    {
+        if (masterValueText != null)
+            masterValueText.text = ToPercentText(value);
+
+        if (MasterIconImage != null)
+            MasterIconImage.sprite = value <= MutedThreshold ? mutedSprite : unmutedSprite;
+    }
     private void RefreshSfxUI(float value)
     {
         if (sfxValueText != null)
@@ -131,6 +192,15 @@ public class ConfigPanel : MonoBehaviour
 
         if (sfxIconImage != null)
             sfxIconImage.sprite = value <= MutedThreshold ? mutedSprite : unmutedSprite;
+    }
+
+    private void RefreshAmbienceUI(float value)
+    {
+        if (ambienceValueText != null)
+            ambienceValueText.text = ToPercentText(value);
+
+        if (ambienceIconImage != null)
+            ambienceIconImage.sprite = value <= MutedThreshold ? mutedSprite : unmutedSprite;
     }
 
     private void RefreshMusicUI(float value)

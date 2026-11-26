@@ -52,9 +52,6 @@ public class SurfaceDetector : MonoBehaviour
 
     // ── Caché ─────────────────────────────────────────────────────────────────
 
-    // Buffer reutilizable para OverlapBoxNonAlloc (evita GC por frame).
-    private readonly Collider2D[] _hitBuffer = new Collider2D[16];
-
     // ── API pública ───────────────────────────────────────────────────────────
 
     /// <summary>
@@ -66,16 +63,15 @@ public class SurfaceDetector : MonoBehaviour
     {
         Vector2 center = worldPos + detectionOffset;
 
-        int count = Physics2D.OverlapBoxNonAlloc(
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
             center,
             detectionSize,
             0f,
-            _hitBuffer,
             surfaceLayerMask);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < hits.Length; i++)
         {
-            Collider2D hit = _hitBuffer[i];
+            Collider2D hit = hits[i];
             if (hit == null) continue;
 
             // Ignorar el propio jugador y sus hijos

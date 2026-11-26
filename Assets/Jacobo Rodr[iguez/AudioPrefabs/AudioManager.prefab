@@ -1,0 +1,303 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8705805479616422378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4198704950265682614}
+  - component: {fileID: 7222935391420602596}
+  - component: {fileID: 6719160226553656987}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4198704950265682614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8705805479616422378}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.53899, y: -0.58399, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7222935391420602596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8705805479616422378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54726f688c1ec624d83aef655507c4b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  masterBusPath: bus:/
+  musicBusPath: bus:/Music
+  sfxBusPath: bus:/SFX
+  ambienceBusPath: bus:/Ambience
+  pauseParameterName: IsPaused
+  locationParameterName: Location
+  defaultLocationLabel: Normal
+  surfaceParameterName: Surface_type
+  defaultSurfaceLabel: Concrete
+  victoryParameterName: Victory
+  victoryHoldSeconds: 0.7
+  puzzleCompletedParameterName: PuzzleCompleted
+  puzzleCompletedHoldSeconds: 0.7
+--- !u!114 &6719160226553656987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8705805479616422378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4df9e16f31f07e4c90274b2becb7511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FMODEvents
+  <FirstMaskCollectedSoundEvent>k__BackingField:
+    Guid:
+      Data1: 88759018
+      Data2: 1095496523
+      Data3: 1625873848
+      Data4: 1167557346
+    Path: event:/Masks/MaskCollected/MaskCollected
+  <SecondMaskCollectedSoundEvent>k__BackingField:
+    Guid:
+      Data1: 912328239
+      Data2: 1171313366
+      Data3: -503162224
+      Data4: 1499705223
+    Path: event:/Masks/MaskCollected/MaskCollected 2
+  <ThirdMaskCollectedSoundEvent>k__BackingField:
+    Guid:
+      Data1: 912328239
+      Data2: 1171313366
+      Data3: -503162224
+      Data4: 1499705223
+    Path: event:/Masks/MaskCollected/MaskCollected 2
+  <FourthMaskCollectedSoundEvent>k__BackingField:
+    Guid:
+      Data1: -1864963144
+      Data2: 1196820433
+      Data3: -1092192085
+      Data4: 1793556283
+    Path: event:/Masks/MaskCollected/MaskCollected 4
+  <MaskProximitySoundEvent>k__BackingField:
+    Guid:
+      Data1: -548075011
+      Data2: 1266945915
+      Data3: -470629700
+      Data4: 836095268
+    Path: event:/Masks/MaskIdle/MaskProximity
+  <FootstepsSoundEvent>k__BackingField:
+    Guid:
+      Data1: -1346810793
+      Data2: 1174574074
+      Data3: 489655982
+      Data4: -1067606184
+    Path: event:/Player/Footsteps
+  <EquipSoundEvent>k__BackingField:
+    Guid:
+      Data1: -924156159
+      Data2: 1095439641
+      Data3: 1882270085
+      Data4: 2112208361
+    Path: event:/Player/EquiparMascara
+  <DeathSoundEvent>k__BackingField:
+    Guid:
+      Data1: 1538538371
+      Data2: 1143540567
+      Data3: 1894439855
+      Data4: 1108413504
+    Path: event:/Player/Death
+  <ReviveSoundEvent>k__BackingField:
+    Guid:
+      Data1: 340028556
+      Data2: 1321814817
+      Data3: 168470200
+      Data4: -1716385278
+    Path: event:/Player/Revive
+  <AmbienceSoundEvent>k__BackingField:
+    Guid:
+      Data1: 1463958907
+      Data2: 1189282736
+      Data3: -2056941670
+      Data4: -525993744
+    Path: event:/Environment&Obstacles/AmbienceEvent
+  <DartsSoundEvent>k__BackingField:
+    Guid:
+      Data1: -2112327472
+      Data2: 1077714068
+      Data3: 1177884058
+      Data4: 1593543669
+    Path: event:/Environment&Obstacles/Dardos
+  <BoxMovingSoundEvent>k__BackingField:
+    Guid:
+      Data1: -1165409474
+      Data2: 1221208072
+      Data3: 1840822418
+      Data4: -2093872526
+    Path: event:/Environment&Obstacles/BoxMoving
+  <LavaSoundEvent>k__BackingField:
+    Guid:
+      Data1: -1265129954
+      Data2: 1288756476
+      Data3: -1454243936
+      Data4: 802396889
+    Path: event:/Environment&Obstacles/SFX_LavaIdle
+  <LavaMovingSoundEvent>k__BackingField:
+    Guid:
+      Data1: 407530144
+      Data2: 1231714209
+      Data3: 668548745
+      Data4: 853967820
+    Path: event:/Environment&Obstacles/SFX_LavaMoving
+  <WindSound>k__BackingField:
+    Guid:
+      Data1: -600210458
+      Data2: 1090230050
+      Data3: 6609335
+      Data4: -519916030
+    Path: event:/Environment&Obstacles/SFX_AireEmpujando
+  <WaterIdleSound>k__BackingField:
+    Guid:
+      Data1: 1156919356
+      Data2: 1167979444
+      Data3: 1182461865
+      Data4: -739062433
+    Path: event:/Environment&Obstacles/SFX_AguaIdle
+  <WaterPushingSound>k__BackingField:
+    Guid:
+      Data1: 2076810727
+      Data2: 1094256784
+      Data3: 1100899226
+      Data4: -161395384
+    Path: event:/Environment&Obstacles/SFX_AguaEmpujando
+  <WaterExit>k__BackingField:
+    Guid:
+      Data1: 1381936333
+      Data2: 1161825002
+      Data3: 1582332335
+      Data4: 1033005792
+    Path: event:/Environment&Obstacles/SalirAgua
+  <FireEnemy>k__BackingField:
+    Guid:
+      Data1: -206834278
+      Data2: 1078529939
+      Data3: 1978443941
+      Data4: -41806855
+    Path: event:/Environment&Obstacles/FireEnemy
+  <FireTorch>k__BackingField:
+    Guid:
+      Data1: -1250374753
+      Data2: 1220011077
+      Data3: -589390937
+      Data4: 231567070
+    Path: event:/Environment&Obstacles/FogatAntorcha
+  <UIButtonSoundEvent>k__BackingField:
+    Guid:
+      Data1: 1538198725
+      Data2: 1228352849
+      Data3: -1146549348
+      Data4: -1480590088
+    Path: event:/UI/UIButtonSound
+  <ScreenChangeSoundEvent>k__BackingField:
+    Guid:
+      Data1: -691638653
+      Data2: 1085858763
+      Data3: 1594771892
+      Data4: -1232343913
+    Path: event:/UI/ScreenChange
+  <LayerChangeSoundEvent>k__BackingField:
+    Guid:
+      Data1: 1850781676
+      Data2: 1095388887
+      Data3: -239609924
+      Data4: 557878300
+    Path: event:/UI/LayerChange
+  <UIPauseSoundEvent>k__BackingField:
+    Guid:
+      Data1: 1851910772
+      Data2: 1151256068
+      Data3: -621676141
+      Data4: -1691062751
+    Path: event:/UI/DialogueChange
+  <UIErrorSoundEvent>k__BackingField:
+    Guid:
+      Data1: -2086535865
+      Data2: 1098229691
+      Data3: 595760516
+      Data4: 644006469
+    Path: event:/UI/ErrorSound
+  <WitchLaughSoundEvent>k__BackingField:
+    Guid:
+      Data1: -1960143992
+      Data2: 1304484092
+      Data3: 1935993267
+      Data4: 680696162
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchLaughSoundEvent
+  <WitchGroanSoundEvent>k__BackingField:
+    Guid:
+      Data1: 1786034803
+      Data2: 1282894984
+      Data3: 1063038627
+      Data4: -463518634
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchGroanSoundEvent
+  <WitchMovementSoundEvent>k__BackingField:
+    Guid:
+      Data1: -2112923444
+      Data2: 1259040298
+      Data3: 1736558259
+      Data4: -1408438894
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchMovementSoundEvent
+  <WitchClapSoundEvent>k__BackingField:
+    Guid:
+      Data1: 756576037
+      Data2: 1188273495
+      Data3: 1345095343
+      Data4: -248364663
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchClapSoundEvent
+  <DialogueStingerEvent>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <LayerMusicSoundEvent>k__BackingField:
+    Guid:
+      Data1: 912630934
+      Data2: 1253494202
+      Data3: -1933972036
+      Data4: -1446729873
+    Path: event:/Music/MusicCapas
+  <BossMusicSoundEvent>k__BackingField:
+    Guid:
+      Data1: 1135127426
+      Data2: 1267379891
+      Data3: -1413401167
+      Data4: 2058311454
+    Path: event:/Music/BossFightMastered
+  <MenuMusicSoundEvent>k__BackingField:
+    Guid:
+      Data1: -1966148030
+      Data2: 1131231884
+      Data3: -584214338
+      Data4: 245137606
+    Path: event:/Music/MainThemeMenu

@@ -21,11 +21,6 @@ public class LavaLakeOrigin : MonoBehaviour
     [SerializeField] private Sprite idleSprite;    // Sprite used when lava is static
     [SerializeField] private float stateEpsilon = 0.001f;
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip blockedByBoxClip;
-    [Range(0f, 1f)]
-    [SerializeField] private float blockedByBoxVolume = 1f;
 
     private float currentLength = 0f;
     private bool wasBlockedByBox = false;
@@ -35,7 +30,6 @@ public class LavaLakeOrigin : MonoBehaviour
         currentLength = startAtZero ? 0f : maxLength;
 
         // Fallback opcional
-        if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
         if (Application.isPlaying && buildOnStart)
             BuildLake();

@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9149043337560272329
 Transform:
   m_ObjectHideFlags: 0
@@ -131,7 +131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4733797646059933129
 Transform:
   m_ObjectHideFlags: 0
@@ -298,8 +298,10 @@ GameObject:
   - component: {fileID: 1926561352257827167}
   - component: {fileID: 985068711171038322}
   - component: {fileID: 6342049313500023699}
+  - component: {fileID: 2858679793724042610}
   - component: {fileID: 9218453582004757281}
-  - component: {fileID: -7834160431722458294}
+  - component: {fileID: 565128188994504457}
+  - component: {fileID: 4209167496496718859}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -473,7 +475,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa8a645a2e083946807510156fba63f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileSize: 1
   moveSpeed: 50
+  wallCheckRadius: 0.1
+  waterObstacleBuffer: 0.2
   capa1: {fileID: 8034627525959023268}
   capa2: {fileID: 2662398009136301028}
   capa3: {fileID: 7648119384291262822}
@@ -483,6 +488,9 @@ MonoBehaviour:
   maskVisualDelay: 0
   postprocessConfig: {fileID: 0}
   canMove: 1
+  footstepService: {fileID: 4209167496496718859}
+  surfaceDetector: {fileID: 565128188994504457}
+  useLegacyInput: 1
 --- !u!114 &4451471994487065890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,6 +657,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2858679793724042610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6647899470801104218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f54eba2b48a44ca8a3773aebc5f3a5ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudioTriggerDetector
+  playerTag: Player
+  locationTags:
+  - Normal
+  - Tienda
+  - PreBoss
+  surfaceTags:
+  - Dirt
+  - Water
+  - Concrete
+  - Grass
 --- !u!114 &9218453582004757281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,7 +694,7 @@ MonoBehaviour:
   Cell: {x: 0, y: 0}
   size: {x: 1, y: 1}
   gridAnchor: 0
---- !u!114 &-7834160431722458294
+--- !u!114 &565128188994504457
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -673,11 +703,51 @@ MonoBehaviour:
   m_GameObject: {fileID: 6647899470801104218}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Script: {fileID: 11500000, guid: c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceDetector
+  tagMappings:
+  - tag: Ground
+    surfaceType: 1
+  - tag: Grass
+    surfaceType: 2
+  - tag: Wood
+    surfaceType: 3
+  - tag: Sand
+    surfaceType: 4
+  - tag: Water
+    surfaceType: 5
+  - tag: Metal
+    surfaceType: 6
+  - tag: Dirt
+    surfaceType: 7
+  detectionSize: {x: 0.47, y: 0.17}
+  detectionOffset: {x: 0.02, y: -0.54}
+  surfaceLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &4209167496496718859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6647899470801104218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFootstepService
+  footstepEventOverride:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  surfaceParameterName: Surface_type
+  fallbackToAudioManagerSurface: 1
+  defaultSurfaceLabel: Concrete
 --- !u!1 &7648119384291262822
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +765,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &299385465249775427
 Transform:
   m_ObjectHideFlags: 0
@@ -809,7 +879,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2341186211103483579
 Transform:
   m_ObjectHideFlags: 0

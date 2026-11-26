@@ -39,13 +39,6 @@ public class MusicLayerManager : MonoBehaviour
     [Tooltip("Capa 4: Nombre exacto del parámetro en FMOD Studio para la máscara latina.")]
     [SerializeField] private string latinParam = "Mask_04_Latin";
 
-    // ── Fades y Suavizado ──────────────────────────────────────────────────────
-    [Header("Fade & Smoothing")]
-    [Tooltip("RECOMENDADO: Si está activo, FMOD Studio gestiona el fade in/out mediante " +
-             "el 'Seek Speed' configurado en las propiedades de cada parámetro en FMOD Studio. " +
-             "Esto ahorra cálculos en Update() y permite curvas de transición no lineales.")]
-    
-
     // ── Estado Inicial ─────────────────────────────────────────────────────────
     [Header("Initial Layer States")]
     [SerializeField] private bool startAfricanActive = false;
@@ -170,12 +163,21 @@ public class MusicLayerManager : MonoBehaviour
     {
         if (!musicInstance.isValid()) return;
 
-        FMOD.Studio.STOP_MODE stopMode = allowFadeout 
-            ? FMOD.Studio.STOP_MODE.ALLOWFADEOUT 
+        FMOD.Studio.STOP_MODE stopMode = allowFadeout
+            ? FMOD.Studio.STOP_MODE.ALLOWFADEOUT
             : FMOD.Studio.STOP_MODE.IMMEDIATE;
 
-        musicInstance.stop(stopMode);
-        musicInstance.release();
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.StopAndRelease(musicInstance, stopMode);
+        }
+        else
+        {
+            musicInstance.stop(stopMode);
+            musicInstance.release();
+        }
+
+        musicInstance.clearHandle();
     }
 
     // ── Reacción a Capas (EventManager) ───────────────────────────────────────
@@ -196,19 +198,19 @@ public class MusicLayerManager : MonoBehaviour
         {
             case 1:
                 targetAfrican = value;
-              
+                ApplyLayerParameter(africanParam, targetAfrican);
                 break;
             case 2:
                 targetEuropean = value;
-             
+                ApplyLayerParameter(europeanParam, targetEuropean);
                 break;
             case 3:
                 targetAsian = value;
-              
+                ApplyLayerParameter(asianParam, targetAsian);
                 break;
             case 4:
                 targetLatin = value;
-               
+                ApplyLayerParameter(latinParam, targetLatin);
                 break;
             default:
                 Debug.LogWarning($"[MusicLayerManager] Capa {capa} no reconocida (solo 1 a 4).");

@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 public class WinLevel : MonoBehaviour
 {
     [SerializeField] private string sceneName;
-    [SerializeField] private float winDelay = 2f;
+    [SerializeField] private float winDelay = 4f;
     [SerializeField] private string winTriggerName = "win";
 
    public GameObject[] gameObjectArray;
@@ -27,6 +27,10 @@ public class WinLevel : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         isWinning = true;
+
+        if (AudioManager.instance != null)
+            AudioManager.instance.TriggerVictoryStinger();
+
         StartCoroutine(WinAndLoad(other.gameObject));
     }
 

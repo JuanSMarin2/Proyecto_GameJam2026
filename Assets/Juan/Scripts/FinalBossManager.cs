@@ -233,9 +233,10 @@ public class FinalBossManager : MonoBehaviour
         TriggerAnim("Muerte");
         StopAttack();
 
+        if (AudioManager.instance != null)
+            AudioManager.instance.TriggerVictoryStinger();
+
         StartCoroutine(WaitForScene());
-
-
     }
 
     private void UpdateEnrageState()

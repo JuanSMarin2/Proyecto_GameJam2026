@@ -287,13 +287,13 @@ MonoBehaviour:
       Data4: 231567070
     Path: event:/Environment&Obstacles/FogatAntorcha
   Event: 
-  EventPlayTrigger: 0
+  EventPlayTrigger: 1
   EventStopTrigger: 0
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
   NonRigidbodyVelocity: 0
   Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1.37
+  OverrideMaxDistance: 2.69

@@ -8,6 +8,8 @@ using UnityEngine.UI;
 /// </summary>
 public static class UIButtonSoundAutoBinder
 {
+    private const string ExcludedTag = "ExcludedButton";
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void InstallForLoadedScenes()
     {
@@ -33,6 +35,12 @@ public static class UIButtonSoundAutoBinder
             Button[] buttons = roots[i].GetComponentsInChildren<Button>(true);
             for (int j = 0; j < buttons.Length; j++)
             {
+                if (buttons[j] == null)
+                    continue;
+
+                if (string.Equals(buttons[j].gameObject.tag, ExcludedTag, System.StringComparison.Ordinal))
+                    continue;
+
                 if (buttons[j].GetComponent<ButtonSound>() == null)
                     buttons[j].gameObject.AddComponent<ButtonSound>();
             }

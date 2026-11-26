@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenuRoot;
+    [SerializeField] private string pauseFmodParameter = "IsPaused";
 
     [Header("Mask Images (1..4)")]
     [SerializeField] private Image[] maskImages = new Image[4];
@@ -125,6 +126,12 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    private void OnDestroy()
+    {
+        if (isPaused && AudioManager.instance != null)
+            AudioManager.instance.SetGlobalParameter(pauseFmodParameter, 0f);
+    }
+
     private void SetPaused(bool paused)
     {
         if (isPaused == paused)
@@ -137,6 +144,13 @@ public class UIManager : MonoBehaviour
 
         Time.timeScale = isPaused ? 0f : 1f;
 
+        if (AudioManager.instance != null)
+        {
+            if (string.IsNullOrWhiteSpace(pauseFmodParameter))
+                AudioManager.instance.SetPausedState(isPaused);
+            else
+                AudioManager.instance.SetGlobalParameter(pauseFmodParameter, isPaused ? 1f : 0f);
+        }
     }
 
     private void RefreshFromMaskCount(int maskCount)

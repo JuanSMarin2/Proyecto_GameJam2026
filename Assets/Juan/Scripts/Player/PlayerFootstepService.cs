@@ -18,25 +18,29 @@ public class PlayerFootstepService : MonoBehaviour, IFootstepAudioService
     [SerializeField] private EventReference footstepEventOverride;
 
     [Header("FMOD Parameter")]
-    [Tooltip("Nombre exacto del parámetro de superficie en FMOD Studio (ej. 'Surface').")]
-    [SerializeField] private string surfaceParameterName = "Surface";
+    [Tooltip("Nombre exacto del parámetro etiquetado de superficie en FMOD Studio ('Surface_type').")]
+    [SerializeField] private string surfaceParameterName = "Surface_type";
+
+    [Tooltip("Si está activo, prioriza el tipo de superficie detectado por triggers en AudioManager cuando SurfaceDetector devuelva Default.")]
+    [SerializeField] private bool fallbackToAudioManagerSurface = true;
+
+    [Tooltip("Etiqueta de respaldo si ni el detector ni AudioManager tienen una superficie definida.")]
+    [SerializeField] private string defaultSurfaceLabel = "Concrete";
 
     // ── IFootstepAudioService ─────────────────────────────────────────────────
 
     /// <summary>
     /// Dispara el evento de pasos una vez con la superficie y posición dadas.
-    /// Usa CreateEventInstance → setParameter → start → release (fire-and-forget).
+    /// Usa CreateEventInstance → setParameterByNameWithLabel → start → release.
     /// </summary>
     public void OnPlayerStep(SurfaceType surface, Vector3 worldPosition)
     {
-        // Validar que AudioManager está vivo
         if (AudioManager.instance == null)
         {
             Debug.LogWarning("[PlayerFootstepService] AudioManager.instance es null. ¿Falta en la escena?");
             return;
         }
 
-        // Resolver el EventReference: override → singleton → abort
         EventReference evt = ResolveEventReference();
         if (evt.IsNull)
         {
@@ -45,17 +49,44 @@ public class PlayerFootstepService : MonoBehaviour, IFootstepAudioService
             return;
         }
 
-        // Crear instancia, aplicar parámetro de superficie, disparar y liberar
         FMOD.Studio.EventInstance instance = AudioManager.instance.CreateEventInstance(evt, worldPosition);
         if (!instance.isValid()) return;
 
-        // El valor del parámetro es el índice entero del enum (0=Default, 1=Stone, 2=Grass…)
-        instance.setParameterByName(surfaceParameterName, (float)(int)surface);
+        string surfaceLabel = ResolveSurfaceLabel(surface);
+        AudioManager.instance.SetEventParameterWithLabel(instance, surfaceParameterName, surfaceLabel);
         instance.start();
         instance.release(); // fire-and-forget: FMOD libera cuando termina
     }
 
     // ── Helpers privados ──────────────────────────────────────────────────────
+
+    private string ResolveSurfaceLabel(SurfaceType surface)
+    {
+        switch (surface)
+        {
+            case SurfaceType.Dirt:
+                return "Dirt";
+            case SurfaceType.Water:
+                return "Water";
+            case SurfaceType.Grass:
+                return "Grass";
+            case SurfaceType.Stone:
+            case SurfaceType.Metal:
+            case SurfaceType.Wood:
+                return "Concrete";
+            case SurfaceType.Sand:
+                return "Dirt";
+            case SurfaceType.Default:
+            default:
+                if (fallbackToAudioManagerSurface && AudioManager.instance != null)
+                {
+                    string triggerSurface = AudioManager.instance.GetCurrentSurfaceType();
+                    if (!string.IsNullOrEmpty(triggerSurface))
+                        return triggerSurface;
+                }
+                return defaultSurfaceLabel;
+        }
+    }
 
     /// <summary>
     /// Prioridad: override en Inspector → FMODEvents singleton → vacío.

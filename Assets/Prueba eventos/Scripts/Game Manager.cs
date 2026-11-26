@@ -200,5 +200,9 @@ public class GameManager : MonoBehaviour
     {
         layerInputEnabled = enabled;
     }
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 
 }

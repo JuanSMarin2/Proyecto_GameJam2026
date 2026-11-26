@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6327558652750219452}
   - component: {fileID: 6670598418969854345}
   - component: {fileID: 2770943225697081332}
+  - component: {fileID: 2142571647843130129}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -155,8 +156,6 @@ MonoBehaviour:
   direction: {x: 0, y: -1}
   pushForce: 2
   blockedReleaseTime: 0.5
-  enterOrExitSound: 38
-  flowMovementSound: 38
 --- !u!95 &2770943225697081332
 Animator:
   serializedVersion: 7
@@ -179,3 +178,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2142571647843130129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8645062323431488414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1156919356
+      Data2: 1167979444
+      Data3: 1182461865
+      Data4: -739062433
+    Path: event:/Environment&Obstacles/SFX_AguaIdle
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 4.236397

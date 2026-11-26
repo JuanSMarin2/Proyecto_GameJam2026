@@ -14,6 +14,9 @@ public class WindFlow : MonoBehaviour
     [SerializeField] private GameObject windVisual;
     [SerializeField, Min(0f)] private float fadeDuration = 0.25f;
 
+    [Header("Audio")]
+    [SerializeField, Min(0f)] private float windSoundCooldown = 0.3f;
+
 
     private readonly HashSet<PlayerMovement> playersInside = new HashSet<PlayerMovement>();
     private readonly HashSet<Box> boxesInside = new HashSet<Box>();
@@ -23,6 +26,7 @@ public class WindFlow : MonoBehaviour
 
     private bool isActive;
     private float intervalTimer;
+    private float lastWindSoundTime = float.NegativeInfinity;
     private Coroutine windVisualFadeRoutine;
     private SpriteRenderer[] windVisualRenderers;
     private float[] windVisualRendererAlphas;
@@ -269,7 +273,7 @@ public class WindFlow : MonoBehaviour
         if (player != null)
         {
             playersInside.Add(player);
-            if (isActive)
+            if (isActive && !blockedPlayers.Contains(player))
                 BeginPushingPlayer(player);
         }
 
@@ -280,12 +284,18 @@ public class WindFlow : MonoBehaviour
 
     private void BeginPushingPlayer(PlayerMovement player)
     {
-        if (!pushedPlayers.Add(player))
+        if (player == null || blockedPlayers.Contains(player) || !pushedPlayers.Add(player))
             return;
 
         blockedTimes[player] = 0f;
         player.BeginWaterFlow();
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.WindSound, player.transform.position);
+
+        if (AudioManager.instance != null && FMODEvents.instance != null &&
+            Time.time - lastWindSoundTime >= windSoundCooldown)
+        {
+            lastWindSoundTime = Time.time;
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.WindSound, player.transform.position);
+        }
     }
 
     private void StopPushingPlayer(PlayerMovement player)

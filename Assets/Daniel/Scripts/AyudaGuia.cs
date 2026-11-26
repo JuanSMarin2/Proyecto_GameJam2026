@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AyudaGuia : MonoBehaviour
 {
     [Header("Referencias")]
     [SerializeField] private GameObject panelUI;
     [SerializeField] private GameObject objetoGuiaADesactivar;
+
+    [Header("Eventos")]
+    public UnityEvent OnHelpActivated;
 
     private bool panelYaAbierto;
     private bool panelYaCerrado;
@@ -23,6 +27,7 @@ public class AyudaGuia : MonoBehaviour
         
         panelUI.SetActive(true);
         panelYaAbierto = true;
+        OnHelpActivated?.Invoke();
 
         PlayerMovement playerMovement = collision.GetComponent<PlayerMovement>();
         if (playerMovement != null)

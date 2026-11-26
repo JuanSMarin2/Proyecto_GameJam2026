@@ -178,17 +178,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
-    #if ENABLE_INPUT_SYSTEM
-  
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        rawInput = context.ReadValue<Vector2>();
-    }
-    #endif
-
    
-
     private void Update()
     {
         if (useLegacyInput)

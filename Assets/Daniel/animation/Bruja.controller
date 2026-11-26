@@ -14,13 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  sound: 33
-  volume: 1
+      Data1: -2112923444
+      Data2: 1259040298
+      Data3: 1736558259
+      Data4: -1408438894
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchMovementSoundEvent
 --- !u!114 &-5250858947993463010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -35,13 +33,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  sound: 32
-  volume: 1
+      Data1: 1786034803
+      Data2: 1282894984
+      Data3: 1063038627
+      Data4: -463518634
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchGroanSoundEvent
 --- !u!1101 &-5236163524730091762
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -81,13 +77,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  sound: 34
-  volume: 1
+      Data1: 756576037
+      Data2: 1188273495
+      Data3: 1345095343
+      Data4: -248364663
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchClapSoundEvent
 --- !u!114 &-3794566903407646277
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,13 +96,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  sound: 32
-  volume: 1
+      Data1: 1786034803
+      Data2: 1282894984
+      Data3: 1063038627
+      Data4: -463518634
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchGroanSoundEvent
 --- !u!1102 &-1635305072863556723
 AnimatorState:
   serializedVersion: 6
@@ -122,7 +114,6 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -3794566903407646277}
-  - {fileID: 1729358297136600922}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -305,13 +296,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEvent:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  sound: 31
-  volume: 1
+      Data1: -1960143992
+      Data2: 1304484092
+      Data3: 1935993267
+      Data4: 680696162
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchLaughSoundEvent
 --- !u!1107 &1116953490013831302
 AnimatorStateMachine:
   serializedVersion: 6
@@ -377,7 +366,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a8d3bde6fcb718a4b84c4d10bd54ec51, type: 2}
+  m_Motion: {fileID: 7400000, guid: 04d1a08f2bd0daf4499884e88c292609, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -408,27 +397,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &1729358297136600922
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  sound: 4
-  volume: 0.684
 --- !u!1101 &2424220004115015729
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
