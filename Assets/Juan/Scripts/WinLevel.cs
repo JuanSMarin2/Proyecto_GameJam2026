@@ -28,9 +28,6 @@ public class WinLevel : MonoBehaviour
 
         isWinning = true;
 
-        if (AudioManager.instance != null)
-            AudioManager.instance.TriggerVictoryStinger();
-
         StartCoroutine(WinAndLoad(other.gameObject));
     }
 

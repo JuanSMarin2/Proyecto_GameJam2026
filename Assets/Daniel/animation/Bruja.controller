@@ -63,25 +63,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-5040689632642384853
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundEvent:
-    Guid:
-      Data1: 756576037
-      Data2: 1188273495
-      Data3: 1345095343
-      Data4: -248364663
-    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchClapSoundEvent
 --- !u!114 &-3794566903407646277
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -282,25 +263,6 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!114 &1090874515253412576
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundEvent:
-    Guid:
-      Data1: -1960143992
-      Data2: 1304484092
-      Data3: 1935993267
-      Data4: 680696162
-    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchLaughSoundEvent
 --- !u!1107 &1116953490013831302
 AnimatorStateMachine:
   serializedVersion: 6
@@ -433,8 +395,7 @@ AnimatorState:
   m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours:
-  - {fileID: -5040689632642384853}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -462,7 +423,6 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -7656571704448258955}
-  - {fileID: 1090874515253412576}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

@@ -1,25 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
     [SerializeField] private Bow bow;
-    [Header("Burst")]
-    [SerializeField] private int arrowsPerActivation = 5;
-    [SerializeField] private float timeBetweenShots = 1f;
-    [SerializeField] private bool shootImmediately = true;
 
-    private static PressurePlate lastActivatedPlate;
+    private const float ShotCooldown = 2f;
+    private readonly HashSet<Collider2D> playerColliders = new HashSet<Collider2D>();
     private Coroutine shootingCoroutine;
-    private bool isShooting;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isShooting)
-            return;
-
-        // Esta misma placa no vuelve a disparar hasta que se active otra diferente
-        if (lastActivatedPlate == this)
+        if (!collision.CompareTag("Player"))
             return;
 
         if (bow == null)
@@ -28,42 +21,46 @@ public class PressurePlate : MonoBehaviour
             return;
         }
 
-        lastActivatedPlate = this;
-        isShooting = true;
+        if (!playerColliders.Add(collision) || playerColliders.Count > 1)
+            return;
+        
 
-      
+        bow.Shoot();
         shootingCoroutine = StartCoroutine(HandleShooting());
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // No se usa estado activo continuo: la placa dispara una ráfaga fija al activarse.
+        if (!playerColliders.Remove(collision) || playerColliders.Count > 0)
+            return;
+
+        if (shootingCoroutine != null)
+        {
+            StopCoroutine(shootingCoroutine);
+            shootingCoroutine = null;
+        }
     }
 
     private IEnumerator HandleShooting()
     {
-        int shots = Mathf.Max(0, arrowsPerActivation);
-        if (shots == 0)
+        while (playerColliders.Count > 0)
         {
-            isShooting = false;
-            shootingCoroutine = null;
-            yield break;
+            yield return new WaitForSeconds(ShotCooldown);
+            if (playerColliders.Count > 0)
+                bow.Shoot();
         }
 
-        if (shootImmediately)
-        {
-            bow.Shoot();
-            shots--;
-        }
-
-        while (shots > 0)
-        {
-            yield return new WaitForSeconds(Mathf.Max(0f, timeBetweenShots));
-            bow.Shoot();
-            shots--;
-        }
-
-        isShooting = false;
         shootingCoroutine = null;
+    }
+
+    private void OnDisable()
+    {
+        if (shootingCoroutine != null)
+        {
+            StopCoroutine(shootingCoroutine);
+            shootingCoroutine = null;
+        }
+
+        playerColliders.Clear();
     }
 }

@@ -696,7 +696,7 @@ public class AudioManager : MonoBehaviour
 
         if (activePulseCoroutines.TryGetValue(parameterName, out Coroutine running) && running != null)
             StopCoroutine(running);
-
+    Debug.Log($"[AudioManager] Triggering parameter pulse: {parameterName} (active: {activeValue}, hold: {holdSeconds}s, reset: {resetValue})");
         activePulseCoroutines[parameterName] = StartCoroutine(
             ParameterPulseRoutine(parameterName, Mathf.Max(0f, holdSeconds), activeValue, resetValue));
     }

@@ -275,11 +275,11 @@ MonoBehaviour:
     Path: event:/Environment&Obstacles/Enemies/Bruja/WitchClapSoundEvent
   <DialogueStingerEvent>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1114228992
+      Data2: 1210667877
+      Data3: 817047693
+      Data4: -737590851
+    Path: event:/UI/DialogueStinger
   <LayerMusicSoundEvent>k__BackingField:
     Guid:
       Data1: 912630934

@@ -81,6 +81,13 @@ public class MenuManager : MonoBehaviour
         Jugar();
     }
 
+    public void JugarCustom(string sceneName)
+    {
+       SceneManager.LoadScene(sceneName);
+    }
+
+        
+    
     public void AbreCreditos(){
         panelCreditos.SetActive(true);
     }

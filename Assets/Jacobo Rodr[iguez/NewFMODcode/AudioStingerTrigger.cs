@@ -46,6 +46,7 @@ public class AudioStingerTrigger : MonoBehaviour
     /// </summary>
     public void TriggerStinger()
     {
+        Debug.Log($"[AudioStingerTrigger] Triggering stinger: {stingerType} (Custom: {customParameterName})");
         if (triggerOnce && hasTriggered)
             return;
 

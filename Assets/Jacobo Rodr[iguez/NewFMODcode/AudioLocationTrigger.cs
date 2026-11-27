@@ -17,6 +17,14 @@ public class AudioLocationTrigger : AudioTriggerZoneBase
     [SerializeField] private FmodLocationType locationOnEnter = FmodLocationType.Normal;
     [SerializeField] private FmodLocationType locationOnExit = FmodLocationType.Normal;
 
+    [SerializeField] private bool applyOnStart = true;
+
+    void Start()
+    {
+        if (applyOnStart)
+        ApplyValue(GetConfiguredEnterValue());
+    }
+
     protected override string GetConfiguredEnterValue() => locationOnEnter.ToString();
     protected override string GetConfiguredExitValue() => locationOnExit.ToString();
 

@@ -94,5 +94,12 @@ MonoBehaviour:
   playerTag: Player
   useObjectTagAsValue: 1
   revertOnExit: 0
+  onPlayerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerExit:
+    m_PersistentCalls:
+      m_Calls: []
   locationOnEnter: 0
   locationOnExit: 0
+  applyOnStart: 0

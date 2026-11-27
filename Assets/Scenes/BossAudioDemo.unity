@@ -422,6 +422,11 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &49612139 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6647899470801104218, guid: fb9950bdf1d97ab42a74483cd3c0bd2d, type: 3}
+  m_PrefabInstance: {fileID: 2488118447263999884}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &63392226
 GameObject:
   m_ObjectHideFlags: 0
@@ -21178,9 +21183,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bow: {fileID: 910941281}
-  arrowsPerActivation: 5
-  timeBetweenShots: 1
-  shootImmediately: 1
 --- !u!61 &825183006
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -52142,11 +52144,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4657235895302274472, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
       propertyPath: winDelay
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4657235895302274472, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
       propertyPath: sceneName
-      value: Ganaste
+      value: GanasteDemoAudio
+      objectReference: {fileID: 0}
+    - target: {fileID: 4657235895302274472, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
+      propertyPath: gameObjectArray.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4657235895302274472, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
       propertyPath: 'gameObjectArray.Array.data[0]'
@@ -52223,7 +52229,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4133026764490353289, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1612549715}
   m_SourcePrefab: {fileID: 100100000, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
 --- !u!1 &1481767689
 GameObject:
@@ -57703,10 +57712,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.07296786
-    y: 0
-    width: 0.8540643
-    height: 1
+    x: 0
+    y: 0.006262034
+    width: 1
+    height: 0.98747593
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 120
@@ -57757,12 +57766,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
   nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 3444415406283113031}
+  attenuationObject: {fileID: 49612139}
 --- !u!1 &1612549710 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4133026764490353289, guid: 47c0482523bb7494ea1e774fae23015b, type: 3}
   m_PrefabInstance: {fileID: 1480535938}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1612549715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612549710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f062ac8b7064647a5f7a04da2f54353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioStingerTrigger
+  stingerType: 1
+  customParameterName: PuzzleCompleted
+  holdSeconds: 3
+  triggerOnPlayerEnter2D: 1
+  playerTag: Player
+  triggerOnce: 1
 --- !u!1 &1616193043
 GameObject:
   m_ObjectHideFlags: 0
@@ -58445,11 +58472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd8cb23f79ab334a835e66c2cbf919e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundsSO: {fileID: 11400000, guid: 2058cafd66d95e64eb8e499ae75d8e07, type: 2}
-  menuMusicSound: 30
-  useAmbientSound: 1
-  ambientSound: 14
-  playOnStart: 1
 --- !u!4 &1684361068
 Transform:
   m_ObjectHideFlags: 0
@@ -58487,7 +58509,7 @@ MonoBehaviour:
     Path: event:/Music/BossFightMastered
   Event: 
   EventPlayTrigger: 1
-  EventStopTrigger: 0
+  EventStopTrigger: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
@@ -59966,7 +59988,7 @@ MonoBehaviour:
     Path: event:/Environment&Obstacles/AmbienceEvent
   Event: 
   EventPlayTrigger: 1
-  EventStopTrigger: 0
+  EventStopTrigger: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
@@ -63711,11 +63733,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b29e57de1206cc4295b208745a1a5dd, type: 3}
---- !u!1 &3444415406283113031 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1445954820479930045, guid: 5b29e57de1206cc4295b208745a1a5dd, type: 3}
-  m_PrefabInstance: {fileID: 3444415406283113030}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3480970041040516175
 PrefabInstance:
   m_ObjectHideFlags: 0
