@@ -46,9 +46,17 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
     [SerializeField] private List<UnityEvent> OnCameraReachMiddlePointByIndex = new List<UnityEvent>();
     public UnityEvent OnCameraFinish;
 
+    [Header("Skip")]
+    [SerializeField] private bool allowSkipWithClick = true;
+    [SerializeField, Min(0f)] private float skipInputDelay = 0.1f;
+
     private Vector3 initialCameraStartPos;
     private bool shouldRunThisScene;
     private string activeSceneName;
+    private bool isCinematicPlaying;
+    private bool skipRequested;
+    private float cinematicElapsed;
+    private Coroutine introCoroutine;
 
     private PlayerMovement playerMovement;
     private bool restoreCanMove;
@@ -99,7 +107,37 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
         MarkCinematicPlayedForScene(activeSceneName);
 
-        StartCoroutine(PlayIntroCinematic());
+        introCoroutine = StartCoroutine(PlayIntroCinematic());
+    }
+
+    private void Update()
+    {
+        if (!isCinematicPlaying || !allowSkipWithClick)
+            return;
+
+        cinematicElapsed += Time.unscaledDeltaTime;
+        if (cinematicElapsed < skipInputDelay)
+            return;
+
+        if (WasLeftClickPressedThisFrame())
+            SkipIntroCinematic();
+    }
+
+    public void SkipIntroCinematic()
+    {
+        if (!isCinematicPlaying)
+            return;
+
+        skipRequested = true;
+    }
+
+    private static bool WasLeftClickPressedThisFrame()
+    {
+#if ENABLE_INPUT_SYSTEM
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+            return true;
+#endif
+        return Input.GetMouseButtonDown(0);
     }
 
     public static void ClearPlayedScenesCache()
@@ -134,6 +172,10 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
     private IEnumerator PlayIntroCinematic()
     {
+        isCinematicPlaying = true;
+        skipRequested = false;
+        cinematicElapsed = 0f;
+
         if (screenManager != null)
             screenManager.enabled = false;
 
@@ -150,13 +192,19 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
 
         for (int i = 0; i < route.Count; i++)
         {
+            if (skipRequested)
+                break;
+
             RoutePoint routePoint = route[i];
             Vector3 target = routePoint.position;
-            while (cam != null && Vector3.Distance(cam.transform.position, target) > 0.01f)
+            while (!skipRequested && cam != null && Vector3.Distance(cam.transform.position, target) > 0.01f)
             {
                 cam.transform.position = Vector3.MoveTowards(cam.transform.position, target, speed * Time.deltaTime);
                 yield return null;
             }
+
+            if (skipRequested)
+                break;
 
             if (cam != null)
                 cam.transform.position = target;
@@ -164,6 +212,13 @@ public class ScreenCameraIntroCinematic : MonoBehaviour
             if (routePoint.isMiddle)
                 InvokeMiddlePointEvents(routePoint.middleIndex);
         }
+
+        // Si se saltó con click, colocamos la cámara directamente en el punto final de la ruta.
+        if (skipRequested && cam != null && route.Count > 0)
+            cam.transform.position = route[route.Count - 1].position;
+
+        isCinematicPlaying = false;
+        introCoroutine = null;
 
         OnCameraFinish?.Invoke();
 

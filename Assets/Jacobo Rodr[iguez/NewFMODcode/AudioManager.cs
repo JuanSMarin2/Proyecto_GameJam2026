@@ -613,7 +613,10 @@ public class AudioManager : MonoBehaviour
             return;
 
         if (IsGlobalParameter(parameterName))
-            RuntimeManager.StudioSystem.setParameterByName(parameterName, value, ignoreSeekSpeed);
+        {
+            SetGlobalParameter(parameterName, value, ignoreSeekSpeed);
+            return;
+        }
 
         ApplyToMatchingActiveEvents(parameterName, inst => inst.setParameterByName(parameterName, value, ignoreSeekSpeed));
     }
@@ -627,7 +630,10 @@ public class AudioManager : MonoBehaviour
             return;
 
         if (IsGlobalParameter(parameterName))
-            RuntimeManager.StudioSystem.setParameterByNameWithLabel(parameterName, label, ignoreSeekSpeed);
+        {
+            SetGlobalParameterWithLabel(parameterName, label, ignoreSeekSpeed);
+            return;
+        }
 
         ApplyToMatchingActiveEvents(parameterName, inst => inst.setParameterByNameWithLabel(parameterName, label, ignoreSeekSpeed));
     }

@@ -98,7 +98,7 @@ public class UIManager : MonoBehaviour
 
     public void TogglePause()
     {
-        if (AudioManager.instance != null && FMODEvents.instance != null)
+        if (!isPaused && AudioManager.instance != null && FMODEvents.instance != null)
             AudioManager.instance.PlayOneShot(FMODEvents.instance.UIPauseSoundEvent, transform.position);
 
         SetPaused(!isPaused);

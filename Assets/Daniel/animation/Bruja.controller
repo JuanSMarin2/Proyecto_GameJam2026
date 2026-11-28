@@ -19,6 +19,25 @@ MonoBehaviour:
       Data3: 1736558259
       Data4: -1408438894
     Path: event:/Environment&Obstacles/Enemies/Bruja/WitchMovementSoundEvent
+--- !u!114 &-5949424592323646103
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cea744cdb3a89d439f6052eebc57c30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaySoundEnter
+  soundEvent:
+    Guid:
+      Data1: 756576037
+      Data2: 1188273495
+      Data3: 1345095343
+      Data4: -248364663
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchClapSoundEvent
 --- !u!114 &-5250858947993463010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82,6 +101,26 @@ MonoBehaviour:
       Data3: 1063038627
       Data4: -463518634
     Path: event:/Environment&Obstacles/Enemies/Bruja/WitchGroanSoundEvent
+--- !u!114 &-2832200962369406966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a1688b46a836214a8f24036dfca9874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaySoundExit
+  soundEvent:
+    Guid:
+      Data1: -1960143992
+      Data2: 1304484092
+      Data3: 1935993267
+      Data4: 680696162
+    Path: event:/Environment&Obstacles/Enemies/Bruja/WitchLaughSoundEvent
+  playOnce: 1
 --- !u!1102 &-1635305072863556723
 AnimatorState:
   serializedVersion: 6
@@ -319,7 +358,8 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -2832200962369406966}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -395,7 +435,8 @@ AnimatorState:
   m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -5949424592323646103}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

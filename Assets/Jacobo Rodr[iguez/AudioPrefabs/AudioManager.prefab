@@ -86,11 +86,11 @@ MonoBehaviour:
     Path: event:/Masks/MaskCollected/MaskCollected 2
   <ThirdMaskCollectedSoundEvent>k__BackingField:
     Guid:
-      Data1: 912328239
-      Data2: 1171313366
-      Data3: -503162224
-      Data4: 1499705223
-    Path: event:/Masks/MaskCollected/MaskCollected 2
+      Data1: 1513273177
+      Data2: 1102489212
+      Data3: 1747514758
+      Data4: -832758743
+    Path: event:/Masks/MaskCollected/MaskCollected 3
   <FourthMaskCollectedSoundEvent>k__BackingField:
     Guid:
       Data1: -1864963144
